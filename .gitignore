@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.DS_Store
+# raw datasets are never committed (large, licensed): see docs/DATA_SOURCES.md
+data/raw/*
+!data/raw/.gitkeep
+*.blend1

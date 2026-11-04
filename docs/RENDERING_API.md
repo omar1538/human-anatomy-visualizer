@@ -38,4 +38,4 @@ const viewer = await createViewer({ container, model, meta });
 
 ## Coming in later weeks
 
-Slicing plane (week 3), isolate and x-ray (week 4), lazy loading per system (week 4), fly-to for search (week 3, requested by Track C).
+Fly-to for search with `viewer.flyTo(id)` (start of week 3, requested by Track C), slicing plane (week 3), isolate and x-ray (week 4), lazy loading per system (week 4), `viewer.getViewState()` and `setViewState()` for shareable links (week 4, needed by Track C in week 5). These method names are proposals until they ship.

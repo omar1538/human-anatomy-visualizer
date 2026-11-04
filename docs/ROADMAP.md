@@ -6,9 +6,9 @@ Core features must be done and merged before any stretch work starts.
 |---|---|---|---|
 | **1** Foundations and spikes | WebGPU renderer with WebGL 2 fallback and backend indicator; load a sample GLB; orbit controls | Dataset spike: download samples, convert one organ end to end, check licences, choose sources; write the data contract | Vite project, app shell, GitHub Pages deploy with Actions, PWA skeleton, `docs/SETUP.md` |
 | **2** Core viewing | System layers (show/hide); picking and highlight | Conversion pipeline v1; first body and organ set exported as GLB, grouped by system | UI panels (system toggles, info panel) wired to `organs.json` |
-| **3** Slicing and learning | Slicing plane with filled cross-section | Content for the first 5 organs; validation script (every mesh has metadata and licence) | Search with fly-to; Learn mode |
-| **4** Depth | Isolate and x-ray modes; lazy loading per system | Content for all chosen organs; quiz bank v1 | Quiz mode with progress saved on the device |
-| **5** Reach | Mobile performance pass; lighter asset tier | Light asset pack for phones; complete `ATTRIBUTION.md`; EN/FR content review | Shareable lesson links; EN/FR interface |
+| **3** Slicing and learning | `viewer.flyTo(id)` first, at the start of the week, for Track C's search; then slicing plane with filled cross-section | Content for the first 5 organs; validation script (every mesh has metadata and licence) | Search with fly-to; Learn mode |
+| **4** Depth | Isolate and x-ray modes; lazy loading per system; `viewer.getViewState()` and `setViewState()` for Track C's shareable links in week 5 | Content for all chosen organs; quiz bank v1 | Quiz mode with progress saved on the device |
+| **5** Reach | Mobile performance pass; lighter asset tier, once Track B's light pack is merged | Light asset pack for phones; complete `ATTRIBUTION.md`; EN/FR content review | Shareable lesson links; EN/FR interface |
 | **6** Integration | Bug fixes; performance measurement | Content accuracy review with supervisor or a student of medicine | Usability test with 5 students; automated tests; fixes |
 | **7** Finish | Freeze; stretch only if everything is stable | Final attribution check | Offline hardening; user manual; demo video; defence rehearsal |
 

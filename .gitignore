@@ -5,3 +5,9 @@ dist/
 data/raw/*
 !data/raw/.gitkeep
 *.blend1
+
+# Python pipeline
+.venv/
+__pycache__/
+# pipeline build output (copy accepted GLBs to public/assets/models)
+data/out/

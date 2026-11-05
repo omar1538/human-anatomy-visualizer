@@ -23,5 +23,15 @@ export async function createRenderer(container) {
   await renderer.init();
 
   const backend = renderer.backend?.isWebGPUBackend === true ? 'WebGPU' : 'WebGL 2';
+  if (arSupported && backend === 'WebGL 2') {
+    // WebXR emulators report a null XR framebuffer, meaning "draw to the canvas", but Three.js
+    // r187 uses that value as a WeakMap key and throws on every frame. Real devices never pass
+    // null, so this changes nothing on them. Remove it once Three.js handles null itself.
+    const { state } = renderer.backend;
+    const noFramebuffer = {};
+    const drawBuffers = state.drawBuffers.bind(state);
+    state.drawBuffers = (context, framebuffer) =>
+      drawBuffers(context, framebuffer ?? noFramebuffer);
+  }
   return { renderer, backend, arSupported };
 }

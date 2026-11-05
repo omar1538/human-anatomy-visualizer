@@ -47,6 +47,23 @@ AR is the core of the product. Select an organ on the phone, enter AR, then tap 
   With no surface detected, it floats 0.8 m in front of the phone.
 - On AR-capable devices `viewer.backend` is always `'WebGL 2'`, by design.
 
+### Testing AR in a desktop browser
+
+Without a phone, use the **Immersive Web Emulator** by Meta, which adds an emulated WebXR device to the browser.
+
+1. Download the latest 2.x release from
+   [its GitHub page](https://github.com/meta-quest/immersive-web-emulator/). The Chrome Web Store
+   version may be older, so prefer this one.
+2. Unzip it, open `chrome://extensions`, enable **Developer mode**, and choose **Load unpacked**.
+   Chromium browsers such as Brave use the same steps at their own extensions page.
+3. Run `npm run dev` and open the printed `localhost` address.
+4. Open DevTools (F12) and find the emulator's tab. It only appears on pages that use WebXR.
+5. The panel should now show **Enter AR**. Select an organ, enter AR, and press the emulated
+   controller's trigger to place it. Load a room in the emulator to test surface detection.
+
+An emulator does not test the real camera image, real surface detection or phone performance,
+so AR must still be tested on a real phone before release.
+
 ### Testing AR on a phone
 
 You need an Android phone with Chrome and Google Play Services for AR. WebXR only runs on HTTPS or

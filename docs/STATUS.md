@@ -39,7 +39,7 @@ AR (from `track-a/webxr-ar`):
 
 ### Track B: Data & content
 
-- First real model: `public/assets/models/heart.glb` (2.7 MB, about 150k triangles), in five layers:
+- First real model: `public/assets/models/heart.glb` (2.7 MB, about 110k triangles), in five layers:
   `chambers`, `valves`, `coronary_arteries`, `cardiac_veins`, `great_vessels`.
 - Conversion pipeline v1 in Python (`scripts/data-pipeline/`). It combines BodyParts3D (vessels) and
   HuBMAP HRA (chambers, valves), fitted together with ICP, then cleaned, decimated and exported as GLB.
@@ -65,8 +65,10 @@ AR (from `track-a/webxr-ar`):
 
 - `npm run lint` and `npm run build` pass on the merged `main`.
 - The built site serves the service worker, the manifest, the icons and `heart.glb`.
+- In a headless desktop browser (Edge, WebGL 2): `heart.glb` loads with its five layers, selection
+  works, there are no page errors, the service worker takes control, and the app shell is cached.
 - The raw data downloads match the checksums in `DATA_SOURCES.md`.
-- **Not tested yet:** the PWA installed on a real phone, offline mode in a real browser, and AR on
+- **Not tested yet:** the PWA installed on a real phone, offline mode, the WebGPU backend, and AR on
   a real Android phone.
 
 ## Decisions needed (whole team)
@@ -92,13 +94,14 @@ AR (from `track-a/webxr-ar`):
 
 ## Known issues
 
-| Issue                                                                                              | Where                   | Owner |
-| -------------------------------------------------------------------------------------------------- | ----------------------- | ----- |
-| Each selection clones a material and never frees the old one, a slow memory leak                   | `src/render/picking.js` | A     |
-| Holes in the right atrium, aortic valve and papillary muscles, which will break slicing caps there | `heart.glb`             | B     |
-| The JS bundle is 940 kB (three.js); the build warns about chunk size                               | build                   | A / C |
-| Placeholder app icons                                                                              | `public/icons/`         | C     |
-| `public/sw.js` is not covered by `npm run lint` (only `src/` is)                                   | `eslint.config.js`      | C     |
+| Issue                                                                                              | Where                   | Owner | State                                                           |
+| -------------------------------------------------------------------------------------------------- | ----------------------- | ----- | --------------------------------------------------------------- |
+| Holes in the right atrium, aortic valve and papillary muscles, which will break slicing caps there | `heart.glb`             | B     | Open                                                            |
+| Placeholder app icons                                                                              | `public/icons/`         | C     | Open (needs a real design)                                      |
+| Each selection cloned a material and never freed the old one, a slow memory leak                   | `src/render/picking.js` | A     | Fixed: one clone per mesh at most                               |
+| The build warned about a 940 kB chunk                                                              | `vite.config.js`        | C     | Fixed: three.js in its own cached file, limit raised to 1000 kB |
+| `public/sw.js` was not covered by `npm run lint`                                                   | `eslint.config.js`      | C     | Fixed                                                           |
+| Workflow actions ran on deprecated Node 20                                                         | `deploy.yml`            | C     | Fixed: latest major versions                                    |
 
 ## What still has to be done
 

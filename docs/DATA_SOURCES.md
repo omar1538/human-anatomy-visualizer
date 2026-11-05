@@ -75,6 +75,42 @@ Built by `scripts/data-pipeline/config/heart.json` → `public/assets/models/hea
 | Checks | `check_glb.py`: OK. Cross-sections checked by eye: chambers, septum, valves, coronaries and the aorta/pulmonary trunk meet where they should |
 | Closed meshes | All closed except `right_atrium`, `aortic_valve`, `papillary_muscles` (holes in the HRA source). Decimation keeps closed meshes closed |
 
+## Downloading the raw data
+`data/raw/` is not in Git, except `data/raw/hra/` (5.6 MB, CC BY 4.0), which is committed.
+BodyParts3D (≈ 65 MB zipped) must be downloaded. Checksums below were taken on 2026-11-05;
+if one no longer matches, the source was updated: re-check the licence and the pipeline output.
+
+| Local path | URL | SHA-256 |
+|---|---|---|
+| `data/raw/hra/3d-vh-m-heart.glb` (committed) | https://cdn.humanatlas.io/digital-objects/ref-organ/heart-male/latest/assets/3d-vh-m-heart.glb | `689df039c8bc264ea06a44cd926762976f0666c0ff2dc532d046409b185e6b0c` |
+| `data/raw/hra/3d-vh-f-heart.glb` (committed, not used by the pipeline) | https://cdn.humanatlas.io/digital-objects/ref-organ/heart-female/latest/assets/3d-vh-f-heart.glb | `98f66e46b149bfc3836592d9404c50290e21d302ec55c98813435e2d9847b1d9` |
+| `data/raw/bodyparts3d/partof_BP3D_4.0_obj_99.zip` (unzip in place, then the zip can be deleted) | https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_BP3D_4.0_obj_99.zip | `9fbc713fffeee924a5a657d9813d84d7eb957bded63adb854931dd5e3eb61c97` |
+| `data/raw/bodyparts3d/partof_element_parts.txt` | https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_element_parts.txt | `3f5f6df1028eb122b30de77c711597b6bb8e5541658e5985859fd228adbf88ea` |
+| `data/raw/bodyparts3d/partof_parts_list_e.txt` | https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_parts_list_e.txt | `9224080557053e6f1322f1e13ab27f0ecde0db19bb3b505f0631afad230eeebd` |
+| `data/raw/bodyparts3d/partof_inclusion_relation_list.txt` (optional) | https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_inclusion_relation_list.txt | `1b40738270931e3c1d955ce34e0fce0d8d10d8c5ad543463e40b4b4c0243007c` |
+
+From the repo root (Git Bash):
+
+```bash
+cd data/raw/bodyparts3d
+BASE=https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST
+for f in partof_BP3D_4.0_obj_99.zip partof_element_parts.txt partof_parts_list_e.txt partof_inclusion_relation_list.txt; do
+  curl -fLO "$BASE/$f"
+done
+sha256sum partof_*          # compare with the table above
+unzip -q partof_BP3D_4.0_obj_99.zip   # → partof_BP3D_4.0_obj_99/ (1,258 OBJ files)
+```
+
+Check of the unzipped folder (one hash over all 1,258 files):
+
+```bash
+cd data/raw/bodyparts3d/partof_BP3D_4.0_obj_99
+find . -type f | LC_ALL=C sort | xargs sha256sum | sha256sum
+# e1fb08b770596d9d5501efcd933b603ef02c60c91f418a629a903a02f399a5bf
+```
+
+Not needed by the pipeline: Z-Anatomy (not used) and the BodyParts3D IS-A tree (`isa_*`).
+
 ## Open points
 - Holes in the HRA right atrium, aortic valve and papillary muscles: repair them, or slicing caps will be wrong on those three.
 - Light tier for phones (Week 5): same config with lower `max_faces`.

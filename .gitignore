@@ -4,6 +4,8 @@ dist/
 # raw datasets are never committed (large, licensed): see docs/DATA_SOURCES.md
 data/raw/*
 !data/raw/.gitkeep
+# exception: HRA heart GLBs (small, CC BY 4.0)
+!data/raw/hra/
 *.blend1
 
 # Python pipeline

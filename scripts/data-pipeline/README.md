@@ -28,7 +28,7 @@ python -m venv .venv
 # .venv/bin/python -m pip install -r scripts/data-pipeline/requirements.txt    # macOS/Linux
 ```
 
-Raw data goes in `data/raw/` (ignored by Git, see `docs/DATA_SOURCES.md` for licences):
+Raw data goes in `data/raw/` (ignored by Git except `data/raw/hra/`; see `docs/DATA_SOURCES.md` for licences, download commands and checksums):
 
 ```
 data/raw/bodyparts3d/   https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html

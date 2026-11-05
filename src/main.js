@@ -3,6 +3,10 @@ import { createViewer } from './render/index.js';
 import { loadGLB } from './render/loader.js';
 import { createPlaceholderBody } from './render/placeholder.js';
 import { mountDevPanel } from './dev/devPanel.js';
+import { registerServiceWorker } from './pwa/register.js';
+
+// Registered first, so the app shell is cached even if the viewer fails to start.
+registerServiceWorker();
 
 const container = document.getElementById('viewer');
 

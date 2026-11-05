@@ -54,7 +54,7 @@ docs/                  Roadmap, data sources, data contract, design notes
 
 ## Getting started
 
-Setup instructions are added by Track C in Week 1 (`docs/SETUP.md`).
+See `docs/SETUP.md` (install, dev server, deployment, testing the PWA).
 
 ## Docs
 

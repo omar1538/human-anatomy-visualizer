@@ -16,3 +16,30 @@ are shared files.
 
 - WebGPU: recent Chrome or Edge. The panel shows `Renderer: WebGPU`.
 - Fallback: open the app in a browser without WebGPU (or one where it is disabled). The panel shows `Renderer: WebGL 2`. Everything must still work.
+
+## Deployment (GitHub Pages)
+
+Every push to `main` runs `.github/workflows/deploy.yml`: `npm ci`, `npm run lint`, `npm run build`
+(Node version from `.nvmrc`), then publishes `dist/` to GitHub Pages. A failing lint or build
+means nothing is deployed.
+
+One-time setup (repository admin): **Settings > Pages > Build and deployment > Source: "GitHub Actions"**.
+The site URL appears in the run summary and under Settings > Pages. A run can also be started by
+hand from the Actions tab ("Run workflow").
+
+## Testing the PWA locally
+
+The service worker is only registered in production builds (never in `npm run dev`, where it would
+serve stale files). To test it:
+
+```sh
+npm run build && npm run preview
+```
+
+Open the printed address (`localhost` counts as a secure context, so the service worker works without HTTPS).
+In Chrome DevTools > **Application**: check _Manifest_ (name, icons, installability) and
+_Service workers_ (status "activated"). Reload once, then tick **Offline** in the Network tab and
+reload again: the app should still open.
+
+After changing `public/sw.js`, bump `CACHE_VERSION` in it so old caches are deleted. If the browser
+keeps an old version, use _Unregister_ in DevTools > Application > Service workers, or _Clear site data_.

@@ -6,21 +6,22 @@ The plan itself is in [`ROADMAP.md`](ROADMAP.md). This file says where we actual
 
 ## Summary
 
-All three Week 1 deliverables exist, but **each is still on its own branch: nothing has been
-merged into `main` beyond the starter viewer.** Merged together, the three branches build and lint
-cleanly. There is one small conflict, in `ATTRIBUTION.md`, and the fix is to keep both rows.
+All three Week 1 deliverables are **in `main`** (5 November). They were merged directly,
+**without the pull-request review CONTRIBUTING asks for**, so each track should review the other
+two tracks' changes in `main` now and open fixes as normal PRs. The merged code builds and lints
+cleanly. Conflicts in `README.md` and `ATTRIBUTION.md` were resolved by keeping both sides.
 
-| Track             | Week 1 goal                                        | Branch                      | State                                    |
-| ----------------- | -------------------------------------------------- | --------------------------- | ---------------------------------------- |
-| A: Rendering & 3D | Renderer with fallback, load a GLB, orbit controls | `main` + `track-a/webxr-ar` | Viewer merged; AR on a branch, no PR yet |
-| B: Data & content | Dataset spike, one organ end to end, data contract | `track-b/dataset-spike`     | Done on branch, no PR yet                |
-| C: Platform & UX  | Deploy with Actions, PWA skeleton, `SETUP.md`      | `track-c/week1-platform`    | Done on branch, PR to open               |
+| Track             | Week 1 goal                                        | Merged from              | State                         |
+| ----------------- | -------------------------------------------------- | ------------------------ | ----------------------------- |
+| A: Rendering & 3D | Renderer with fallback, load a GLB, orbit controls | `track-a/webxr-ar`       | In `main`, review outstanding |
+| B: Data & content | Dataset spike, one organ end to end, data contract | `track-b/dataset-spike`  | In `main`, review outstanding |
+| C: Platform & UX  | Deploy with Actions, PWA skeleton, `SETUP.md`      | `track-c/week1-platform` | In `main`, review outstanding |
 
 ## What has been done
 
 ### Track A: Rendering & 3D
 
-In `main`:
+Viewer (`src/render/`):
 
 - `createViewer()` public API ([`RENDERING_API.md`](RENDERING_API.md)): Three.js `WebGPURenderer`
   with automatic WebGL 2 fallback, and the active backend shown in the dev panel.
@@ -28,16 +29,15 @@ In `main`:
 - Show and hide layers, plus click-to-select with a highlight (both planned for Week 2, done early).
 - `loadGLB()` with Meshopt support, a placeholder body until real models exist, and a temporary dev panel.
 
-On `track-a/webxr-ar`:
+AR (from `track-a/webxr-ar`):
 
 - WebXR AR: start an `immersive-ar` session, detect surfaces, tap to place the selected organ in the room.
 - AR API: `arSupported`, `enterAR()`, `exitAR()`, `isInAR()`, `onARChange()`. On AR-capable
   phones WebGL 2 is forced.
-- A proposed roadmap change that makes AR the core of the product (see "Decisions needed").
+- Support for testing AR with a WebXR emulator in a desktop browser.
+- `README.md` and `ROADMAP.md` rewritten around AR as the core of the product (see "Decisions needed").
 
 ### Track B: Data & content
-
-On `track-b/dataset-spike`:
 
 - First real model: `public/assets/models/heart.glb` (2.7 MB, about 150k triangles), in five layers:
   `chambers`, `valves`, `coronary_arteries`, `cardiac_veins`, `great_vessels`.
@@ -51,8 +51,6 @@ On `track-b/dataset-spike`:
 
 ### Track C: Platform & UX
 
-On `track-c/week1-platform`:
-
 - GitHub Pages deploy (`.github/workflows/deploy.yml`): every push to `main` runs `npm ci`, lint
   and build, then publishes `dist/`.
 - PWA skeleton: `manifest.webmanifest`, placeholder icons, and a service worker (`public/sw.js`)
@@ -65,7 +63,7 @@ On `track-c/week1-platform`:
 
 ### Tested so far
 
-- `npm run lint` and `npm run build` pass, on each branch and on all three merged together.
+- `npm run lint` and `npm run build` pass on the merged `main`.
 - The built site serves the service worker, the manifest, the icons and `heart.glb`.
 - The raw data downloads match the checksums in `DATA_SOURCES.md`.
 - **Not tested yet:** the PWA installed on a real phone, offline mode in a real browser, and AR on
@@ -73,11 +71,11 @@ On `track-c/week1-platform`:
 
 ## Decisions needed (whole team)
 
-1. **Is AR the core of the product?** `track-a/webxr-ar` rewrites the roadmap around WebXR AR,
-   which was a stretch goal. This changes Track A's Weeks 3 to 6: slicing moves to Week 5, and
+1. **Is AR the core of the product?** The AR roadmap is now in `main`, but the team has not
+   agreed on it yet. It turns WebXR AR, which was a stretch goal, into the core. This changes Track A's Weeks 3 to 6: slicing moves to Week 5, and
    isolate and x-ray become "if time allows". WebXR AR does not work in Safari on iPhone or iPad.
    If iPhone users matter, AR Quick Look (USDZ) would be extra work for Tracks A and B.
-2. **Raw data in Git.** `track-b/dataset-spike` commits `data/raw/hra/` (5.8 MB) through a
+2. **Raw data in Git.** `main` now contains `data/raw/hra/` (5.8 MB), committed through a
    `.gitignore` exception, but CONTRIBUTING rule 6 says no raw datasets in Git. The female heart
    in it is not used by the pipeline. Keep it (and update rule 6) or remove it.
 3. **Data contract sections marked "proposed"** (axes, origin, node tree, ids, materials) need
@@ -85,8 +83,9 @@ On `track-c/week1-platform`:
 
 ## Before Week 2 starts
 
-- [ ] Open, review and merge the three Week 1 PRs (`track-a/webxr-ar` depends on decision 1).
-- [ ] Resolve the `ATTRIBUTION.md` conflict in whichever PR merges second: keep both rows.
+- [x] Merge the three Week 1 branches into `main` (done directly, without PRs).
+- [ ] Review the other tracks' Week 1 changes in `main`; open fixes as PRs.
+- [ ] Back to the normal rule from now on: every change through a reviewed PR.
 - [ ] Repo owner: Settings > Pages > Source: **GitHub Actions**, then check the live site.
 - [ ] Test the live site on a phone: install it, use it offline, try AR on Android.
 - [ ] Avoid force-pushing branches others have pulled (`track-b/dataset-spike` was rewritten on 5 Nov).
@@ -103,8 +102,8 @@ On `track-c/week1-platform`:
 
 ## What still has to be done
 
-From [`ROADMAP.md`](ROADMAP.md) as it is in `main`. If the AR roadmap is accepted, Track A's column
-changes (see decision 1).
+From the original roadmap. [`ROADMAP.md`](ROADMAP.md) in `main` now has the AR version, which changes
+Track A's Weeks 3 to 6 (see decision 1); Tracks B and C are the same in both.
 
 | Week  | Track A                                                           | Track B                                                                       | Track C                                                                            |
 | ----- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |

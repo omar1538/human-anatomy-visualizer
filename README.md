@@ -59,6 +59,7 @@ See `docs/SETUP.md` (install, dev server, deployment, testing the PWA).
 ## Docs
 
 - `docs/ROADMAP.md`: 7-week plan per track
+- `docs/STATUS.md`: what is done, what is left, decisions needed
 - `docs/DATA_SOURCES.md`: datasets, licences, caveats
 - `docs/DATA_CONTRACT.md`: how Track B's data plugs into Tracks A and C
 - `ATTRIBUTION.md`: credits for every asset

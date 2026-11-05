@@ -15,6 +15,7 @@ export function createPicker({ camera, domElement, root, onChange }) {
   let selected = null;
   let saved = null; // original emissive of the selected mesh
   let down = null;
+  const ownMaterial = new WeakSet(); // meshes whose material was already cloned by the picker
 
   function setSelected(mesh) {
     if (selected === mesh) return;
@@ -25,7 +26,12 @@ export function createPicker({ camera, domElement, root, onChange }) {
     selected = mesh;
     if (mesh) {
       // Each mesh must own its material, otherwise highlighting one organ would tint others.
-      mesh.material = mesh.material.clone();
+      // Clone only the first time a mesh is selected: cloning on every selection would leave a
+      // new unused material behind each time (a slow GPU memory leak).
+      if (!ownMaterial.has(mesh)) {
+        mesh.material = mesh.material.clone();
+        ownMaterial.add(mesh);
+      }
       saved = { color: mesh.material.emissive.clone(), intensity: mesh.material.emissiveIntensity };
       mesh.material.emissive.copy(HIGHLIGHT);
       mesh.material.emissiveIntensity = 0.6;

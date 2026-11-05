@@ -5,6 +5,7 @@ import { createScene, frameObject } from './scene.js';
 import { createControls } from './controls.js';
 import { createLayers } from './layers.js';
 import { createPicker } from './picking.js';
+import { createAR } from './xr.js';
 
 /**
  * @param {object} options
@@ -13,7 +14,7 @@ import { createPicker } from './picking.js';
  * @param {Record<string, {system?: string}>} [options.meta] organ metadata by id (organs.json)
  */
 export async function createViewer({ container, model, meta = {} }) {
-  const { renderer, backend } = await createRenderer(container);
+  const { renderer, backend, arSupported } = await createRenderer(container);
   const { scene, camera } = createScene(container.clientWidth / container.clientHeight);
   scene.add(model);
 
@@ -36,8 +37,28 @@ export async function createViewer({ container, model, meta = {} }) {
     },
   });
 
+  const arListeners = new Set();
+  const ar = createAR({
+    renderer,
+    scene,
+    camera,
+    model,
+    picker,
+    onChange(active) {
+      controls.enabled = !active; // in AR the camera follows the phone
+      needsRender = true;
+      arListeners.forEach((cb) => cb(active));
+    },
+  });
+
   // Render on demand: draw only when the camera moved or the state changed (saves battery).
-  renderer.setAnimationLoop(() => {
+  renderer.setAnimationLoop((time, frame) => {
+    if (ar.isActive()) {
+      // The phone is always moving in AR, so every frame must be drawn.
+      ar.update(frame);
+      renderer.render(scene, camera);
+      return;
+    }
     const moved = controls.update();
     if (moved || needsRender) {
       renderer.render(scene, camera);
@@ -58,6 +79,25 @@ export async function createViewer({ container, model, meta = {} }) {
   return {
     /** 'WebGPU' or 'WebGL 2' */
     backend,
+    /** Whether this device can start an AR session. */
+    arSupported,
+    /**
+     * Starts AR. Call it from a user gesture such as a click. In AR, each tap places the
+     * selected organ (or the whole model if none is selected), or moves it if already placed.
+     * @param {{ overlay?: HTMLElement, size?: number }} [options] `overlay` stays visible during
+     * the session; `size` is the placed object's largest dimension in metres
+     */
+    enterAR(options) {
+      if (!arSupported) return Promise.reject(new Error('AR is not available on this device'));
+      return ar.enter(options);
+    },
+    exitAR: () => ar.exit(),
+    isInAR: () => ar.isActive(),
+    /** Called with true or false when AR starts or ends. Returns an unsubscribe function. */
+    onARChange(cb) {
+      arListeners.add(cb);
+      return () => arListeners.delete(cb);
+    },
     /** @returns {string[]} system ids present in the model */
     systems: () => layers.systems(),
     setSystemVisible(system, visible) {
@@ -91,6 +131,7 @@ export async function createViewer({ container, model, meta = {} }) {
       return { triangles, drawCalls };
     },
     dispose() {
+      ar.dispose();
       resize.disconnect();
       picker.dispose();
       controls.dispose();

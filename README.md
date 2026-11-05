@@ -65,7 +65,7 @@ src/pwa/               Track C: manifest helpers, service worker
 scripts/data-pipeline/ Track B: conversion, decimation, validation scripts
 public/assets/models/  Final optimised GLB files
 public/assets/data/    organs.json, quiz bank
-data/raw/              Raw datasets (ignored by Git)
+data/raw/              Raw datasets (ignored by Git except hra/)
 tests/                 Automated tests
 docs/                  Roadmap, setup, rendering API, data sources, data contract
 ```

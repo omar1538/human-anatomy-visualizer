@@ -1,0 +1,7 @@
+trimesh==5.2.0
+numpy>=2.0
+scipy>=1.11
+networkx>=3.0
+fast-simplification==0.2.0
+shapely>=2.0          # capping clipped meshes (clip_y)
+mapbox-earcut>=1.0    # capping clipped meshes (clip_y)

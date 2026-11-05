@@ -6,4 +6,4 @@ A model that is not in this file must not be merged.
 
 | Asset | Author / source | Link | Licence | Modifications |
 |-------|-----------------|------|---------|---------------|
-|       |                 |      |         |               |
+| App icons (`public/icons/icon-192.png`, `icon-512.png`) | Project team (placeholder, generated) | n/a | Same as this repository | None. To be replaced by final icons |

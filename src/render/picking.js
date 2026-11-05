@@ -63,6 +63,15 @@ export function createPicker({ camera, domElement, root, onChange }) {
       setSelected(id ? (root.getObjectByName(id) ?? null) : null);
     },
     clear: () => setSelected(null),
+    /** @returns {THREE.Mesh | null} the selected mesh */
+    selected: () => selected,
+    /** A new copy of the selected mesh's material without the highlight. Used by AR placement. */
+    plainMaterial() {
+      const material = selected.material.clone();
+      material.emissive.copy(saved.color);
+      material.emissiveIntensity = saved.intensity;
+      return material;
+    },
     dispose() {
       domElement.removeEventListener('pointerdown', onDown);
       domElement.removeEventListener('pointerup', onUp);

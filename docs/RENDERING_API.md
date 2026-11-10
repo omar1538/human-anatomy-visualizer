@@ -8,25 +8,26 @@ import { createViewer } from './render/index.js';
 const viewer = await createViewer({ container, model, meta });
 ```
 
-| Option      | Meaning                                                                     |
-| ----------- | --------------------------------------------------------------------------- |
-| `container` | HTML element that will hold the canvas                                      |
-| `model`     | Root `Object3D` (a loaded GLB scene, see `loadGLB`)                         |
-| `meta`      | Optional `organs.json` indexed by organ id, used to find each mesh's system |
+| Option      | Meaning                                                                                     |
+| ----------- | ------------------------------------------------------------------------------------------- |
+| `container` | HTML element that will hold the canvas                                                      |
+| `model`     | Root `Object3D` (a loaded GLB scene, see `loadGLB`)                                         |
+| `meta`      | Optional `organs.json` indexed by id (see `loadOrganIndex`), used for layers and Learn mode |
 
 ## Viewer methods
 
-| Member                                     | Description                                                        |
-| ------------------------------------------ | ------------------------------------------------------------------ |
-| `viewer.backend`                           | `'WebGPU'` or `'WebGL 2'`                                          |
-| `viewer.systems()`                         | Array of system ids found in the model                             |
-| `viewer.setSystemVisible(system, visible)` | Show or hide a whole system                                        |
-| `viewer.isSystemVisible(system)`           | Current visibility                                                 |
-| `viewer.select(id)`                        | Select an organ by id (`null` clears). For search and quiz         |
-| `viewer.onSelect((id, mesh) => ...)`       | Called when the selection changes. Returns an unsubscribe function |
-| `viewer.resetView()`                       | Back to the default camera                                         |
-| `viewer.stats()`                           | `{ triangles, drawCalls }` of what is visible                      |
-| `viewer.dispose()`                         | Release GPU resources                                              |
+| Member                                     | Description                                                                                        |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| `viewer.backend`                           | `'WebGPU'` or `'WebGL 2'`                                                                          |
+| `viewer.systems()`                         | Array of system ids found in the model                                                             |
+| `viewer.setSystemVisible(system, visible)` | Show or hide a whole system                                                                        |
+| `viewer.isSystemVisible(system)`           | Current visibility                                                                                 |
+| `viewer.select(id)`                        | Select an organ or a group (e.g. `'valves'`) by id (`null` clears). For search and quiz            |
+| `viewer.onSelect((id, object) => ...)`     | Called when the selection changes. `object` is a mesh, or a group. Returns an unsubscribe function |
+| `viewer.organ(id)`                         | The `organs.json` record for an organ or group id, or `null`. For Learn mode                       |
+| `viewer.resetView()`                       | Back to the default camera                                                                         |
+| `viewer.stats()`                           | `{ triangles, drawCalls }` of what is visible                                                      |
+| `viewer.dispose()`                         | Release GPU resources                                                                              |
 
 ## Augmented reality (WebXR)
 
@@ -43,7 +44,8 @@ AR is the core of the product. Select an organ on the phone, enter AR, then tap 
 - `overlay` is an optional HTML element that stays visible over the camera image. On any button
   inside it, call `preventDefault()` on the `beforexrselect` event, or tapping it also places the organ.
 - `size` is the placed object's largest dimension in metres (default `0.4`).
-- A tap places the selected organ, or the whole model if nothing is selected. Another tap moves it.
+- A tap places the selection (an organ, or a whole group such as all valves), or the whole model if
+  nothing is selected. It keeps its real colours, without the selection highlight. Another tap moves it.
   With no surface detected, it floats 0.8 m in front of the phone.
 - On AR-capable devices `viewer.backend` is always `'WebGL 2'`, by design.
 
@@ -76,13 +78,21 @@ adb reverse tcp:5173 tcp:5173
 
 Open `http://localhost:5173` in Chrome on the phone. A desktop browser shows `AR: not available here`.
 
-## Contract with Track B (models)
+## Contract with Track B (models and metadata)
 
-- Every selectable structure is a mesh whose **name equals its organ id** in `organs.json`.
-- A mesh's system is read from `userData.system`, else `meta[id].system`, else its parent group name.
-- Load a model with `loadGLB(url, onProgress)` from `src/render/loader.js`
-  (Meshopt-compressed GLB is supported). Open the app with `?model=assets/models/core.glb`.
-- Until real models exist, `placeholder.js` provides a stand-in body. Remove it once Track B delivers.
+The app follows `docs/DATA_CONTRACT.md`:
+
+- It opens `assets/models/heart.glb` and `assets/data/organs.json` by default.
+  `?model=<url>` loads another GLB, and `?model=placeholder` shows the stand-in body.
+  If the model fails to load, the placeholder is shown and the error is logged.
+- Every selectable structure is a node whose **name equals its id** in `organs.json`.
+  Group nodes (`chambers`, `valves`, ...) are selectable too.
+- A mesh's layer is read from `userData.system`, else `meta[id].system`, else its parent group name.
+- `loadGLB(url, onProgress)` and `loadOrganIndex(url)` are in `src/render/loader.js`.
+  `loadOrganIndex` turns the `organs.json` array into an index by id. A missing or invalid file
+  gives an empty index, so the viewer works before the metadata exists.
+- Fields such as `name` and `function` are `{ "en": "...", "fr": "..." }`. Learn mode shows the
+  language the user picks and falls back to English.
 
 ## Coming in later weeks
 

@@ -18,19 +18,19 @@ already have, and it keeps them in their real surroundings.
 
 ## Features
 
-| Feature                                                                                                    | Status      |
-| ---------------------------------------------------------------------------------------------------------- | ----------- |
-| **Place an organ or the whole body in your room** with WebXR, on a detected surface or floating in the air | In progress |
-| **Move, rotate and scale** the placed organ with gestures                                                  | Planned     |
-| **Choose organs and see labels inside AR**                                                                 | Planned     |
-| **Whole-body exploration by system** (muscles, skeleton, organs, vessels)                                  | Started     |
-| **Learn mode**: select a structure to get its function, location and key facts (EN/FR)                     | Planned     |
-| **Quiz mode**: "find this organ", "name this organ", with progress saved on the device                     | Planned     |
-| **Slicing**: cut through an organ with an adjustable plane to see the inside                               | Planned     |
-| **Shareable lesson links**: a teacher sends one link, the class sees the same view                         | Planned     |
-| **Offline PWA**: revise anywhere, no connection needed                                                     | Planned     |
-| _Stretch:_ **flow visualisation** along vessels and airways with WebGPU compute shaders                    | Stretch     |
-| _Stretch:_ **real CT slices** linked to the model                                                          | Stretch     |
+| Feature                                                                                                              | Status                                                                                                         |
+| -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Place an organ, a group or the whole heart in your room** with WebXR, on a detected surface or floating in the air | Done: tested in a WebXR emulator, real-phone test pending                                                      |
+| **Move, rotate and scale** the placed organ with gestures                                                            | Planned                                                                                                        |
+| **Choose organs and see labels inside AR**                                                                           | Planned                                                                                                        |
+| **Explore the heart by layer** (chambers, valves, coronary arteries, cardiac veins, great vessels)                   | Done                                                                                                           |
+| **Learn mode**: select a structure to get its function, location and key facts (EN/FR)                               | Started: selection shows the FR/EN details from `organs.json`; the content and final interface are in progress |
+| **Quiz mode**: "find this organ", "name this organ", with progress saved on the device                               | Planned                                                                                                        |
+| **Slicing**: cut through an organ with an adjustable plane to see the inside                                         | Planned                                                                                                        |
+| **Shareable lesson links**: a teacher sends one link, the class sees the same view                                   | Planned                                                                                                        |
+| **Offline PWA**: revise anywhere, no connection needed                                                               | Started                                                                                                        |
+| _Stretch:_ **flow visualisation** along vessels and airways with WebGPU compute shaders                              | Stretch                                                                                                        |
+| _Stretch:_ **real CT slices** linked to the model                                                                    | Stretch                                                                                                        |
 
 Scope is split into **core** (must ship) and **stretch** (only if the core is solid). See `docs/ROADMAP.md`.
 

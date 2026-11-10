@@ -1,4 +1,5 @@
 // Track A: click or tap an organ to select it, with a highlight.
+// Selection can also be a whole group by id (for example "valves"), as the data contract allows.
 import * as THREE from 'three/webgpu';
 
 const HIGHLIGHT = new THREE.Color(0xffb703);
@@ -9,34 +10,59 @@ function isEffectivelyVisible(obj) {
   return true;
 }
 
+/** Meshes under `object` (itself included) that can show the highlight. */
+function highlightableMeshes(object) {
+  const meshes = [];
+  object.traverse((o) => {
+    if (o.isMesh && o.material?.emissive) meshes.push(o);
+  });
+  return meshes;
+}
+
 export function createPicker({ camera, domElement, root, onChange }) {
   const raycaster = new THREE.Raycaster();
   const pointer = new THREE.Vector2();
-  let selected = null;
-  let saved = null; // original emissive of the selected mesh
+  let selected = null; // a mesh or a group
+  let saved = new Map(); // mesh -> original emissive, for every highlighted mesh
   let down = null;
   const ownMaterial = new WeakSet(); // meshes whose material was already cloned by the picker
 
-  function setSelected(mesh) {
-    if (selected === mesh) return;
-    if (selected) {
-      selected.material.emissive.copy(saved.color);
-      selected.material.emissiveIntensity = saved.intensity;
-    }
-    selected = mesh;
-    if (mesh) {
-      // Each mesh must own its material, otherwise highlighting one organ would tint others.
-      // Clone only the first time a mesh is selected: cloning on every selection would leave a
-      // new unused material behind each time (a slow GPU memory leak).
-      if (!ownMaterial.has(mesh)) {
-        mesh.material = mesh.material.clone();
-        ownMaterial.add(mesh);
-      }
-      saved = { color: mesh.material.emissive.clone(), intensity: mesh.material.emissiveIntensity };
+  function unhighlight() {
+    saved.forEach(({ color, intensity }, mesh) => {
+      mesh.material.emissive.copy(color);
+      mesh.material.emissiveIntensity = intensity;
+    });
+  }
+
+  function highlight() {
+    saved.forEach((_, mesh) => {
       mesh.material.emissive.copy(HIGHLIGHT);
       mesh.material.emissiveIntensity = 0.6;
+    });
+  }
+
+  function setSelected(object) {
+    if (selected === object) return;
+    unhighlight();
+    saved = new Map();
+    selected = object;
+    if (object) {
+      for (const mesh of highlightableMeshes(object)) {
+        // Each mesh must own its material, otherwise highlighting one organ would tint others.
+        // Clone only the first time a mesh is selected: cloning on every selection would leave a
+        // new unused material behind each time (a slow GPU memory leak).
+        if (!ownMaterial.has(mesh)) {
+          mesh.material = mesh.material.clone();
+          ownMaterial.add(mesh);
+        }
+        saved.set(mesh, {
+          color: mesh.material.emissive.clone(),
+          intensity: mesh.material.emissiveIntensity,
+        });
+      }
+      highlight();
     }
-    onChange(mesh ? mesh.name : null, mesh);
+    onChange(object ? object.name : null, object);
   }
 
   function pick(clientX, clientY) {
@@ -64,19 +90,27 @@ export function createPicker({ camera, domElement, root, onChange }) {
   domElement.addEventListener('pointerup', onUp);
 
   return {
-    /** Selects by organ id (mesh name). Used by search and quiz features (Track C). */
+    /**
+     * Selects by organ or group id (node name). Used by search and quiz features (Track C).
+     * An unknown id, or a node with no mesh under it, clears the selection.
+     */
     selectById(id) {
-      setSelected(id ? (root.getObjectByName(id) ?? null) : null);
+      const object = id ? root.getObjectByName(id) : null;
+      let hasMesh = false;
+      object?.traverse((o) => (hasMesh ||= o.isMesh));
+      setSelected(hasMesh ? object : null);
     },
     clear: () => setSelected(null),
-    /** @returns {THREE.Mesh | null} the selected mesh */
+    /** @returns {THREE.Object3D | null} the selected mesh or group */
     selected: () => selected,
-    /** A new copy of the selected mesh's material without the highlight. Used by AR placement. */
-    plainMaterial() {
-      const material = selected.material.clone();
-      material.emissive.copy(saved.color);
-      material.emissiveIntensity = saved.intensity;
-      return material;
+    /** Runs `fn` with the highlight removed, for example to copy the selection for AR. */
+    withoutHighlight(fn) {
+      unhighlight();
+      try {
+        return fn();
+      } finally {
+        highlight();
+      }
     },
     dispose() {
       domElement.removeEventListener('pointerdown', onDown);

@@ -1,0 +1,545 @@
+[
+  {
+    "id": "chambers",
+    "name": {
+      "en": "Chambers and walls",
+      "fr": "Cavités et parois"
+    },
+    "system": "chambers",
+    "source": "HRA",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "left_ventricle",
+    "name": {
+      "en": "Left ventricle",
+      "fr": "Ventricule gauche"
+    },
+    "system": "chambers",
+    "function": {
+      "en": "Receives oxygen-rich blood from the left atrium through the mitral valve and pumps it through the aortic valve into the aorta, which carries it to the whole body.",
+      "fr": "Reçoit le sang riche en oxygène de l'oreillette gauche par la valve mitrale et le propulse à travers la valve aortique dans l'aorte, qui le distribue à tout le corps."
+    },
+    "location": {
+      "en": "Lower left and back part of the heart; it forms the apex and most of the left border.",
+      "fr": "Partie inférieure gauche et postérieure du cœur ; il forme la pointe (apex) et la plus grande partie du bord gauche."
+    },
+    "facts": [
+      {
+        "en": "Its wall is the thickest of the four chambers, about three times thicker than the right ventricle's, because it pumps against the high pressure of the systemic circulation.",
+        "fr": "Sa paroi est la plus épaisse des quatre cavités, environ trois fois celle du ventricule droit, car il pompe contre la pression élevée de la circulation générale."
+      },
+      {
+        "en": "Papillary muscles inside it hold the mitral valve leaflets through tendinous cords, so the valve does not turn back into the atrium.",
+        "fr": "Des muscles papillaires, reliés aux valvules mitrales par des cordages tendineux, empêchent la valve de se retourner dans l'oreillette."
+      },
+      {
+        "en": "At rest it ejects about 70 mL of blood per beat.",
+        "fr": "Au repos, il éjecte environ 70 mL de sang à chaque battement."
+      }
+    ],
+    "source": "HRA",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "right_ventricle",
+    "name": {
+      "en": "Right ventricle",
+      "fr": "Ventricule droit"
+    },
+    "system": "chambers",
+    "function": {
+      "en": "Receives oxygen-poor blood from the right atrium through the tricuspid valve and pumps it through the pulmonary valve into the pulmonary trunk, towards the lungs.",
+      "fr": "Reçoit le sang pauvre en oxygène de l'oreillette droite par la valve tricuspide et le propulse à travers la valve pulmonaire dans le tronc pulmonaire, vers les poumons."
+    },
+    "location": {
+      "en": "Front of the heart, just behind the sternum; it forms most of the front (sternocostal) surface.",
+      "fr": "Face avant du cœur, juste derrière le sternum ; il forme la plus grande partie de la face antérieure (sterno-costale)."
+    },
+    "facts": [
+      {
+        "en": "Its wall is thin (about 3 to 5 mm) because the lungs offer little resistance to blood flow.",
+        "fr": "Sa paroi est fine (environ 3 à 5 mm) car les poumons opposent peu de résistance au passage du sang."
+      },
+      {
+        "en": "In cross-section it is crescent-shaped and wraps around the front of the left ventricle.",
+        "fr": "En coupe, il a une forme de croissant qui entoure l'avant du ventricule gauche."
+      },
+      {
+        "en": "A muscular band, the moderator band, crosses its cavity and carries part of the conduction system.",
+        "fr": "Une bande musculaire, la bandelette ansiforme (trabécule septo-marginale), traverse sa cavité et transporte une partie du tissu de conduction."
+      }
+    ],
+    "source": "HRA",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "left_atrium",
+    "name": {
+      "en": "Left atrium",
+      "fr": "Oreillette gauche"
+    },
+    "system": "chambers",
+    "function": {
+      "en": "Collects oxygen-rich blood returning from the lungs through the pulmonary veins and passes it to the left ventricle through the mitral valve.",
+      "fr": "Recueille le sang riche en oxygène qui revient des poumons par les veines pulmonaires et le transmet au ventricule gauche par la valve mitrale."
+    },
+    "location": {
+      "en": "Upper back part of the heart; it is the most posterior chamber and forms most of the base of the heart.",
+      "fr": "Partie supérieure et postérieure du cœur ; c'est la cavité la plus en arrière, elle forme la plus grande partie de la base du cœur."
+    },
+    "facts": [
+      {
+        "en": "Usually four pulmonary veins open into it, two from each lung.",
+        "fr": "Le plus souvent, quatre veines pulmonaires s'y abouchent, deux par poumon."
+      },
+      {
+        "en": "It lies just in front of the oesophagus, so an ultrasound probe placed in the oesophagus (transoesophageal echocardiography) gives a clear view of it.",
+        "fr": "Il est situé juste devant l'œsophage : une échographie par voie œsophagienne permet donc de bien le voir."
+      },
+      {
+        "en": "Its small pouch, the left auricle (left atrial appendage), is where clots most often form in atrial fibrillation.",
+        "fr": "Son petit prolongement, l'auricule gauche, est l'endroit où les caillots se forment le plus souvent en cas de fibrillation atriale."
+      }
+    ],
+    "source": "HRA",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "right_atrium",
+    "name": {
+      "en": "Right atrium",
+      "fr": "Oreillette droite"
+    },
+    "system": "chambers",
+    "function": {
+      "en": "Collects oxygen-poor blood returning from the body through the superior and inferior venae cavae, and from the heart wall through the coronary sinus, and passes it to the right ventricle through the tricuspid valve.",
+      "fr": "Recueille le sang pauvre en oxygène qui revient du corps par les veines caves supérieure et inférieure, et de la paroi du cœur par le sinus coronaire, puis le transmet au ventricule droit par la valve tricuspide."
+    },
+    "location": {
+      "en": "Upper right part of the heart; it forms the right border of the heart.",
+      "fr": "Partie supérieure droite du cœur ; elle forme le bord droit du cœur."
+    },
+    "facts": [
+      {
+        "en": "The sinoatrial node, the heart's natural pacemaker, sits in its wall near the opening of the superior vena cava.",
+        "fr": "Le nœud sinusal, le stimulateur naturel du cœur, se trouve dans sa paroi, près de l'abouchement de la veine cave supérieure."
+      },
+      {
+        "en": "A shallow hollow on its septal wall, the fossa ovalis, is what remains of the foramen ovale, an opening between the atria before birth.",
+        "fr": "Une petite dépression sur sa paroi septale, la fosse ovale, est le reste du foramen ovale, une ouverture entre les oreillettes avant la naissance."
+      },
+      {
+        "en": "Its inner wall is smooth at the back and ridged at the front (pectinate muscles); a ridge called the crista terminalis separates the two parts.",
+        "fr": "Sa paroi interne est lisse en arrière et parcourue de reliefs en avant (muscles pectinés) ; une crête, la crête terminale, sépare ces deux parties."
+      }
+    ],
+    "source": "HRA",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "interventricular_septum",
+    "name": {
+      "en": "Interventricular septum",
+      "fr": "Septum interventriculaire"
+    },
+    "system": "chambers",
+    "function": {
+      "en": "Separates the left and right ventricles so that oxygen-rich and oxygen-poor blood do not mix, and contracts with the ventricles during each beat.",
+      "fr": "Sépare les ventricules gauche et droit pour que le sang riche et le sang pauvre en oxygène ne se mélangent pas, et se contracte avec les ventricules à chaque battement."
+    },
+    "location": {
+      "en": "Between the two ventricles, running obliquely from the base of the heart to near the apex.",
+      "fr": "Entre les deux ventricules, en oblique, de la base du cœur jusqu'à près de la pointe."
+    },
+    "facts": [
+      {
+        "en": "It is mostly muscular, with a small thin membranous part near the aortic valve.",
+        "fr": "Il est surtout musculaire, avec une petite partie membraneuse fine près de la valve aortique."
+      },
+      {
+        "en": "The bundle of His and its two branches run along it to carry the electrical signal to both ventricles.",
+        "fr": "Le faisceau de His et ses deux branches le longent pour conduire le signal électrique vers les deux ventricules."
+      },
+      {
+        "en": "A hole in it (ventricular septal defect) is one of the most common congenital heart defects.",
+        "fr": "Une ouverture anormale dans ce septum (communication interventriculaire) est l'une des malformations cardiaques congénitales les plus fréquentes."
+      }
+    ],
+    "source": "HRA",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "papillary_muscles",
+    "name": {
+      "en": "Papillary muscles",
+      "fr": "Muscles papillaires"
+    },
+    "system": "chambers",
+    "source": "HRA",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "valves",
+    "name": {
+      "en": "Heart valves",
+      "fr": "Valves cardiaques"
+    },
+    "system": "valves",
+    "source": "HRA",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "mitral_valve",
+    "name": {
+      "en": "Mitral valve",
+      "fr": "Valve mitrale"
+    },
+    "system": "valves",
+    "source": "HRA",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "tricuspid_valve",
+    "name": {
+      "en": "Tricuspid valve",
+      "fr": "Valve tricuspide"
+    },
+    "system": "valves",
+    "source": "HRA",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "aortic_valve",
+    "name": {
+      "en": "Aortic valve",
+      "fr": "Valve aortique"
+    },
+    "system": "valves",
+    "source": "HRA",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "pulmonary_valve",
+    "name": {
+      "en": "Pulmonary valve",
+      "fr": "Valve pulmonaire"
+    },
+    "system": "valves",
+    "source": "HRA",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "coronary_arteries",
+    "name": {
+      "en": "Coronary arteries",
+      "fr": "Artères coronaires"
+    },
+    "system": "coronary_arteries",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "left_main_coronary_artery",
+    "name": {
+      "en": "Left main coronary artery",
+      "fr": "Tronc commun de l'artère coronaire gauche"
+    },
+    "system": "coronary_arteries",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA3855"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "anterior_interventricular_artery",
+    "name": {
+      "en": "Anterior interventricular artery",
+      "fr": "Artère interventriculaire antérieure"
+    },
+    "system": "coronary_arteries",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA3862"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "circumflex_artery",
+    "name": {
+      "en": "Circumflex artery",
+      "fr": "Artère circonflexe"
+    },
+    "system": "coronary_arteries",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA3895"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "right_coronary_artery",
+    "name": {
+      "en": "Right coronary artery",
+      "fr": "Artère coronaire droite"
+    },
+    "system": "coronary_arteries",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA50039"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "cardiac_veins",
+    "name": {
+      "en": "Cardiac veins",
+      "fr": "Veines cardiaques"
+    },
+    "system": "cardiac_veins",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "coronary_sinus",
+    "name": {
+      "en": "Coronary sinus",
+      "fr": "Sinus coronaire"
+    },
+    "system": "cardiac_veins",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA4706"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "great_cardiac_vein",
+    "name": {
+      "en": "Great cardiac vein",
+      "fr": "Grande veine du cœur"
+    },
+    "system": "cardiac_veins",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA4707"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "middle_cardiac_vein",
+    "name": {
+      "en": "Middle cardiac vein",
+      "fr": "Veine moyenne du cœur"
+    },
+    "system": "cardiac_veins",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA4713"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "small_cardiac_vein",
+    "name": {
+      "en": "Small cardiac vein",
+      "fr": "Petite veine du cœur"
+    },
+    "system": "cardiac_veins",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA4714"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "other_cardiac_veins",
+    "name": {
+      "en": "Other cardiac veins",
+      "fr": "Autres veines du cœur"
+    },
+    "system": "cardiac_veins",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA50308"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "great_vessels",
+    "name": {
+      "en": "Great vessels",
+      "fr": "Gros vaisseaux"
+    },
+    "system": "great_vessels",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "status": "draft"
+  },
+  {
+    "id": "ascending_aorta",
+    "name": {
+      "en": "Ascending aorta",
+      "fr": "Aorte ascendante"
+    },
+    "system": "great_vessels",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA3736"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "aortic_arch",
+    "name": {
+      "en": "Aortic arch",
+      "fr": "Crosse de l'aorte"
+    },
+    "system": "great_vessels",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA3768"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "descending_aorta",
+    "name": {
+      "en": "Descending thoracic aorta",
+      "fr": "Aorte thoracique descendante"
+    },
+    "system": "great_vessels",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA87217"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "pulmonary_trunk",
+    "name": {
+      "en": "Pulmonary trunk",
+      "fr": "Tronc pulmonaire"
+    },
+    "system": "great_vessels",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA8612"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "right_pulmonary_artery",
+    "name": {
+      "en": "Right pulmonary artery",
+      "fr": "Artère pulmonaire droite"
+    },
+    "system": "great_vessels",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA50872"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "left_pulmonary_artery",
+    "name": {
+      "en": "Left pulmonary artery",
+      "fr": "Artère pulmonaire gauche"
+    },
+    "system": "great_vessels",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA50873"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "right_pulmonary_veins",
+    "name": {
+      "en": "Right pulmonary veins",
+      "fr": "Veines pulmonaires droites"
+    },
+    "system": "great_vessels",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA49911",
+      "FMA49914"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "left_pulmonary_veins",
+    "name": {
+      "en": "Left pulmonary veins",
+      "fr": "Veines pulmonaires gauches"
+    },
+    "system": "great_vessels",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA49913",
+      "FMA49916"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "superior_vena_cava",
+    "name": {
+      "en": "Superior vena cava",
+      "fr": "Veine cave supérieure"
+    },
+    "system": "great_vessels",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA4720"
+    ],
+    "status": "draft"
+  },
+  {
+    "id": "inferior_vena_cava",
+    "name": {
+      "en": "Inferior vena cava",
+      "fr": "Veine cave inférieure"
+    },
+    "system": "great_vessels",
+    "source": "BodyParts3D",
+    "licence": "CC BY 4.0",
+    "fma": [
+      "FMA10951"
+    ],
+    "status": "draft"
+  }
+]

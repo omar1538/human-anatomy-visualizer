@@ -56,21 +56,47 @@ heart                                   (root, extras.kind = "system")
   `clipped_y_m` for cut vessels).
 
 ## `public/assets/data/organs.json`
-Array of records, one per mesh node **and** one per group. Required fields:
+Array of records, one per mesh node **and** one per group (34 for `heart.glb`; the root `heart` has none).
+Every text the user reads is `{ "en": "...", "fr": "..." }`, both filled in.
+
+Required fields:
 
 - `id`: unique string, equals the GLB node name
-- `name`: `{ "en": "...", "fr": "..." }`
-- `system`: the group (layer) id: `chambers`, `valves`, `coronary_arteries`, `cardiac_veins`, `great_vessels` *(proposed)*
-- `function`: `{ "en": "...", "fr": "..." }` short explanation written by the team
-- `location`: short text
-- `facts`: array of short strings
-- `source`, `licence`: where the mesh comes from and under which licence
+- `name`: `{ "en", "fr" }`
+- `system`: the group (layer) id: `chambers`, `valves`, `coronary_arteries`, `cardiac_veins`, `great_vessels`.
+  A group's record has its own id as `system`.
+- `source`: `"HRA"` or `"BodyParts3D"` (a group: the sources of its structures, joined with `" + "`)
+- `licence`: as in the node's `extras.licence` (`"CC BY 4.0"`)
 
-Optional fields *(proposed)*:
-- `fma`: Foundational Model of Anatomy ids, e.g. `["FMA7101"]` (useful for checking facts and for CT linking later)
+Content fields, written by the team in its own words (required once the content is done, see `--strict` below):
 
-The pipeline writes `build-report.json` with `id`, `parent`, source and licence for every node,
-to seed `organs.json`. The validation script (Week 3) checks that every GLB node has a record and vice versa.
+- `function`: `{ "en", "fr" }` short explanation
+- `location`: `{ "en", "fr" }` short text
+- `facts`: array of `{ "en", "fr" }`, short
+
+Optional fields:
+- `fma`: Foundational Model of Anatomy ids from the GLB extras, e.g. `["FMA50872"]` (BodyParts3D structures only)
+- `status`: `"draft"` (written, not checked) or `"reviewed"` (checked in the accuracy review)
+
+Example:
+```json
+{
+  "id": "left_ventricle",
+  "name": { "en": "Left ventricle", "fr": "Ventricule gauche" },
+  "system": "chambers",
+  "function": { "en": "Receives oxygen-rich blood ...", "fr": "Reçoit le sang riche en oxygène ..." },
+  "location": { "en": "Lower left and back part of the heart ...", "fr": "Partie inférieure gauche ..." },
+  "facts": [ { "en": "Its wall is the thickest ...", "fr": "Sa paroi est la plus épaisse ..." } ],
+  "source": "HRA",
+  "licence": "CC BY 4.0",
+  "status": "draft"
+}
+```
+
+`scripts/data-pipeline/validate_content.py` (standard library only) checks `organs.json` against the GLB:
+every group and structure node has a record and vice versa, ids, required fields, both languages, and that
+`system`, `source`, `licence` and `fma` agree with the GLB. Missing content is a warning; with `--strict`
+(from Week 4, when all content is due) it is an error.
 
 ## `public/assets/data/quiz.json`
 Array of questions: `id`, `type` (`name-it` | `find-it`), `organId`, `prompt`, `choices`, `answer`, `explanation`.

@@ -1,10 +1,21 @@
 # Project status
 
-**Last updated: 5 November 2026 (end of Week 1).** Update this file at the end of each week.
+**Last updated: 11 November 2026 (Week 2).** Update this file at the end of each week.
 
 The plan itself is in [`ROADMAP.md`](ROADMAP.md). This file says where we actually are.
 
-## Summary
+## Week 2 milestones (11 November)
+
+| Milestone                                       | Owner | State                                                                                                                                                                                    |
+| ----------------------------------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| WebXR surface detection and organ placement     | A     | Code done (`src/render/xr.js`: hit test, reticle, tap to place, floating fallback), tested in a WebXR emulator. **Still to do: test on a real Android phone** before calling it closed   |
+| Model loading follows `DATA_CONTRACT.md`        | A, B  | Checked on `heart.glb` + `organs.json`: tree `heart` > 5 groups > 29 structures, ids = `organs.json` ids, metres, +Y up, materials, provenance. `validate_content.py --strict`: 0 errors |
+| Learn mode: 3D selection shows the FR/EN record | C     | Done (`src/learn/`): name, function, location, key facts, organ <-> group links, EN/FR switch remembered on the device, draft notice; side panel on desktop, bottom sheet on phones      |
+| PWA installable, offline mode                   | C     | Done: Chrome's installability check passes; with the server stopped, the app opens with the real heart and Learn mode content after one visit                                            |
+
+Not yet tested on a real phone: installing the PWA, offline use, WebGPU, AR.
+
+## Week 1 summary
 
 All three Week 1 deliverables are **in `main`** (5 November). They were merged directly,
 **without the pull-request review CONTRIBUTING asks for**, so each track should review the other
@@ -98,6 +109,8 @@ AR (from `track-a/webxr-ar`):
 | -------------------------------------------------------------------------------------------------- | ----------------------- | ----- | --------------------------------------------------------------- |
 | Holes in the right atrium, aortic valve and papillary muscles, which will break slicing caps there | `heart.glb`             | B     | Open                                                            |
 | Placeholder app icons                                                                              | `public/icons/`         | C     | Open (needs a real design)                                      |
+| On portrait phones the heart is cut off left and right (camera framing fits the height only)       | `src/render/scene.js`   | A     | Open                                                            |
+| The temporary dev panel covers about a third of a phone screen                                     | `src/dev/devPanel.js`   | C     | Open: goes when the real UI replaces it                         |
 | Each selection cloned a material and never freed the old one, a slow memory leak                   | `src/render/picking.js` | A     | Fixed: one clone per mesh at most                               |
 | The build warned about a 940 kB chunk                                                              | `vite.config.js`        | C     | Fixed: three.js in its own cached file, limit raised to 1000 kB |
 | `public/sw.js` was not covered by `npm run lint`                                                   | `eslint.config.js`      | C     | Fixed                                                           |

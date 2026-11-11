@@ -37,9 +37,23 @@ npm run build && npm run preview
 ```
 
 Open the printed address (`localhost` counts as a secure context, so the service worker works without HTTPS).
-In Chrome DevTools > **Application**: check _Manifest_ (name, icons, installability) and
-_Service workers_ (status "activated"). Reload once, then tick **Offline** in the Network tab and
-reload again: the app should still open.
+In Chrome DevTools > **Application**: check _Manifest_ (name, icons, no installability warning) and
+_Service workers_ (status "activated"). The install icon appears at the right of the address bar.
+
+Offline test: after the page has loaded once, stop `npm run preview` (Ctrl+C) and reload. The app
+must still open with the real heart (five layers in the panel, not the placeholder body), and
+selecting a structure must still show its details in Learn mode.
+
+What the service worker caches (`public/sw.js`):
+
+| Files                                                    | Strategy                          | Why                                                                                            |
+| -------------------------------------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Pages (`index.html`)                                     | Network first, cache when offline | Always the latest version when online                                                          |
+| Vite build files (`assets/*-<hash>.js`, `.css`)          | Cache first                       | A new version gets a new name, so a cached copy is never stale                                 |
+| `heart.glb`, `organs.json`, `quiz.json`, icons, manifest | Stale-while-revalidate            | Instant from the cache, refreshed in the background, so content fixes arrive on the next visit |
+
+The shell, the default model and its content are cached at install, so the whole app works offline
+right after the first visit.
 
 After changing `public/sw.js`, bump `CACHE_VERSION` in it so old caches are deleted. If the browser
 keeps an old version, use _Unregister_ in DevTools > Application > Service workers, or _Clear site data_.

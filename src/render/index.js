@@ -21,6 +21,10 @@ export async function createViewer({ container, model, meta = {} }) {
   const home = frameObject(camera, model);
   const controls = createControls(camera, renderer.domElement);
   controls.target.copy(home.target);
+  // Zoom limits follow the model's size: a 15 cm heart needs a much closer camera than a body.
+  const homeDistance = home.position.distanceTo(home.target);
+  controls.minDistance = homeDistance * 0.15;
+  controls.maxDistance = homeDistance * 6;
   controls.update();
 
   const layers = createLayers(model, meta);
@@ -105,9 +109,17 @@ export async function createViewer({ container, model, meta = {} }) {
       needsRender = true;
     },
     isSystemVisible: (system) => layers.isSystemVisible(system),
-    /** Selects an organ by id; pass null to clear. */
+    /** Selects an organ or a group (for example 'valves') by id; pass null to clear. */
     select: (id) => picker.selectById(id),
-    /** Called with (organId | null, mesh | null) whenever the selection changes. Returns an unsubscribe function. */
+    /**
+     * Metadata record for an organ or group id, from organs.json, or null if there is none.
+     * Used by Learn mode to show the name, function and facts in English or French.
+     */
+    organ: (id) => meta[id] ?? null,
+    /**
+     * Called with (id | null, object | null) whenever the selection changes. `object` is the
+     * selected mesh, or a group when a group id was selected. Returns an unsubscribe function.
+     */
     onSelect(cb) {
       listeners.add(cb);
       return () => listeners.delete(cb);

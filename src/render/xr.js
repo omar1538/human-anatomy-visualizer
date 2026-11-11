@@ -30,15 +30,24 @@ export async function isARSupported(timeoutMs = SUPPORT_CHECK_TIMEOUT_MS) {
 /**
  * Builds a copy of `source` that stands on its pivot's origin, facing +Z,
  * with its largest dimension equal to `size` metres. The original is not modified.
+ * The copy gets its own materials, so later highlights on the original do not show on it.
  * @param {THREE.Object3D} source
- * @param {{ size?: number, material?: THREE.Material }} [options] `material` replaces the mesh's
+ * @param {{ size?: number, showAll?: boolean }} [options] `showAll` also shows meshes hidden by a
+ * layer (used for an explicit selection); otherwise hidden layers stay hidden in the copy
  * @returns {{ object: THREE.Group, height: number, dispose: () => void }}
  */
-export function buildPlacement(source, { size = DEFAULT_SIZE_M, material } = {}) {
+export function buildPlacement(source, { size = DEFAULT_SIZE_M, showAll = false } = {}) {
   source.updateWorldMatrix(true, false);
   const copy = source.clone(true);
-  copy.visible = true; // the original may be hidden by a layer or during the session
-  if (material) copy.material = material;
+  copy.visible = true; // the original may be hidden during the session
+  const materials = [];
+  copy.traverse((o) => {
+    if (showAll) o.visible = true;
+    if (o.isMesh && o.material && !Array.isArray(o.material)) {
+      o.material = o.material.clone();
+      materials.push(o.material);
+    }
+  });
   source.matrixWorld.decompose(copy.position, copy.quaternion, copy.scale);
 
   const box = new THREE.Box3().setFromObject(copy);
@@ -57,8 +66,8 @@ export function buildPlacement(source, { size = DEFAULT_SIZE_M, material } = {})
   return {
     object,
     height: dimensions.y * scale,
-    // Geometry is shared with the original, so only a material made for this copy is released.
-    dispose: () => material?.dispose(),
+    // Geometry is shared with the original, so only the materials made for this copy are released.
+    dispose: () => materials.forEach((m) => m.dispose()),
   };
 }
 
@@ -100,16 +109,16 @@ export function createAR({ renderer, scene, camera, model, picker, onChange }) {
     placedSource = null;
   }
 
-  /** Tap: puts the current selection in the room, or moves it if it is already there. */
+  /** Tap: puts the current selection (organ or group) in the room, or moves it if already there. */
   function place() {
-    const mesh = picker.selected();
-    const source = mesh ?? model;
+    const selection = picker.selected();
+    const source = selection ?? model;
     if (source !== placedSource) {
       removePlaced();
-      placed = buildPlacement(source, {
-        size,
-        material: mesh ? picker.plainMaterial() : undefined,
-      });
+      // Copied without the highlight, so it shows the structure's real colours.
+      placed = picker.withoutHighlight(() =>
+        buildPlacement(source, { size, showAll: Boolean(selection) }),
+      );
       placedSource = source;
       scene.add(placed.object);
     }

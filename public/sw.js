@@ -1,7 +1,7 @@
 // Track C: service worker (PWA skeleton).
 // Bump CACHE_VERSION whenever the caching strategy or the shell list changes:
 // activate then deletes every cache from older versions.
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = `hav-shell-${CACHE_VERSION}`;
 const CACHE_PREFIX = 'hav-shell-';
 
@@ -12,7 +12,15 @@ const SHELL = [
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',
+  // The default model and its content (docs/DATA_CONTRACT.md), so the whole app works offline
+  // right after the first visit, not only from the second one.
+  './assets/models/heart.glb',
+  './assets/data/organs.json',
+  './assets/data/quiz.json',
 ];
+
+// Vite build output: the hash in the name changes whenever the content changes.
+const HASHED_BUILD_FILE = /\/assets\/[^/]+-[A-Za-z0-9_-]{8}\.(?:js|css)$/;
 
 // Vite gives the built JS/CSS hashed names, so they cannot be listed here.
 // Read them from the built index.html instead, so the shell works offline after the first visit.
@@ -72,6 +80,7 @@ async function networkFirst(request) {
   }
 }
 
+// For hashed build files: a cached copy can never be out of date.
 async function cacheFirst(request) {
   const cache = await caches.open(CACHE_NAME);
   const cached = await cache.match(request);
@@ -81,10 +90,34 @@ async function cacheFirst(request) {
   return response;
 }
 
+// For files whose name stays the same when they change (models, organs.json, quiz.json, icons):
+// answer from the cache at once, and refresh the cache in the background, so a content update
+// reaches the user on the next visit instead of never.
+async function staleWhileRevalidate(event) {
+  const cache = await caches.open(CACHE_NAME);
+  const cached = await cache.match(event.request);
+  const refresh = fetch(event.request)
+    .then((response) => {
+      if (cacheable(response))
+        return cache.put(event.request, response.clone()).then(() => response);
+      return response;
+    })
+    .catch(() => undefined); // offline: keep the cached copy
+  if (cached) {
+    event.waitUntil(refresh); // keep the worker alive until the cache is refreshed
+    return cached;
+  }
+  const response = await refresh;
+  return response ?? Response.error();
+}
+
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
-  if (new URL(request.url).origin !== self.location.origin) return; // let the browser handle it
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return; // let the browser handle it
   if (request.headers.has('range')) return; // partial requests are not cached
-  event.respondWith(isHTML(request) ? networkFirst(request) : cacheFirst(request));
+  if (isHTML(request)) event.respondWith(networkFirst(request));
+  else if (HASHED_BUILD_FILE.test(url.pathname)) event.respondWith(cacheFirst(request));
+  else event.respondWith(staleWhileRevalidate(event));
 });

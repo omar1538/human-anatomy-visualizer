@@ -1,0 +1,86 @@
+// Track A: click or tap an organ to select it, with a highlight.
+import * as THREE from 'three/webgpu';
+
+const HIGHLIGHT = new THREE.Color(0xffb703);
+const DRAG_THRESHOLD_PX = 5; // a pointer that moved more than this was an orbit drag, not a click
+
+function isEffectivelyVisible(obj) {
+  for (let o = obj; o; o = o.parent) if (!o.visible) return false;
+  return true;
+}
+
+export function createPicker({ camera, domElement, root, onChange }) {
+  const raycaster = new THREE.Raycaster();
+  const pointer = new THREE.Vector2();
+  let selected = null;
+  let saved = null; // original emissive of the selected mesh
+  let down = null;
+  const ownMaterial = new WeakSet(); // meshes whose material was already cloned by the picker
+
+  function setSelected(mesh) {
+    if (selected === mesh) return;
+    if (selected) {
+      selected.material.emissive.copy(saved.color);
+      selected.material.emissiveIntensity = saved.intensity;
+    }
+    selected = mesh;
+    if (mesh) {
+      // Each mesh must own its material, otherwise highlighting one organ would tint others.
+      // Clone only the first time a mesh is selected: cloning on every selection would leave a
+      // new unused material behind each time (a slow GPU memory leak).
+      if (!ownMaterial.has(mesh)) {
+        mesh.material = mesh.material.clone();
+        ownMaterial.add(mesh);
+      }
+      saved = { color: mesh.material.emissive.clone(), intensity: mesh.material.emissiveIntensity };
+      mesh.material.emissive.copy(HIGHLIGHT);
+      mesh.material.emissiveIntensity = 0.6;
+    }
+    onChange(mesh ? mesh.name : null, mesh);
+  }
+
+  function pick(clientX, clientY) {
+    const rect = domElement.getBoundingClientRect();
+    pointer.set(
+      ((clientX - rect.left) / rect.width) * 2 - 1,
+      -((clientY - rect.top) / rect.height) * 2 + 1,
+    );
+    raycaster.setFromCamera(pointer, camera);
+    // three.js raycasting ignores `visible`, so hidden systems are filtered out by hand.
+    const hits = raycaster
+      .intersectObject(root, true)
+      .filter((h) => h.object.isMesh && isEffectivelyVisible(h.object));
+    setSelected(hits[0]?.object ?? null);
+  }
+
+  const onDown = (e) => (down = { x: e.clientX, y: e.clientY });
+  const onUp = (e) => {
+    if (down && Math.hypot(e.clientX - down.x, e.clientY - down.y) < DRAG_THRESHOLD_PX) {
+      pick(e.clientX, e.clientY);
+    }
+    down = null;
+  };
+  domElement.addEventListener('pointerdown', onDown);
+  domElement.addEventListener('pointerup', onUp);
+
+  return {
+    /** Selects by organ id (mesh name). Used by search and quiz features (Track C). */
+    selectById(id) {
+      setSelected(id ? (root.getObjectByName(id) ?? null) : null);
+    },
+    clear: () => setSelected(null),
+    /** @returns {THREE.Mesh | null} the selected mesh */
+    selected: () => selected,
+    /** A new copy of the selected mesh's material without the highlight. Used by AR placement. */
+    plainMaterial() {
+      const material = selected.material.clone();
+      material.emissive.copy(saved.color);
+      material.emissiveIntensity = saved.intensity;
+      return material;
+    },
+    dispose() {
+      domElement.removeEventListener('pointerdown', onDown);
+      domElement.removeEventListener('pointerup', onUp);
+    },
+  };
+}

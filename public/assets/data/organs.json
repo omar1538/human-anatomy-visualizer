@@ -6,6 +6,24 @@
       "fr": "Cavités et parois"
     },
     "system": "chambers",
+    "function": {
+      "en": "The four chambers receive and pump the blood. The two atria collect blood returning to the heart; the two ventricles pump it out, the right side to the lungs and the left side to the rest of the body.",
+      "fr": "Les quatre cavités reçoivent et propulsent le sang. Les deux oreillettes recueillent le sang qui revient au cœur ; les deux ventricules le chassent, le côté droit vers les poumons et le côté gauche vers le reste du corps."
+    },
+    "location": {
+      "en": "The heart lies in the middle of the chest, between the two lungs, behind the sternum, with about two thirds of it to the left of the midline.",
+      "fr": "Le cœur se trouve au milieu du thorax, entre les deux poumons, derrière le sternum, aux deux tiers environ à gauche de la ligne médiane."
+    },
+    "facts": [
+      {
+        "en": "An adult heart is about the size of a closed fist and weighs about 250 to 350 g.",
+        "fr": "Le cœur d'un adulte a à peu près la taille d'un poing fermé et pèse environ 250 à 350 g."
+      },
+      {
+        "en": "The right and left halves of the heart are separated by walls (the interatrial and interventricular septa), so the two circulations do not mix after birth.",
+        "fr": "Les moitiés droite et gauche du cœur sont séparées par des cloisons (septums interauriculaire et interventriculaire) : après la naissance, les deux circulations ne se mélangent pas."
+      }
+    ],
     "source": "HRA",
     "licence": "CC BY 4.0",
     "status": "draft"
@@ -182,6 +200,28 @@
       "fr": "Muscles papillaires"
     },
     "system": "chambers",
+    "function": {
+      "en": "Cone-shaped muscles inside the ventricles. Through tendinous cords they hold the leaflets of the mitral and tricuspid valves, so the valves do not turn back into the atria when the ventricles contract.",
+      "fr": "Muscles en forme de cône situés dans les ventricules. Par des cordages tendineux, ils retiennent les valvules mitrales et tricuspides pour qu'elles ne se retournent pas dans les oreillettes quand les ventricules se contractent."
+    },
+    "location": {
+      "en": "Rising from the inner walls of both ventricles, below the mitral and tricuspid valves.",
+      "fr": "Ils s'élèvent de la paroi interne des deux ventricules, sous les valves mitrale et tricuspide."
+    },
+    "facts": [
+      {
+        "en": "The left ventricle usually has two (anterolateral and posteromedial) and the right ventricle three (anterior, posterior and septal).",
+        "fr": "Le ventricule gauche en possède habituellement deux (antérolatéral et postéromédial) et le ventricule droit trois (antérieur, postérieur et septal)."
+      },
+      {
+        "en": "They contract with the ventricles, pulling the cords tight just as the pressure rises.",
+        "fr": "Ils se contractent avec les ventricules et tendent les cordages au moment où la pression monte."
+      },
+      {
+        "en": "Rupture of a papillary muscle, for example after a heart attack, makes the mitral valve leak suddenly.",
+        "fr": "La rupture d'un muscle papillaire, par exemple après un infarctus, provoque une fuite brutale de la valve mitrale."
+      }
+    ],
     "source": "HRA",
     "licence": "CC BY 4.0",
     "status": "draft"
@@ -193,6 +233,24 @@
       "fr": "Valves cardiaques"
     },
     "system": "valves",
+    "function": {
+      "en": "The four valves keep blood flowing in one direction only: they open to let blood out of a chamber and close to stop it from flowing back.",
+      "fr": "Les quatre valves imposent au sang un seul sens de circulation : elles s'ouvrent pour le laisser sortir d'une cavité et se ferment pour l'empêcher de refluer."
+    },
+    "location": {
+      "en": "At the base of the heart, all four set in a ring of dense fibrous tissue (the fibrous skeleton of the heart).",
+      "fr": "À la base du cœur, toutes les quatre fixées sur des anneaux de tissu fibreux dense (le squelette fibreux du cœur)."
+    },
+    "facts": [
+      {
+        "en": "There are two atrioventricular valves (mitral and tricuspid), between atria and ventricles, and two semilunar valves (aortic and pulmonary), at the exit of the ventricles.",
+        "fr": "Il y a deux valves auriculo-ventriculaires (mitrale et tricuspide), entre oreillettes et ventricules, et deux valves semi-lunaires (aortique et pulmonaire), à la sortie des ventricules."
+      },
+      {
+        "en": "The heart sounds come from valves closing: the first sound when the mitral and tricuspid valves close, the second when the aortic and pulmonary valves close.",
+        "fr": "Les bruits du cœur viennent de la fermeture des valves : le premier bruit à la fermeture des valves mitrale et tricuspide, le second à la fermeture des valves aortique et pulmonaire."
+      }
+    ],
     "source": "HRA",
     "licence": "CC BY 4.0",
     "status": "draft"
@@ -204,6 +262,28 @@
       "fr": "Valve mitrale"
     },
     "system": "valves",
+    "function": {
+      "en": "Lets oxygen-rich blood pass from the left atrium into the left ventricle, and closes when the ventricle contracts so blood does not flow back into the atrium.",
+      "fr": "Laisse passer le sang riche en oxygène de l'oreillette gauche vers le ventricule gauche, et se ferme quand le ventricule se contracte pour éviter le reflux vers l'oreillette."
+    },
+    "location": {
+      "en": "Between the left atrium and the left ventricle.",
+      "fr": "Entre l'oreillette gauche et le ventricule gauche."
+    },
+    "facts": [
+      {
+        "en": "It is the only heart valve with two leaflets (anterior and posterior), which is why it is also called the bicuspid valve.",
+        "fr": "C'est la seule valve cardiaque à deux valvules (antérieure et postérieure), d'où son autre nom de valve bicuspide."
+      },
+      {
+        "en": "Its name comes from its resemblance to a bishop's mitre.",
+        "fr": "Son nom vient de sa ressemblance avec une mitre d'évêque."
+      },
+      {
+        "en": "Mitral valve prolapse, where a leaflet bulges back into the atrium, is one of the most common valve conditions.",
+        "fr": "Le prolapsus de la valve mitrale, où une valvule bombe vers l'oreillette, est l'une des maladies valvulaires les plus fréquentes."
+      }
+    ],
     "source": "HRA",
     "licence": "CC BY 4.0",
     "status": "draft"
@@ -215,6 +295,28 @@
       "fr": "Valve tricuspide"
     },
     "system": "valves",
+    "function": {
+      "en": "Lets oxygen-poor blood pass from the right atrium into the right ventricle, and closes when the ventricle contracts so blood does not flow back into the atrium.",
+      "fr": "Laisse passer le sang pauvre en oxygène de l'oreillette droite vers le ventricule droit, et se ferme quand le ventricule se contracte pour éviter le reflux vers l'oreillette."
+    },
+    "location": {
+      "en": "Between the right atrium and the right ventricle.",
+      "fr": "Entre l'oreillette droite et le ventricule droit."
+    },
+    "facts": [
+      {
+        "en": "It has three leaflets: anterior, posterior and septal.",
+        "fr": "Elle possède trois valvules : antérieure, postérieure et septale."
+      },
+      {
+        "en": "Its opening is the largest of the four heart valves.",
+        "fr": "Son orifice est le plus grand des quatre orifices valvulaires du cœur."
+      },
+      {
+        "en": "Infection of this valve (endocarditis) is seen especially in people who inject drugs, because infected material reaches the right heart first.",
+        "fr": "L'infection de cette valve (endocardite) s'observe surtout chez les personnes qui s'injectent des drogues, car les germes arrivent d'abord dans le cœur droit."
+      }
+    ],
     "source": "HRA",
     "licence": "CC BY 4.0",
     "status": "draft"
@@ -226,6 +328,28 @@
       "fr": "Valve aortique"
     },
     "system": "valves",
+    "function": {
+      "en": "Opens to let blood leave the left ventricle into the aorta, and closes when the ventricle relaxes so blood does not flow back into it.",
+      "fr": "S'ouvre pour laisser le sang passer du ventricule gauche dans l'aorte, et se ferme quand le ventricule se relâche pour éviter le reflux."
+    },
+    "location": {
+      "en": "At the exit of the left ventricle, where the ascending aorta begins, near the centre of the heart.",
+      "fr": "À la sortie du ventricule gauche, au début de l'aorte ascendante, près du centre du cœur."
+    },
+    "facts": [
+      {
+        "en": "It has three half-moon-shaped (semilunar) cusps and no tendinous cords.",
+        "fr": "Elle possède trois valvules en forme de demi-lune (semi-lunaires) et aucun cordage tendineux."
+      },
+      {
+        "en": "The two coronary arteries start just above two of its cusps, in small pockets of the aortic wall (the aortic sinuses).",
+        "fr": "Les deux artères coronaires naissent juste au-dessus de deux de ses valvules, dans de petites poches de la paroi aortique (les sinus aortiques)."
+      },
+      {
+        "en": "About 1 to 2 % of people are born with only two cusps (bicuspid aortic valve), which tends to narrow or leak earlier in life.",
+        "fr": "Environ 1 à 2 % des personnes naissent avec seulement deux valvules (bicuspidie aortique), qui a tendance à se rétrécir ou à fuir plus tôt dans la vie."
+      }
+    ],
     "source": "HRA",
     "licence": "CC BY 4.0",
     "status": "draft"
@@ -237,6 +361,24 @@
       "fr": "Valve pulmonaire"
     },
     "system": "valves",
+    "function": {
+      "en": "Opens to let blood leave the right ventricle into the pulmonary trunk, and closes when the ventricle relaxes so blood does not flow back into it.",
+      "fr": "S'ouvre pour laisser le sang passer du ventricule droit dans le tronc pulmonaire, et se ferme quand le ventricule se relâche pour éviter le reflux."
+    },
+    "location": {
+      "en": "At the exit of the right ventricle, where the pulmonary trunk begins; it is the highest and most anterior of the four valves.",
+      "fr": "À la sortie du ventricule droit, au début du tronc pulmonaire ; c'est la plus haute et la plus antérieure des quatre valves."
+    },
+    "facts": [
+      {
+        "en": "Like the aortic valve, it has three semilunar cusps and no tendinous cords.",
+        "fr": "Comme la valve aortique, elle possède trois valvules semi-lunaires et aucun cordage tendineux."
+      },
+      {
+        "en": "It works against a much lower pressure than the aortic valve, so its cusps are thinner.",
+        "fr": "Elle supporte une pression bien plus faible que la valve aortique, ses valvules sont donc plus fines."
+      }
+    ],
     "source": "HRA",
     "licence": "CC BY 4.0",
     "status": "draft"
@@ -248,6 +390,28 @@
       "fr": "Artères coronaires"
     },
     "system": "coronary_arteries",
+    "function": {
+      "en": "Supply the heart muscle itself with oxygen-rich blood. The blood inside the chambers does not feed the heart wall.",
+      "fr": "Apportent au muscle cardiaque lui-même le sang riche en oxygène. Le sang contenu dans les cavités ne nourrit pas la paroi du cœur."
+    },
+    "location": {
+      "en": "They start from the root of the aorta, just above the aortic valve, and run on the surface of the heart in its grooves.",
+      "fr": "Elles naissent à la racine de l'aorte, juste au-dessus de la valve aortique, et cheminent à la surface du cœur dans ses sillons."
+    },
+    "facts": [
+      {
+        "en": "There are two: the left coronary artery and the right coronary artery.",
+        "fr": "Il y en a deux : l'artère coronaire gauche et l'artère coronaire droite."
+      },
+      {
+        "en": "They fill mainly while the heart relaxes (diastole), because the contracting muscle squeezes the vessels in its wall.",
+        "fr": "Elles se remplissent surtout pendant le relâchement du cœur (diastole), car le muscle en contraction comprime les vaisseaux de sa paroi."
+      },
+      {
+        "en": "A blocked coronary artery deprives part of the heart muscle of oxygen: this is a heart attack (myocardial infarction).",
+        "fr": "L'obstruction d'une artère coronaire prive d'oxygène une partie du muscle cardiaque : c'est l'infarctus du myocarde."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "status": "draft"
@@ -259,6 +423,28 @@
       "fr": "Tronc commun de l'artère coronaire gauche"
     },
     "system": "coronary_arteries",
+    "function": {
+      "en": "The short first part of the left coronary artery. It carries blood to its two branches, which supply most of the left ventricle.",
+      "fr": "Première partie, courte, de l'artère coronaire gauche. Elle conduit le sang vers ses deux branches, qui irriguent la plus grande partie du ventricule gauche."
+    },
+    "location": {
+      "en": "It starts from the left aortic sinus and passes between the pulmonary trunk and the left auricle before dividing.",
+      "fr": "Il naît du sinus aortique gauche et passe entre le tronc pulmonaire et l'auricule gauche avant de se diviser."
+    },
+    "facts": [
+      {
+        "en": "It is usually only 1 to 2 cm long.",
+        "fr": "Il ne mesure en général que 1 à 2 cm."
+      },
+      {
+        "en": "It divides into the anterior interventricular artery and the circumflex artery.",
+        "fr": "Il se divise en artère interventriculaire antérieure et artère circonflexe."
+      },
+      {
+        "en": "A narrowing here threatens a large part of the heart muscle at once, so it is treated as high-risk.",
+        "fr": "Un rétrécissement à ce niveau menace d'un coup une grande partie du muscle cardiaque : il est considéré comme à haut risque."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -273,6 +459,28 @@
       "fr": "Artère interventriculaire antérieure"
     },
     "system": "coronary_arteries",
+    "function": {
+      "en": "Supplies the front of the left ventricle, part of the right ventricle and the front two thirds of the interventricular septum.",
+      "fr": "Irrigue la face avant du ventricule gauche, une partie du ventricule droit et les deux tiers antérieurs du septum interventriculaire."
+    },
+    "location": {
+      "en": "It runs down the groove on the front of the heart between the two ventricles (the anterior interventricular groove) towards the apex.",
+      "fr": "Elle descend dans le sillon situé à l'avant du cœur entre les deux ventricules (sillon interventriculaire antérieur), vers la pointe."
+    },
+    "facts": [
+      {
+        "en": "It is also called the left anterior descending artery (LAD).",
+        "fr": "Elle est aussi appelée artère interventriculaire antérieure ou IVA (en anglais LAD)."
+      },
+      {
+        "en": "Its branches are the diagonal branches, to the wall of the left ventricle, and the septal branches, into the septum.",
+        "fr": "Ses branches sont les branches diagonales, vers la paroi du ventricule gauche, et les branches septales, dans le septum."
+      },
+      {
+        "en": "It is the coronary artery most often blocked in heart attacks.",
+        "fr": "C'est l'artère coronaire le plus souvent obstruée lors d'un infarctus."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -287,6 +495,28 @@
       "fr": "Artère circonflexe"
     },
     "system": "coronary_arteries",
+    "function": {
+      "en": "Supplies the left atrium and the side and back walls of the left ventricle.",
+      "fr": "Irrigue l'oreillette gauche ainsi que les parois latérale et postérieure du ventricule gauche."
+    },
+    "location": {
+      "en": "It curves to the left in the groove between the left atrium and the left ventricle (the coronary groove), around the left border towards the back of the heart.",
+      "fr": "Elle tourne vers la gauche dans le sillon entre l'oreillette gauche et le ventricule gauche (sillon coronaire), contourne le bord gauche et gagne l'arrière du cœur."
+    },
+    "facts": [
+      {
+        "en": "It is one of the two branches of the left main coronary artery.",
+        "fr": "C'est l'une des deux branches du tronc commun de l'artère coronaire gauche."
+      },
+      {
+        "en": "Its main branches, the obtuse marginal arteries, run down the left border of the heart.",
+        "fr": "Ses principales branches, les artères marginales gauches, descendent le long du bord gauche du cœur."
+      },
+      {
+        "en": "In about one person in ten it also gives the posterior interventricular artery (left-dominant circulation).",
+        "fr": "Chez environ une personne sur dix, elle donne aussi l'artère interventriculaire postérieure (dominance gauche)."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -301,6 +531,28 @@
       "fr": "Artère coronaire droite"
     },
     "system": "coronary_arteries",
+    "function": {
+      "en": "Supplies the right atrium, most of the right ventricle, the lower wall of the left ventricle and, in most people, the conduction nodes.",
+      "fr": "Irrigue l'oreillette droite, la plus grande partie du ventricule droit, la paroi inférieure du ventricule gauche et, chez la plupart des personnes, les nœuds du tissu de conduction."
+    },
+    "location": {
+      "en": "It starts from the right aortic sinus and runs in the groove between the right atrium and the right ventricle, round the right border to the back of the heart.",
+      "fr": "Elle naît du sinus aortique droit et chemine dans le sillon entre l'oreillette droite et le ventricule droit, contourne le bord droit et gagne l'arrière du cœur."
+    },
+    "facts": [
+      {
+        "en": "In about 60 % of people it gives the artery to the sinoatrial node, and in about 80 % the artery to the atrioventricular node.",
+        "fr": "Chez environ 60 % des personnes, elle donne l'artère du nœud sinusal, et chez environ 80 % celle du nœud atrio-ventriculaire."
+      },
+      {
+        "en": "In most people (about 85 %) it ends as the posterior interventricular artery: this is called a right-dominant circulation.",
+        "fr": "Chez la plupart des personnes (environ 85 %), elle se termine par l'artère interventriculaire postérieure : on parle de dominance droite."
+      },
+      {
+        "en": "Its right marginal branch runs along the lower right border of the heart.",
+        "fr": "Sa branche marginale droite longe le bord inférieur droit du cœur."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -315,6 +567,24 @@
       "fr": "Veines cardiaques"
     },
     "system": "cardiac_veins",
+    "function": {
+      "en": "Collect oxygen-poor blood from the heart wall and return it to the right atrium, mostly through the coronary sinus.",
+      "fr": "Recueillent le sang pauvre en oxygène de la paroi du cœur et le ramènent à l'oreillette droite, surtout par le sinus coronaire."
+    },
+    "location": {
+      "en": "On the surface of the heart, mostly running alongside the coronary arteries.",
+      "fr": "À la surface du cœur, le plus souvent le long des artères coronaires."
+    },
+    "facts": [
+      {
+        "en": "Some small veins open directly into the chambers instead of joining the coronary sinus (the smallest cardiac veins).",
+        "fr": "Certaines petites veines s'ouvrent directement dans les cavités au lieu de rejoindre le sinus coronaire (les veines minimes du cœur)."
+      },
+      {
+        "en": "The anterior cardiac veins, on the front of the right ventricle, drain directly into the right atrium.",
+        "fr": "Les veines antérieures du cœur, sur la face avant du ventricule droit, se jettent directement dans l'oreillette droite."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "status": "draft"
@@ -326,6 +596,24 @@
       "fr": "Sinus coronaire"
     },
     "system": "cardiac_veins",
+    "function": {
+      "en": "A wide venous channel that collects most of the blood from the heart wall and empties it into the right atrium.",
+      "fr": "Large canal veineux qui recueille la plus grande partie du sang de la paroi du cœur et le déverse dans l'oreillette droite."
+    },
+    "location": {
+      "en": "On the back of the heart, in the groove between the left atrium and the left ventricle; it opens into the right atrium between the inferior vena cava and the tricuspid valve.",
+      "fr": "À l'arrière du cœur, dans le sillon entre l'oreillette gauche et le ventricule gauche ; il s'ouvre dans l'oreillette droite entre la veine cave inférieure et la valve tricuspide."
+    },
+    "facts": [
+      {
+        "en": "The great, middle and small cardiac veins all drain into it.",
+        "fr": "La grande, la moyenne et la petite veine du cœur s'y jettent toutes."
+      },
+      {
+        "en": "Cardiologists pass a pacemaker lead through it to reach and stimulate the left ventricle (cardiac resynchronisation therapy).",
+        "fr": "Les cardiologues y font passer une sonde de stimulateur pour atteindre et stimuler le ventricule gauche (resynchronisation cardiaque)."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -340,6 +628,24 @@
       "fr": "Grande veine du cœur"
     },
     "system": "cardiac_veins",
+    "function": {
+      "en": "Drains blood from the front of both ventricles and the interventricular septum into the coronary sinus.",
+      "fr": "Draine le sang de la face avant des deux ventricules et du septum interventriculaire vers le sinus coronaire."
+    },
+    "location": {
+      "en": "It starts near the apex, climbs in the anterior interventricular groove, then turns left in the coronary groove to join the coronary sinus.",
+      "fr": "Elle naît près de la pointe, remonte dans le sillon interventriculaire antérieur, puis tourne à gauche dans le sillon coronaire pour rejoindre le sinus coronaire."
+    },
+    "facts": [
+      {
+        "en": "It runs alongside the anterior interventricular artery, then the circumflex artery.",
+        "fr": "Elle accompagne l'artère interventriculaire antérieure, puis l'artère circonflexe."
+      },
+      {
+        "en": "It is the largest tributary of the coronary sinus.",
+        "fr": "C'est le plus gros affluent du sinus coronaire."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -354,6 +660,24 @@
       "fr": "Veine moyenne du cœur"
     },
     "system": "cardiac_veins",
+    "function": {
+      "en": "Drains blood from the back of both ventricles and the back of the septum into the coronary sinus.",
+      "fr": "Draine le sang de la face arrière des deux ventricules et de l'arrière du septum vers le sinus coronaire."
+    },
+    "location": {
+      "en": "In the groove on the underside of the heart between the two ventricles (the posterior interventricular groove), from the apex up to the coronary sinus.",
+      "fr": "Dans le sillon de la face inférieure du cœur entre les deux ventricules (sillon interventriculaire postérieur), de la pointe jusqu'au sinus coronaire."
+    },
+    "facts": [
+      {
+        "en": "It runs alongside the posterior interventricular artery.",
+        "fr": "Elle accompagne l'artère interventriculaire postérieure."
+      },
+      {
+        "en": "It joins the coronary sinus close to where the sinus opens into the right atrium.",
+        "fr": "Elle rejoint le sinus coronaire près de son abouchement dans l'oreillette droite."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -368,6 +692,24 @@
       "fr": "Petite veine du cœur"
     },
     "system": "cardiac_veins",
+    "function": {
+      "en": "Drains blood from the back of the right atrium and the right ventricle into the coronary sinus.",
+      "fr": "Draine le sang de l'arrière de l'oreillette droite et du ventricule droit vers le sinus coronaire."
+    },
+    "location": {
+      "en": "In the coronary groove on the right side of the heart, between the right atrium and the right ventricle.",
+      "fr": "Dans le sillon coronaire, du côté droit du cœur, entre l'oreillette droite et le ventricule droit."
+    },
+    "facts": [
+      {
+        "en": "It runs alongside the right coronary artery and its marginal branch.",
+        "fr": "Elle accompagne l'artère coronaire droite et sa branche marginale."
+      },
+      {
+        "en": "It is often small, and sometimes opens directly into the right atrium or is absent.",
+        "fr": "Elle est souvent petite, et parfois s'ouvre directement dans l'oreillette droite ou est absente."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -382,6 +724,24 @@
       "fr": "Autres veines du cœur"
     },
     "system": "cardiac_veins",
+    "function": {
+      "en": "Smaller veins that drain the side and back walls of the left ventricle into the coronary sinus or the great cardiac vein.",
+      "fr": "Veines plus petites qui drainent les parois latérale et postérieure du ventricule gauche vers le sinus coronaire ou la grande veine du cœur."
+    },
+    "location": {
+      "en": "On the left border and the back of the left ventricle.",
+      "fr": "Sur le bord gauche et la face arrière du ventricule gauche."
+    },
+    "facts": [
+      {
+        "en": "In this model they are mainly the left marginal vein and the posterior vein of the left ventricle.",
+        "fr": "Dans ce modèle, ce sont surtout la veine marginale gauche et la veine postérieure du ventricule gauche."
+      },
+      {
+        "en": "A tiny vein on the back of the left atrium, the oblique vein, is a remnant of a left superior vena cava present in the embryo.",
+        "fr": "Une très petite veine à l'arrière de l'oreillette gauche, la veine oblique, est le reste d'une veine cave supérieure gauche présente chez l'embryon."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -396,6 +756,24 @@
       "fr": "Gros vaisseaux"
     },
     "system": "great_vessels",
+    "function": {
+      "en": "The large arteries and veins attached to the heart: they bring blood back to the atria and carry blood away from the ventricles.",
+      "fr": "Les grosses artères et veines reliées au cœur : elles ramènent le sang aux oreillettes et emportent le sang des ventricules."
+    },
+    "location": {
+      "en": "At the base (upper part) of the heart, in the middle of the chest.",
+      "fr": "À la base (partie haute) du cœur, au milieu du thorax."
+    },
+    "facts": [
+      {
+        "en": "The aorta and the pulmonary trunk leave the heart; the venae cavae and the pulmonary veins enter it.",
+        "fr": "L'aorte et le tronc pulmonaire quittent le cœur ; les veines caves et les veines pulmonaires y arrivent."
+      },
+      {
+        "en": "The pulmonary arteries are the only arteries that carry oxygen-poor blood, and the pulmonary veins the only veins that carry oxygen-rich blood (after birth).",
+        "fr": "Les artères pulmonaires sont les seules artères à transporter du sang pauvre en oxygène, et les veines pulmonaires les seules veines à transporter du sang riche en oxygène (après la naissance)."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "status": "draft"
@@ -407,6 +785,24 @@
       "fr": "Aorte ascendante"
     },
     "system": "great_vessels",
+    "function": {
+      "en": "Carries oxygen-rich blood from the left ventricle up to the aortic arch; its first branches are the coronary arteries.",
+      "fr": "Conduit le sang riche en oxygène du ventricule gauche jusqu'à la crosse de l'aorte ; ses premières branches sont les artères coronaires."
+    },
+    "location": {
+      "en": "It rises from the aortic valve upwards, forwards and to the right, behind the sternum, inside the sac around the heart (pericardium).",
+      "fr": "Elle monte depuis la valve aortique vers le haut, l'avant et la droite, derrière le sternum, à l'intérieur de l'enveloppe du cœur (péricarde)."
+    },
+    "facts": [
+      {
+        "en": "It is about 5 cm long.",
+        "fr": "Elle mesure environ 5 cm de long."
+      },
+      {
+        "en": "Its root has three bulges, the aortic sinuses, one above each cusp of the aortic valve.",
+        "fr": "Sa racine présente trois renflements, les sinus aortiques, un au-dessus de chaque valvule de la valve aortique."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -421,6 +817,28 @@
       "fr": "Crosse de l'aorte"
     },
     "system": "great_vessels",
+    "function": {
+      "en": "Carries blood from the ascending to the descending aorta and gives the three arteries for the head, neck and arms.",
+      "fr": "Conduit le sang de l'aorte ascendante à l'aorte descendante et donne les trois artères de la tête, du cou et des membres supérieurs."
+    },
+    "location": {
+      "en": "It curves backwards and to the left above the heart, over the left main bronchus and the left pulmonary artery.",
+      "fr": "Elle s'incurve vers l'arrière et la gauche au-dessus du cœur, par-dessus la bronche principale gauche et l'artère pulmonaire gauche."
+    },
+    "facts": [
+      {
+        "en": "Its three branches, from right to left: the brachiocephalic trunk, the left common carotid artery and the left subclavian artery.",
+        "fr": "Ses trois branches, de droite à gauche : le tronc brachiocéphalique, l'artère carotide commune gauche et l'artère subclavière gauche."
+      },
+      {
+        "en": "A fibrous cord, the ligamentum arteriosum, links it to the left pulmonary artery: it is what remains of the ductus arteriosus of the fetus.",
+        "fr": "Un cordon fibreux, le ligament artériel, la relie à l'artère pulmonaire gauche : c'est le reste du canal artériel du fœtus."
+      },
+      {
+        "en": "The left recurrent laryngeal nerve hooks under the arch, so an aneurysm here can make the voice hoarse.",
+        "fr": "Le nerf laryngé récurrent gauche passe sous la crosse : un anévrisme à cet endroit peut donc rendre la voix rauque."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -435,6 +853,24 @@
       "fr": "Aorte thoracique descendante"
     },
     "system": "great_vessels",
+    "function": {
+      "en": "Carries oxygen-rich blood down through the chest to the abdomen, giving branches to the chest wall, the bronchi and the oesophagus.",
+      "fr": "Conduit le sang riche en oxygène vers le bas à travers le thorax jusqu'à l'abdomen, en donnant des branches à la paroi du thorax, aux bronches et à l'œsophage."
+    },
+    "location": {
+      "en": "Behind the heart, along the left side of the spine; it passes through the diaphragm and becomes the abdominal aorta. Only its upper part is shown here.",
+      "fr": "Derrière le cœur, le long du côté gauche de la colonne vertébrale ; elle traverse le diaphragme et devient l'aorte abdominale. Seule sa partie haute est montrée ici."
+    },
+    "facts": [
+      {
+        "en": "It continues the aortic arch from about the level of the fourth thoracic vertebra.",
+        "fr": "Elle fait suite à la crosse de l'aorte à peu près au niveau de la quatrième vertèbre thoracique."
+      },
+      {
+        "en": "Its branches include the posterior intercostal arteries, which run between the ribs.",
+        "fr": "Parmi ses branches figurent les artères intercostales postérieures, qui cheminent entre les côtes."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -449,6 +885,24 @@
       "fr": "Tronc pulmonaire"
     },
     "system": "great_vessels",
+    "function": {
+      "en": "Carries oxygen-poor blood from the right ventricle towards the lungs, then divides into the right and left pulmonary arteries.",
+      "fr": "Conduit le sang pauvre en oxygène du ventricule droit vers les poumons, puis se divise en artères pulmonaires droite et gauche."
+    },
+    "location": {
+      "en": "It starts at the pulmonary valve, at the front of the heart, and rises backwards and to the left, in front of the ascending aorta, then under the aortic arch.",
+      "fr": "Il naît à la valve pulmonaire, à l'avant du cœur, et monte vers l'arrière et la gauche, devant l'aorte ascendante, puis sous la crosse de l'aorte."
+    },
+    "facts": [
+      {
+        "en": "It is about 5 cm long.",
+        "fr": "Il mesure environ 5 cm de long."
+      },
+      {
+        "en": "It twists around the ascending aorta: both vessels leave the heart wrapped around each other.",
+        "fr": "Il s'enroule autour de l'aorte ascendante : les deux vaisseaux quittent le cœur enroulés l'un autour de l'autre."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -463,6 +917,24 @@
       "fr": "Artère pulmonaire droite"
     },
     "system": "great_vessels",
+    "function": {
+      "en": "Carries oxygen-poor blood from the pulmonary trunk to the right lung.",
+      "fr": "Conduit le sang pauvre en oxygène du tronc pulmonaire vers le poumon droit."
+    },
+    "location": {
+      "en": "It runs horizontally to the right, behind the ascending aorta and the superior vena cava, to the root of the right lung. Only the part outside the lung is shown.",
+      "fr": "Elle se dirige horizontalement vers la droite, derrière l'aorte ascendante et la veine cave supérieure, jusqu'au hile du poumon droit. Seule la partie hors du poumon est montrée."
+    },
+    "facts": [
+      {
+        "en": "It is longer than the left pulmonary artery, because the pulmonary trunk lies to the left.",
+        "fr": "Elle est plus longue que l'artère pulmonaire gauche, car le tronc pulmonaire est situé à gauche."
+      },
+      {
+        "en": "A blood clot lodged in it or in its branches is a pulmonary embolism.",
+        "fr": "Un caillot bloqué dans cette artère ou ses branches constitue une embolie pulmonaire."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -477,6 +949,24 @@
       "fr": "Artère pulmonaire gauche"
     },
     "system": "great_vessels",
+    "function": {
+      "en": "Carries oxygen-poor blood from the pulmonary trunk to the left lung.",
+      "fr": "Conduit le sang pauvre en oxygène du tronc pulmonaire vers le poumon gauche."
+    },
+    "location": {
+      "en": "It passes backwards and to the left, over the left main bronchus, to the root of the left lung. Only the part outside the lung is shown.",
+      "fr": "Elle se dirige vers l'arrière et la gauche, par-dessus la bronche principale gauche, jusqu'au hile du poumon gauche. Seule la partie hors du poumon est montrée."
+    },
+    "facts": [
+      {
+        "en": "It is shorter than the right pulmonary artery.",
+        "fr": "Elle est plus courte que l'artère pulmonaire droite."
+      },
+      {
+        "en": "It is linked to the aortic arch by the ligamentum arteriosum, the remnant of the fetal ductus arteriosus.",
+        "fr": "Elle est reliée à la crosse de l'aorte par le ligament artériel, reste du canal artériel du fœtus."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -491,6 +981,24 @@
       "fr": "Veines pulmonaires droites"
     },
     "system": "great_vessels",
+    "function": {
+      "en": "Bring oxygen-rich blood from the right lung back to the left atrium.",
+      "fr": "Ramènent le sang riche en oxygène du poumon droit vers l'oreillette gauche."
+    },
+    "location": {
+      "en": "From the root of the right lung they pass behind the right atrium and the superior vena cava to open into the left atrium. Only the part outside the lung is shown.",
+      "fr": "Depuis le hile du poumon droit, elles passent derrière l'oreillette droite et la veine cave supérieure pour s'ouvrir dans l'oreillette gauche. Seule la partie hors du poumon est montrée."
+    },
+    "facts": [
+      {
+        "en": "There are usually two, a superior and an inferior right pulmonary vein.",
+        "fr": "Il y en a habituellement deux, une veine pulmonaire droite supérieure et une inférieure."
+      },
+      {
+        "en": "In atrial fibrillation, the abnormal electrical signals often start in the muscle around the pulmonary vein openings, which is why ablation targets them.",
+        "fr": "Dans la fibrillation atriale, les signaux électriques anormaux naissent souvent dans le muscle autour de l'abouchement des veines pulmonaires : c'est pourquoi l'ablation les cible."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -506,6 +1014,24 @@
       "fr": "Veines pulmonaires gauches"
     },
     "system": "great_vessels",
+    "function": {
+      "en": "Bring oxygen-rich blood from the left lung back to the left atrium.",
+      "fr": "Ramènent le sang riche en oxygène du poumon gauche vers l'oreillette gauche."
+    },
+    "location": {
+      "en": "From the root of the left lung they pass in front of the descending aorta to open into the left atrium. Only the part outside the lung is shown.",
+      "fr": "Depuis le hile du poumon gauche, elles passent devant l'aorte descendante pour s'ouvrir dans l'oreillette gauche. Seule la partie hors du poumon est montrée."
+    },
+    "facts": [
+      {
+        "en": "There are usually two, a superior and an inferior left pulmonary vein; sometimes they join before reaching the atrium.",
+        "fr": "Il y en a habituellement deux, une veine pulmonaire gauche supérieure et une inférieure ; parfois elles se réunissent avant d'atteindre l'oreillette."
+      },
+      {
+        "en": "The pulmonary veins have no valves.",
+        "fr": "Les veines pulmonaires n'ont pas de valvules."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -521,6 +1047,28 @@
       "fr": "Veine cave supérieure"
     },
     "system": "great_vessels",
+    "function": {
+      "en": "Brings oxygen-poor blood from the head, neck, arms and upper chest back to the right atrium.",
+      "fr": "Ramène le sang pauvre en oxygène de la tête, du cou, des membres supérieurs et du haut du thorax vers l'oreillette droite."
+    },
+    "location": {
+      "en": "On the right side of the upper chest, to the right of the ascending aorta; it descends into the top of the right atrium.",
+      "fr": "Du côté droit du haut du thorax, à droite de l'aorte ascendante ; elle descend jusqu'au sommet de l'oreillette droite."
+    },
+    "facts": [
+      {
+        "en": "It is formed by the union of the right and left brachiocephalic veins and is about 7 cm long.",
+        "fr": "Elle est formée par la réunion des veines brachiocéphaliques droite et gauche et mesure environ 7 cm."
+      },
+      {
+        "en": "It has no valve at its opening into the right atrium.",
+        "fr": "Elle n'a pas de valvule à son abouchement dans l'oreillette droite."
+      },
+      {
+        "en": "A tumour pressing on it can block the return of blood and make the face and neck swell (superior vena cava syndrome).",
+        "fr": "Une tumeur qui la comprime peut bloquer le retour du sang et faire gonfler le visage et le cou (syndrome cave supérieur)."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [
@@ -535,6 +1083,28 @@
       "fr": "Veine cave inférieure"
     },
     "system": "great_vessels",
+    "function": {
+      "en": "Brings oxygen-poor blood from everything below the diaphragm (legs, abdomen, pelvis) back to the right atrium.",
+      "fr": "Ramène le sang pauvre en oxygène de tout ce qui se trouve sous le diaphragme (membres inférieurs, abdomen, bassin) vers l'oreillette droite."
+    },
+    "location": {
+      "en": "It rises along the right side of the spine, passes through the diaphragm and opens into the lower part of the right atrium. Only its upper part is shown here.",
+      "fr": "Elle monte le long du côté droit de la colonne vertébrale, traverse le diaphragme et s'ouvre dans la partie basse de l'oreillette droite. Seule sa partie haute est montrée ici."
+    },
+    "facts": [
+      {
+        "en": "It is the largest vein in the body.",
+        "fr": "C'est la plus grosse veine du corps."
+      },
+      {
+        "en": "Only a very short part of it lies in the chest, between the diaphragm and the heart.",
+        "fr": "Seule une très courte portion se trouve dans le thorax, entre le diaphragme et le cœur."
+      },
+      {
+        "en": "A small fold at its opening, the valve of the inferior vena cava, guided blood towards the foramen ovale before birth.",
+        "fr": "Un petit repli à son abouchement, la valvule de la veine cave inférieure, dirigeait le sang vers le foramen ovale avant la naissance."
+      }
+    ],
     "source": "BodyParts3D",
     "licence": "CC BY 4.0",
     "fma": [

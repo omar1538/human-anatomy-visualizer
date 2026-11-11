@@ -48,7 +48,7 @@ data/raw/hra/           https://humanatlas.io/3d-reference-library
 After copying a GLB to `public/assets/models/` or editing `public/assets/data/organs.json`:
 
 ```sh
-python scripts/data-pipeline/validate_content.py            # add --strict once all content is written
+python scripts/data-pipeline/validate_content.py --strict   # organs.json + quiz.json
 ```
 
 Output goes to `data/out/` (ignored). Copy accepted GLBs to `public/assets/models/`

@@ -99,4 +99,44 @@ every group and structure node has a record and vice versa, ids, required fields
 (from Week 4, when all content is due) it is an error.
 
 ## `public/assets/data/quiz.json`
-Array of questions: `id`, `type` (`name-it` | `find-it`), `organId`, `prompt`, `choices`, `answer`, `explanation`.
+Array of questions (bank v1: 71 questions). Fields:
+
+- `id`: unique, lower snake_case (quiz progress stores it)
+- `type`: `find-it` | `name-it` | `mcq` (see below)
+- `organId`: the organ or group the question is about (an `organs.json` id), for filtering and progress per structure
+- `difficulty`: `1` (basic), `2`, `3` (detailed)
+- `prompt`, `explanation`: `{ "en", "fr" }`. The explanation is shown after the answer, right or wrong
+- `choices`, `answer`: depend on the type
+- `status` (optional): `"draft"` or `"reviewed"`, as in `organs.json`
+
+| `type` | The user… | `choices` | `answer` |
+|---|---|---|---|
+| `find-it` | clicks a structure in the 3D view ("Click the mitral valve") | `[]` | the id of the structure to click |
+| `name-it` | sees a structure highlighted (`organId`) and picks its name | 4 organ ids; show their `name` from `organs.json` | the right id (one of `choices`) |
+| `mcq` | answers a question on function or circulation | 4 texts `{ "en", "fr" }` | index of the right choice (`0` to `3`) |
+
+Choices are already in random order; the app may shuffle them again.
+
+```json
+[
+  { "id": "find_mitral", "type": "find-it", "organId": "mitral_valve", "difficulty": 2,
+    "prompt": { "en": "Click the mitral valve.", "fr": "Cliquez sur la valve mitrale." },
+    "choices": [], "answer": "mitral_valve",
+    "explanation": { "en": "The mitral valve lies between ...", "fr": "La valve mitrale se situe entre ..." },
+    "status": "draft" },
+  { "id": "name_mitral", "type": "name-it", "organId": "mitral_valve", "difficulty": 2,
+    "prompt": { "en": "Which structure is highlighted?", "fr": "Quelle est la structure en surbrillance ?" },
+    "choices": ["aortic_valve", "mitral_valve", "pulmonary_valve", "tricuspid_valve"], "answer": "mitral_valve",
+    "explanation": { "en": "...", "fr": "..." }, "status": "draft" },
+  { "id": "mcq_mitral_leaflets", "type": "mcq", "organId": "mitral_valve", "difficulty": 1,
+    "prompt": { "en": "How many leaflets does the mitral valve have?", "fr": "Combien de valvules possède la valve mitrale ?" },
+    "choices": [ { "en": "Three", "fr": "Trois" }, { "en": "Two", "fr": "Deux" },
+                 { "en": "Four", "fr": "Quatre" }, { "en": "One", "fr": "Une" } ],
+    "answer": 1,
+    "explanation": { "en": "...", "fr": "..." }, "status": "draft" }
+]
+```
+
+`validate_content.py` also checks `quiz.json`: ids, types, that every organ id exists, that `answer`
+matches `choices`, both languages, and (with `--strict`) at least 60 questions and at least one question
+about every structure.

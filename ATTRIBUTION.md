@@ -175,6 +175,7 @@ Travail fait **sans assistant IA** :
 *   **Composant ou Shader concerné :** script de validation (`scripts/data-pipeline/validate_content.py`)
     *   **Prompt ou usage principal :** écriture des contrôles `organs.json` ↔ GLB et `quiz.json` ↔ `organs.json`
     *   **Axe de vérification appliqué par l'étudiant :**
+        - Exécution de `python scripts/data-pipeline/validate_content.py --strict` : 0 erreur
 
 ### Track A (Omar Bajar)
 

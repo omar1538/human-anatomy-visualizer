@@ -45,9 +45,9 @@ Each member owns one track and its issues (labels `track-a`, `track-b`, `track-c
 
 | Track                    | Owner      | Focus                                                                                     |
 | ------------------------ | ---------- | ----------------------------------------------------------------------------------------- |
-| **A: WebXR & rendering** | [Member 1] | WebXR AR sessions and interaction, renderer, scene, layers, picking, slicing, performance |
-| **B: Data & content**    | [Member 2] | Datasets, conversion pipeline, organ metadata, educational content, quiz bank, licences   |
-| **C: Platform & UX**     | [Member 3] | App shell, UI, learn/quiz modes, shareable links, PWA, CI/CD, tests, docs                 |
+| **A: WebXR & rendering** | Omar | WebXR AR sessions and interaction, renderer, scene, layers, picking, slicing, performance |
+| **B: Data & content**    | Adam | Datasets, conversion pipeline, organ metadata, educational content, quiz bank, licences   |
+| **C: Platform & UX**     | Mohamed Amine | App shell, UI, learn/quiz modes, shareable links, PWA, CI/CD, tests, docs                 |
 
 ## Tech
 

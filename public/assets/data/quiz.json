@@ -1,0 +1,1751 @@
+[
+  {
+    "id": "find_left_ventricle",
+    "type": "find-it",
+    "organId": "left_ventricle",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Click the left ventricle.",
+      "fr": "Cliquez sur le ventricule gauche."
+    },
+    "choices": [],
+    "answer": "left_ventricle",
+    "explanation": {
+      "en": "The left ventricle forms the apex and the left border of the heart; its wall is the thickest.",
+      "fr": "Le ventricule gauche forme la pointe et le bord gauche du cœur ; sa paroi est la plus épaisse."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_right_ventricle",
+    "type": "find-it",
+    "organId": "right_ventricle",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Click the right ventricle.",
+      "fr": "Cliquez sur le ventricule droit."
+    },
+    "choices": [],
+    "answer": "right_ventricle",
+    "explanation": {
+      "en": "The right ventricle forms most of the front surface of the heart, just behind the sternum.",
+      "fr": "Le ventricule droit forme la plus grande partie de la face avant du cœur, juste derrière le sternum."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_left_atrium",
+    "type": "find-it",
+    "organId": "left_atrium",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Click the left atrium.",
+      "fr": "Cliquez sur l'oreillette gauche."
+    },
+    "choices": [],
+    "answer": "left_atrium",
+    "explanation": {
+      "en": "The left atrium is the most posterior chamber; the pulmonary veins open into it.",
+      "fr": "L'oreillette gauche est la cavité la plus postérieure ; les veines pulmonaires s'y ouvrent."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_right_atrium",
+    "type": "find-it",
+    "organId": "right_atrium",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Click the right atrium.",
+      "fr": "Cliquez sur l'oreillette droite."
+    },
+    "choices": [],
+    "answer": "right_atrium",
+    "explanation": {
+      "en": "The right atrium forms the right border of the heart and receives both venae cavae.",
+      "fr": "L'oreillette droite forme le bord droit du cœur et reçoit les deux veines caves."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_septum",
+    "type": "find-it",
+    "organId": "interventricular_septum",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Click the wall that separates the two ventricles.",
+      "fr": "Cliquez sur la cloison qui sépare les deux ventricules."
+    },
+    "choices": [],
+    "answer": "interventricular_septum",
+    "explanation": {
+      "en": "This is the interventricular septum, mostly muscular, running from the base towards the apex.",
+      "fr": "C'est le septum interventriculaire, surtout musculaire, qui va de la base vers la pointe."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_papillary",
+    "type": "find-it",
+    "organId": "papillary_muscles",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Click the papillary muscles.",
+      "fr": "Cliquez sur les muscles papillaires."
+    },
+    "choices": [],
+    "answer": "papillary_muscles",
+    "explanation": {
+      "en": "The papillary muscles rise from the inner walls of the ventricles, below the mitral and tricuspid valves.",
+      "fr": "Les muscles papillaires s'élèvent de la paroi interne des ventricules, sous les valves mitrale et tricuspide."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_mitral",
+    "type": "find-it",
+    "organId": "mitral_valve",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Click the mitral valve.",
+      "fr": "Cliquez sur la valve mitrale."
+    },
+    "choices": [],
+    "answer": "mitral_valve",
+    "explanation": {
+      "en": "The mitral valve lies between the left atrium and the left ventricle.",
+      "fr": "La valve mitrale se situe entre l'oreillette gauche et le ventricule gauche."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_tricuspid",
+    "type": "find-it",
+    "organId": "tricuspid_valve",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Click the tricuspid valve.",
+      "fr": "Cliquez sur la valve tricuspide."
+    },
+    "choices": [],
+    "answer": "tricuspid_valve",
+    "explanation": {
+      "en": "The tricuspid valve lies between the right atrium and the right ventricle.",
+      "fr": "La valve tricuspide se situe entre l'oreillette droite et le ventricule droit."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_aortic_valve",
+    "type": "find-it",
+    "organId": "aortic_valve",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Click the aortic valve.",
+      "fr": "Cliquez sur la valve aortique."
+    },
+    "choices": [],
+    "answer": "aortic_valve",
+    "explanation": {
+      "en": "The aortic valve sits at the exit of the left ventricle, where the ascending aorta begins.",
+      "fr": "La valve aortique se trouve à la sortie du ventricule gauche, au début de l'aorte ascendante."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_pulmonary_valve",
+    "type": "find-it",
+    "organId": "pulmonary_valve",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Click the pulmonary valve.",
+      "fr": "Cliquez sur la valve pulmonaire."
+    },
+    "choices": [],
+    "answer": "pulmonary_valve",
+    "explanation": {
+      "en": "The pulmonary valve is the highest and most anterior valve, at the start of the pulmonary trunk.",
+      "fr": "La valve pulmonaire est la plus haute et la plus antérieure, au début du tronc pulmonaire."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_left_main",
+    "type": "find-it",
+    "organId": "left_main_coronary_artery",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Click the left main coronary artery.",
+      "fr": "Cliquez sur le tronc commun de l'artère coronaire gauche."
+    },
+    "choices": [],
+    "answer": "left_main_coronary_artery",
+    "explanation": {
+      "en": "It is the short vessel leaving the aorta on the left, before it divides into the anterior interventricular and circumflex arteries.",
+      "fr": "C'est le court vaisseau qui quitte l'aorte à gauche, avant de se diviser en artères interventriculaire antérieure et circonflexe."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_lad",
+    "type": "find-it",
+    "organId": "anterior_interventricular_artery",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Click the anterior interventricular artery.",
+      "fr": "Cliquez sur l'artère interventriculaire antérieure."
+    },
+    "choices": [],
+    "answer": "anterior_interventricular_artery",
+    "explanation": {
+      "en": "It runs down the front of the heart, in the groove between the two ventricles, towards the apex.",
+      "fr": "Elle descend sur la face avant du cœur, dans le sillon entre les deux ventricules, vers la pointe."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_circumflex",
+    "type": "find-it",
+    "organId": "circumflex_artery",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Click the circumflex artery.",
+      "fr": "Cliquez sur l'artère circonflexe."
+    },
+    "choices": [],
+    "answer": "circumflex_artery",
+    "explanation": {
+      "en": "It curves round the left border of the heart in the groove between the left atrium and the left ventricle.",
+      "fr": "Elle contourne le bord gauche du cœur dans le sillon entre l'oreillette gauche et le ventricule gauche."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_rca",
+    "type": "find-it",
+    "organId": "right_coronary_artery",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Click the right coronary artery.",
+      "fr": "Cliquez sur l'artère coronaire droite."
+    },
+    "choices": [],
+    "answer": "right_coronary_artery",
+    "explanation": {
+      "en": "It runs in the groove between the right atrium and the right ventricle, round the right border of the heart.",
+      "fr": "Elle chemine dans le sillon entre l'oreillette droite et le ventricule droit, autour du bord droit du cœur."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_coronary_sinus",
+    "type": "find-it",
+    "organId": "coronary_sinus",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Click the coronary sinus.",
+      "fr": "Cliquez sur le sinus coronaire."
+    },
+    "choices": [],
+    "answer": "coronary_sinus",
+    "explanation": {
+      "en": "The coronary sinus is the wide vein on the back of the heart, in the groove between the left atrium and the left ventricle.",
+      "fr": "Le sinus coronaire est la large veine située à l'arrière du cœur, dans le sillon entre l'oreillette gauche et le ventricule gauche."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_great_cardiac_vein",
+    "type": "find-it",
+    "organId": "great_cardiac_vein",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Click the great cardiac vein.",
+      "fr": "Cliquez sur la grande veine du cœur."
+    },
+    "choices": [],
+    "answer": "great_cardiac_vein",
+    "explanation": {
+      "en": "It climbs beside the anterior interventricular artery, then turns left to join the coronary sinus.",
+      "fr": "Elle remonte le long de l'artère interventriculaire antérieure, puis tourne à gauche pour rejoindre le sinus coronaire."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_ascending_aorta",
+    "type": "find-it",
+    "organId": "ascending_aorta",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Click the ascending aorta.",
+      "fr": "Cliquez sur l'aorte ascendante."
+    },
+    "choices": [],
+    "answer": "ascending_aorta",
+    "explanation": {
+      "en": "The ascending aorta rises from the left ventricle, behind the pulmonary trunk, up to the arch.",
+      "fr": "L'aorte ascendante monte depuis le ventricule gauche, derrière le tronc pulmonaire, jusqu'à la crosse."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_aortic_arch",
+    "type": "find-it",
+    "organId": "aortic_arch",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Click the aortic arch.",
+      "fr": "Cliquez sur la crosse de l'aorte."
+    },
+    "choices": [],
+    "answer": "aortic_arch",
+    "explanation": {
+      "en": "The aortic arch is the curved vessel above the heart that turns backwards and to the left.",
+      "fr": "La crosse de l'aorte est le vaisseau courbe au-dessus du cœur, qui tourne vers l'arrière et la gauche."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_pulmonary_trunk",
+    "type": "find-it",
+    "organId": "pulmonary_trunk",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Click the pulmonary trunk.",
+      "fr": "Cliquez sur le tronc pulmonaire."
+    },
+    "choices": [],
+    "answer": "pulmonary_trunk",
+    "explanation": {
+      "en": "The pulmonary trunk leaves the right ventricle at the front of the heart and divides under the aortic arch.",
+      "fr": "Le tronc pulmonaire quitte le ventricule droit à l'avant du cœur et se divise sous la crosse de l'aorte."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_svc",
+    "type": "find-it",
+    "organId": "superior_vena_cava",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Click the superior vena cava.",
+      "fr": "Cliquez sur la veine cave supérieure."
+    },
+    "choices": [],
+    "answer": "superior_vena_cava",
+    "explanation": {
+      "en": "The superior vena cava comes down on the right of the ascending aorta into the top of the right atrium.",
+      "fr": "La veine cave supérieure descend à droite de l'aorte ascendante jusqu'au sommet de l'oreillette droite."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_ivc",
+    "type": "find-it",
+    "organId": "inferior_vena_cava",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Click the inferior vena cava.",
+      "fr": "Cliquez sur la veine cave inférieure."
+    },
+    "choices": [],
+    "answer": "inferior_vena_cava",
+    "explanation": {
+      "en": "The inferior vena cava enters the lower part of the right atrium from below.",
+      "fr": "La veine cave inférieure entre par le bas dans la partie basse de l'oreillette droite."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_left_pulmonary_veins",
+    "type": "find-it",
+    "organId": "left_pulmonary_veins",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Click the left pulmonary veins.",
+      "fr": "Cliquez sur les veines pulmonaires gauches."
+    },
+    "choices": [],
+    "answer": "left_pulmonary_veins",
+    "explanation": {
+      "en": "They come from the left lung and open into the left atrium, at the back of the heart.",
+      "fr": "Elles viennent du poumon gauche et s'ouvrent dans l'oreillette gauche, à l'arrière du cœur."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_pumps_to_body",
+    "type": "find-it",
+    "organId": "left_ventricle",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Click the chamber that pumps blood to the whole body.",
+      "fr": "Cliquez sur la cavité qui propulse le sang vers tout le corps."
+    },
+    "choices": [],
+    "answer": "left_ventricle",
+    "explanation": {
+      "en": "The left ventricle pumps oxygen-rich blood into the aorta.",
+      "fr": "Le ventricule gauche propulse le sang riche en oxygène dans l'aorte."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_receives_body_blood",
+    "type": "find-it",
+    "organId": "right_atrium",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Click the chamber that receives blood returning from the body.",
+      "fr": "Cliquez sur la cavité qui reçoit le sang revenant du corps."
+    },
+    "choices": [],
+    "answer": "right_atrium",
+    "explanation": {
+      "en": "The right atrium receives the superior and inferior venae cavae and the coronary sinus.",
+      "fr": "L'oreillette droite reçoit les veines caves supérieure et inférieure et le sinus coronaire."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "find_vessel_to_lungs",
+    "type": "find-it",
+    "organId": "pulmonary_trunk",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Click the vessel that carries blood from the heart towards the lungs.",
+      "fr": "Cliquez sur le vaisseau qui conduit le sang du cœur vers les poumons."
+    },
+    "choices": [],
+    "answer": "pulmonary_trunk",
+    "explanation": {
+      "en": "The pulmonary trunk carries oxygen-poor blood from the right ventricle to the lungs.",
+      "fr": "Le tronc pulmonaire conduit le sang pauvre en oxygène du ventricule droit vers les poumons."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_left_ventricle",
+    "type": "name-it",
+    "organId": "left_ventricle",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "left_ventricle",
+      "right_ventricle",
+      "left_atrium",
+      "interventricular_septum"
+    ],
+    "answer": "left_ventricle",
+    "explanation": {
+      "en": "The left ventricle forms the apex and has the thickest wall.",
+      "fr": "Le ventricule gauche forme la pointe et possède la paroi la plus épaisse."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_right_atrium",
+    "type": "name-it",
+    "organId": "right_atrium",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "superior_vena_cava",
+      "right_atrium",
+      "right_ventricle",
+      "left_atrium"
+    ],
+    "answer": "right_atrium",
+    "explanation": {
+      "en": "The right atrium is on the right border, where both venae cavae arrive.",
+      "fr": "L'oreillette droite est sur le bord droit, là où arrivent les deux veines caves."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_septum",
+    "type": "name-it",
+    "organId": "interventricular_septum",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "right_ventricle",
+      "left_ventricle",
+      "interventricular_septum",
+      "papillary_muscles"
+    ],
+    "answer": "interventricular_septum",
+    "explanation": {
+      "en": "The interventricular septum is the wall between the two ventricles.",
+      "fr": "Le septum interventriculaire est la cloison entre les deux ventricules."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_mitral",
+    "type": "name-it",
+    "organId": "mitral_valve",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "mitral_valve",
+      "aortic_valve",
+      "pulmonary_valve",
+      "tricuspid_valve"
+    ],
+    "answer": "mitral_valve",
+    "explanation": {
+      "en": "Between the left atrium and the left ventricle lies the mitral valve, the only valve with two leaflets.",
+      "fr": "Entre l'oreillette gauche et le ventricule gauche se trouve la valve mitrale, la seule valve à deux valvules."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_tricuspid",
+    "type": "name-it",
+    "organId": "tricuspid_valve",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "mitral_valve",
+      "aortic_valve",
+      "tricuspid_valve",
+      "pulmonary_valve"
+    ],
+    "answer": "tricuspid_valve",
+    "explanation": {
+      "en": "Between the right atrium and the right ventricle lies the tricuspid valve, with three leaflets.",
+      "fr": "Entre l'oreillette droite et le ventricule droit se trouve la valve tricuspide, à trois valvules."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_aortic_valve",
+    "type": "name-it",
+    "organId": "aortic_valve",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "pulmonary_valve",
+      "aortic_valve",
+      "tricuspid_valve",
+      "mitral_valve"
+    ],
+    "answer": "aortic_valve",
+    "explanation": {
+      "en": "The valve at the exit of the left ventricle is the aortic valve.",
+      "fr": "La valve à la sortie du ventricule gauche est la valve aortique."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_pulmonary_valve",
+    "type": "name-it",
+    "organId": "pulmonary_valve",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "mitral_valve",
+      "aortic_valve",
+      "pulmonary_valve",
+      "tricuspid_valve"
+    ],
+    "answer": "pulmonary_valve",
+    "explanation": {
+      "en": "The valve at the exit of the right ventricle is the pulmonary valve.",
+      "fr": "La valve à la sortie du ventricule droit est la valve pulmonaire."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_circumflex",
+    "type": "name-it",
+    "organId": "circumflex_artery",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "anterior_interventricular_artery",
+      "right_coronary_artery",
+      "circumflex_artery",
+      "great_cardiac_vein"
+    ],
+    "answer": "circumflex_artery",
+    "explanation": {
+      "en": "The artery curving round the left border in the coronary groove is the circumflex artery.",
+      "fr": "L'artère qui contourne le bord gauche dans le sillon coronaire est l'artère circonflexe."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_rca",
+    "type": "name-it",
+    "organId": "right_coronary_artery",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "circumflex_artery",
+      "small_cardiac_vein",
+      "right_coronary_artery",
+      "left_main_coronary_artery"
+    ],
+    "answer": "right_coronary_artery",
+    "explanation": {
+      "en": "The artery in the groove between the right atrium and the right ventricle is the right coronary artery.",
+      "fr": "L'artère située dans le sillon entre l'oreillette droite et le ventricule droit est l'artère coronaire droite."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_coronary_sinus",
+    "type": "name-it",
+    "organId": "coronary_sinus",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "coronary_sinus",
+      "great_cardiac_vein",
+      "middle_cardiac_vein",
+      "inferior_vena_cava"
+    ],
+    "answer": "coronary_sinus",
+    "explanation": {
+      "en": "The wide vein on the back of the heart that empties into the right atrium is the coronary sinus.",
+      "fr": "La large veine à l'arrière du cœur qui se déverse dans l'oreillette droite est le sinus coronaire."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_middle_cardiac_vein",
+    "type": "name-it",
+    "organId": "middle_cardiac_vein",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "coronary_sinus",
+      "small_cardiac_vein",
+      "great_cardiac_vein",
+      "middle_cardiac_vein"
+    ],
+    "answer": "middle_cardiac_vein",
+    "explanation": {
+      "en": "The vein in the posterior interventricular groove is the middle cardiac vein.",
+      "fr": "La veine située dans le sillon interventriculaire postérieur est la veine moyenne du cœur."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_small_cardiac_vein",
+    "type": "name-it",
+    "organId": "small_cardiac_vein",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "small_cardiac_vein",
+      "right_coronary_artery",
+      "great_cardiac_vein",
+      "middle_cardiac_vein"
+    ],
+    "answer": "small_cardiac_vein",
+    "explanation": {
+      "en": "The small vein running with the right coronary artery on the right side is the small cardiac vein.",
+      "fr": "La petite veine qui accompagne l'artère coronaire droite du côté droit est la petite veine du cœur."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_other_cardiac_veins",
+    "type": "name-it",
+    "organId": "other_cardiac_veins",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "great_cardiac_vein",
+      "other_cardiac_veins",
+      "circumflex_artery",
+      "middle_cardiac_vein"
+    ],
+    "answer": "other_cardiac_veins",
+    "explanation": {
+      "en": "These veins on the left border and back of the left ventricle (marginal and posterior veins) are grouped as other cardiac veins in this model.",
+      "fr": "Ces veines du bord gauche et de l'arrière du ventricule gauche (veines marginale et postérieure) sont regroupées sous « autres veines du cœur » dans ce modèle."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_aortic_arch",
+    "type": "name-it",
+    "organId": "aortic_arch",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "pulmonary_trunk",
+      "ascending_aorta",
+      "aortic_arch",
+      "descending_aorta"
+    ],
+    "answer": "aortic_arch",
+    "explanation": {
+      "en": "The curved part of the aorta above the heart is the aortic arch.",
+      "fr": "La partie courbe de l'aorte au-dessus du cœur est la crosse de l'aorte."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_descending_aorta",
+    "type": "name-it",
+    "organId": "descending_aorta",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "descending_aorta",
+      "ascending_aorta",
+      "inferior_vena_cava",
+      "aortic_arch"
+    ],
+    "answer": "descending_aorta",
+    "explanation": {
+      "en": "The vessel running down behind the heart, left of the spine, is the descending thoracic aorta.",
+      "fr": "Le vaisseau qui descend derrière le cœur, à gauche de la colonne, est l'aorte thoracique descendante."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_pulmonary_trunk",
+    "type": "name-it",
+    "organId": "pulmonary_trunk",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "pulmonary_trunk",
+      "ascending_aorta",
+      "left_pulmonary_artery",
+      "superior_vena_cava"
+    ],
+    "answer": "pulmonary_trunk",
+    "explanation": {
+      "en": "The vessel leaving the right ventricle at the front of the heart is the pulmonary trunk.",
+      "fr": "Le vaisseau qui quitte le ventricule droit à l'avant du cœur est le tronc pulmonaire."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_right_pulmonary_artery",
+    "type": "name-it",
+    "organId": "right_pulmonary_artery",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "left_pulmonary_artery",
+      "right_pulmonary_veins",
+      "superior_vena_cava",
+      "right_pulmonary_artery"
+    ],
+    "answer": "right_pulmonary_artery",
+    "explanation": {
+      "en": "The artery running to the right behind the ascending aorta and the superior vena cava is the right pulmonary artery.",
+      "fr": "L'artère qui part vers la droite derrière l'aorte ascendante et la veine cave supérieure est l'artère pulmonaire droite."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_left_pulmonary_artery",
+    "type": "name-it",
+    "organId": "left_pulmonary_artery",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "left_pulmonary_veins",
+      "aortic_arch",
+      "right_pulmonary_artery",
+      "left_pulmonary_artery"
+    ],
+    "answer": "left_pulmonary_artery",
+    "explanation": {
+      "en": "The short artery passing over the left main bronchus to the left lung is the left pulmonary artery.",
+      "fr": "La courte artère qui passe au-dessus de la bronche principale gauche vers le poumon gauche est l'artère pulmonaire gauche."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_right_pulmonary_veins",
+    "type": "name-it",
+    "organId": "right_pulmonary_veins",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "left_pulmonary_veins",
+      "inferior_vena_cava",
+      "right_pulmonary_veins",
+      "right_pulmonary_artery"
+    ],
+    "answer": "right_pulmonary_veins",
+    "explanation": {
+      "en": "Veins coming from the right lung into the left atrium are the right pulmonary veins.",
+      "fr": "Les veines qui viennent du poumon droit vers l'oreillette gauche sont les veines pulmonaires droites."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_svc",
+    "type": "name-it",
+    "organId": "superior_vena_cava",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": [
+      "inferior_vena_cava",
+      "superior_vena_cava",
+      "ascending_aorta",
+      "pulmonary_trunk"
+    ],
+    "answer": "superior_vena_cava",
+    "explanation": {
+      "en": "The large vein entering the top of the right atrium is the superior vena cava.",
+      "fr": "La grosse veine qui entre au sommet de l'oreillette droite est la veine cave supérieure."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_oxygen_rich_chamber",
+    "type": "mcq",
+    "organId": "left_atrium",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Which chamber receives oxygen-rich blood from the lungs?",
+      "fr": "Quelle cavité reçoit le sang riche en oxygène venant des poumons ?"
+    },
+    "choices": [
+      {
+        "en": "Right ventricle",
+        "fr": "Ventricule droit"
+      },
+      {
+        "en": "Left ventricle",
+        "fr": "Ventricule gauche"
+      },
+      {
+        "en": "Right atrium",
+        "fr": "Oreillette droite"
+      },
+      {
+        "en": "Left atrium",
+        "fr": "Oreillette gauche"
+      }
+    ],
+    "answer": 3,
+    "explanation": {
+      "en": "The pulmonary veins bring oxygen-rich blood from the lungs into the left atrium.",
+      "fr": "Les veines pulmonaires ramènent le sang riche en oxygène des poumons dans l'oreillette gauche."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_thickest_wall",
+    "type": "mcq",
+    "organId": "left_ventricle",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Which chamber has the thickest wall?",
+      "fr": "Quelle cavité a la paroi la plus épaisse ?"
+    },
+    "choices": [
+      {
+        "en": "Left atrium",
+        "fr": "Oreillette gauche"
+      },
+      {
+        "en": "Left ventricle",
+        "fr": "Ventricule gauche"
+      },
+      {
+        "en": "Right ventricle",
+        "fr": "Ventricule droit"
+      },
+      {
+        "en": "Right atrium",
+        "fr": "Oreillette droite"
+      }
+    ],
+    "answer": 1,
+    "explanation": {
+      "en": "The left ventricle pumps against the high pressure of the whole-body circulation, so its wall is about three times thicker than the right ventricle's.",
+      "fr": "Le ventricule gauche pompe contre la pression élevée de la circulation générale : sa paroi est environ trois fois plus épaisse que celle du ventricule droit."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_rv_thin",
+    "type": "mcq",
+    "organId": "right_ventricle",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Why is the wall of the right ventricle thinner than that of the left ventricle?",
+      "fr": "Pourquoi la paroi du ventricule droit est-elle plus fine que celle du ventricule gauche ?"
+    },
+    "choices": [
+      {
+        "en": "It contracts after the left ventricle",
+        "fr": "Il se contracte après le ventricule gauche"
+      },
+      {
+        "en": "It pumps a smaller volume of blood per beat",
+        "fr": "Il pompe un plus petit volume de sang à chaque battement"
+      },
+      {
+        "en": "It receives oxygen-rich blood",
+        "fr": "Il reçoit du sang riche en oxygène"
+      },
+      {
+        "en": "It pumps blood only through the lungs, where resistance is low",
+        "fr": "Il pompe le sang seulement à travers les poumons, où la résistance est faible"
+      }
+    ],
+    "answer": 3,
+    "explanation": {
+      "en": "Both ventricles eject about the same volume, but the lungs offer much less resistance than the rest of the body.",
+      "fr": "Les deux ventricules éjectent à peu près le même volume, mais les poumons opposent beaucoup moins de résistance que le reste du corps."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_pacemaker",
+    "type": "mcq",
+    "organId": "right_atrium",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Where is the sinoatrial node, the heart's natural pacemaker?",
+      "fr": "Où se trouve le nœud sinusal, le stimulateur naturel du cœur ?"
+    },
+    "choices": [
+      {
+        "en": "At the apex of the left ventricle",
+        "fr": "À la pointe du ventricule gauche"
+      },
+      {
+        "en": "In the interventricular septum",
+        "fr": "Dans le septum interventriculaire"
+      },
+      {
+        "en": "In the wall of the left atrium",
+        "fr": "Dans la paroi de l'oreillette gauche"
+      },
+      {
+        "en": "In the wall of the right atrium",
+        "fr": "Dans la paroi de l'oreillette droite"
+      }
+    ],
+    "answer": 3,
+    "explanation": {
+      "en": "The sinoatrial node lies in the right atrium, near the opening of the superior vena cava.",
+      "fr": "Le nœud sinusal se trouve dans l'oreillette droite, près de l'abouchement de la veine cave supérieure."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_fossa_ovalis",
+    "type": "mcq",
+    "organId": "right_atrium",
+    "difficulty": 3,
+    "prompt": {
+      "en": "The fossa ovalis is the remnant of which fetal structure?",
+      "fr": "La fosse ovale est le reste de quelle structure fœtale ?"
+    },
+    "choices": [
+      {
+        "en": "The ductus venosus",
+        "fr": "Le canal veineux"
+      },
+      {
+        "en": "The umbilical vein",
+        "fr": "La veine ombilicale"
+      },
+      {
+        "en": "The ductus arteriosus",
+        "fr": "Le canal artériel"
+      },
+      {
+        "en": "The foramen ovale",
+        "fr": "Le foramen ovale"
+      }
+    ],
+    "answer": 3,
+    "explanation": {
+      "en": "Before birth, the foramen ovale lets blood pass from the right to the left atrium; it closes after birth and leaves the fossa ovalis.",
+      "fr": "Avant la naissance, le foramen ovale laisse passer le sang de l'oreillette droite à la gauche ; il se ferme après la naissance et laisse la fosse ovale."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_vsd",
+    "type": "mcq",
+    "organId": "interventricular_septum",
+    "difficulty": 2,
+    "prompt": {
+      "en": "A ventricular septal defect is a hole in which structure?",
+      "fr": "Une communication interventriculaire est une ouverture anormale dans quelle structure ?"
+    },
+    "choices": [
+      {
+        "en": "The wall of the aorta",
+        "fr": "La paroi de l'aorte"
+      },
+      {
+        "en": "The interventricular septum",
+        "fr": "Le septum interventriculaire"
+      },
+      {
+        "en": "The interatrial septum",
+        "fr": "Le septum interauriculaire"
+      },
+      {
+        "en": "The mitral valve",
+        "fr": "La valve mitrale"
+      }
+    ],
+    "answer": 1,
+    "explanation": {
+      "en": "It is a hole in the wall between the two ventricles, one of the most common congenital heart defects.",
+      "fr": "C'est une ouverture dans la cloison entre les deux ventricules, l'une des malformations cardiaques congénitales les plus fréquentes."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_papillary_role",
+    "type": "mcq",
+    "organId": "papillary_muscles",
+    "difficulty": 2,
+    "prompt": {
+      "en": "What do the papillary muscles do?",
+      "fr": "Quel est le rôle des muscles papillaires ?"
+    },
+    "choices": [
+      {
+        "en": "Start each heartbeat",
+        "fr": "Déclencher chaque battement"
+      },
+      {
+        "en": "Hold the mitral and tricuspid leaflets through tendinous cords",
+        "fr": "Retenir les valvules mitrales et tricuspides par des cordages tendineux"
+      },
+      {
+        "en": "Open the aortic and pulmonary valves",
+        "fr": "Ouvrir les valves aortique et pulmonaire"
+      },
+      {
+        "en": "Pump blood into the coronary arteries",
+        "fr": "Propulser le sang dans les artères coronaires"
+      }
+    ],
+    "answer": 1,
+    "explanation": {
+      "en": "They pull the tendinous cords tight when the ventricles contract, so the leaflets do not turn back into the atria.",
+      "fr": "Ils tendent les cordages quand les ventricules se contractent, pour que les valvules ne se retournent pas dans les oreillettes."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_mitral_leaflets",
+    "type": "mcq",
+    "organId": "mitral_valve",
+    "difficulty": 1,
+    "prompt": {
+      "en": "How many leaflets does the mitral valve have?",
+      "fr": "Combien de valvules possède la valve mitrale ?"
+    },
+    "choices": [
+      {
+        "en": "Two",
+        "fr": "Deux"
+      },
+      {
+        "en": "Four",
+        "fr": "Quatre"
+      },
+      {
+        "en": "One",
+        "fr": "Une"
+      },
+      {
+        "en": "Three",
+        "fr": "Trois"
+      }
+    ],
+    "answer": 0,
+    "explanation": {
+      "en": "The mitral valve is the only heart valve with two leaflets, hence its other name, bicuspid valve.",
+      "fr": "La valve mitrale est la seule valve cardiaque à deux valvules, d'où son autre nom de valve bicuspide."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_first_sound",
+    "type": "mcq",
+    "organId": "valves",
+    "difficulty": 2,
+    "prompt": {
+      "en": "The first heart sound is mainly caused by the closure of which valves?",
+      "fr": "Le premier bruit du cœur est surtout dû à la fermeture de quelles valves ?"
+    },
+    "choices": [
+      {
+        "en": "Mitral and aortic",
+        "fr": "Mitrale et aortique"
+      },
+      {
+        "en": "Mitral and tricuspid",
+        "fr": "Mitrale et tricuspide"
+      },
+      {
+        "en": "Aortic and pulmonary",
+        "fr": "Aortique et pulmonaire"
+      },
+      {
+        "en": "Tricuspid and pulmonary",
+        "fr": "Tricuspide et pulmonaire"
+      }
+    ],
+    "answer": 1,
+    "explanation": {
+      "en": "The first sound marks the closure of the atrioventricular valves at the start of contraction; the second, the closure of the aortic and pulmonary valves.",
+      "fr": "Le premier bruit marque la fermeture des valves auriculo-ventriculaires au début de la contraction ; le second, celle des valves aortique et pulmonaire."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_semilunar",
+    "type": "mcq",
+    "organId": "valves",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Which pair are the semilunar valves?",
+      "fr": "Quelles sont les deux valves semi-lunaires ?"
+    },
+    "choices": [
+      {
+        "en": "Aortic and pulmonary",
+        "fr": "Aortique et pulmonaire"
+      },
+      {
+        "en": "Mitral and tricuspid",
+        "fr": "Mitrale et tricuspide"
+      },
+      {
+        "en": "Tricuspid and pulmonary",
+        "fr": "Tricuspide et pulmonaire"
+      },
+      {
+        "en": "Mitral and aortic",
+        "fr": "Mitrale et aortique"
+      }
+    ],
+    "answer": 0,
+    "explanation": {
+      "en": "The aortic and pulmonary valves have three half-moon-shaped cusps and sit at the exits of the ventricles.",
+      "fr": "Les valves aortique et pulmonaire ont trois valvules en demi-lune et se trouvent à la sortie des ventricules."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_tricuspid_position",
+    "type": "mcq",
+    "organId": "tricuspid_valve",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Between which two chambers is the tricuspid valve?",
+      "fr": "Entre quelles cavités se trouve la valve tricuspide ?"
+    },
+    "choices": [
+      {
+        "en": "Right ventricle and pulmonary trunk",
+        "fr": "Ventricule droit et tronc pulmonaire"
+      },
+      {
+        "en": "Right atrium and right ventricle",
+        "fr": "Oreillette droite et ventricule droit"
+      },
+      {
+        "en": "Right atrium and left atrium",
+        "fr": "Oreillette droite et oreillette gauche"
+      },
+      {
+        "en": "Left atrium and left ventricle",
+        "fr": "Oreillette gauche et ventricule gauche"
+      }
+    ],
+    "answer": 1,
+    "explanation": {
+      "en": "The tricuspid valve lets blood pass from the right atrium into the right ventricle.",
+      "fr": "La valve tricuspide laisse passer le sang de l'oreillette droite vers le ventricule droit."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_coronary_origin",
+    "type": "mcq",
+    "organId": "aortic_valve",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Where do the coronary arteries start?",
+      "fr": "D'où naissent les artères coronaires ?"
+    },
+    "choices": [
+      {
+        "en": "From the aorta, just above the aortic valve",
+        "fr": "De l'aorte, juste au-dessus de la valve aortique"
+      },
+      {
+        "en": "From inside the left ventricle",
+        "fr": "De l'intérieur du ventricule gauche"
+      },
+      {
+        "en": "From the aortic arch",
+        "fr": "De la crosse de l'aorte"
+      },
+      {
+        "en": "From the pulmonary trunk",
+        "fr": "Du tronc pulmonaire"
+      }
+    ],
+    "answer": 0,
+    "explanation": {
+      "en": "They start in the aortic sinuses, small pockets of the aortic wall just above two of the aortic valve cusps.",
+      "fr": "Elles naissent dans les sinus aortiques, petites poches de la paroi aortique juste au-dessus de deux valvules de la valve aortique."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_coronary_fill",
+    "type": "mcq",
+    "organId": "coronary_arteries",
+    "difficulty": 3,
+    "prompt": {
+      "en": "When do the coronary arteries receive most of their blood flow?",
+      "fr": "À quel moment les artères coronaires reçoivent-elles l'essentiel de leur débit ?"
+    },
+    "choices": [
+      {
+        "en": "Equally during the whole cycle",
+        "fr": "De façon égale pendant tout le cycle"
+      },
+      {
+        "en": "During systole, when the heart contracts",
+        "fr": "Pendant la systole, quand le cœur se contracte"
+      },
+      {
+        "en": "Only during exercise",
+        "fr": "Seulement pendant l'effort"
+      },
+      {
+        "en": "During diastole, when the heart relaxes",
+        "fr": "Pendant la diastole, quand le cœur se relâche"
+      }
+    ],
+    "answer": 3,
+    "explanation": {
+      "en": "When the muscle contracts it squeezes the vessels in its wall; they fill mainly while it relaxes.",
+      "fr": "Quand le muscle se contracte, il comprime les vaisseaux de sa paroi ; ils se remplissent surtout pendant le relâchement."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_left_main_branches",
+    "type": "mcq",
+    "organId": "left_main_coronary_artery",
+    "difficulty": 2,
+    "prompt": {
+      "en": "The left main coronary artery divides into which two arteries?",
+      "fr": "Le tronc commun de l'artère coronaire gauche se divise en quelles artères ?"
+    },
+    "choices": [
+      {
+        "en": "Right and left marginal",
+        "fr": "Marginales droite et gauche"
+      },
+      {
+        "en": "Circumflex and right coronary",
+        "fr": "Circonflexe et coronaire droite"
+      },
+      {
+        "en": "Anterior and posterior interventricular",
+        "fr": "Interventriculaires antérieure et postérieure"
+      },
+      {
+        "en": "Anterior interventricular and circumflex",
+        "fr": "Interventriculaire antérieure et circonflexe"
+      }
+    ],
+    "answer": 3,
+    "explanation": {
+      "en": "After 1 to 2 cm, the left main divides into the anterior interventricular artery and the circumflex artery.",
+      "fr": "Après 1 à 2 cm, le tronc commun se divise en artère interventriculaire antérieure et artère circonflexe."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_lad_supply",
+    "type": "mcq",
+    "organId": "anterior_interventricular_artery",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Which artery supplies the front two thirds of the interventricular septum?",
+      "fr": "Quelle artère irrigue les deux tiers antérieurs du septum interventriculaire ?"
+    },
+    "choices": [
+      {
+        "en": "Left pulmonary artery",
+        "fr": "Artère pulmonaire gauche"
+      },
+      {
+        "en": "Circumflex artery",
+        "fr": "Artère circonflexe"
+      },
+      {
+        "en": "Anterior interventricular artery",
+        "fr": "Artère interventriculaire antérieure"
+      },
+      {
+        "en": "Right coronary artery",
+        "fr": "Artère coronaire droite"
+      }
+    ],
+    "answer": 2,
+    "explanation": {
+      "en": "Its septal branches dive into the septum; the back third is supplied by the posterior interventricular artery.",
+      "fr": "Ses branches septales plongent dans le septum ; le tiers arrière est irrigué par l'artère interventriculaire postérieure."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_dominance",
+    "type": "mcq",
+    "organId": "right_coronary_artery",
+    "difficulty": 3,
+    "prompt": {
+      "en": "In most people, which artery gives the posterior interventricular artery?",
+      "fr": "Chez la plupart des personnes, quelle artère donne l'artère interventriculaire postérieure ?"
+    },
+    "choices": [
+      {
+        "en": "Left main coronary artery",
+        "fr": "Tronc commun de l'artère coronaire gauche"
+      },
+      {
+        "en": "Right coronary artery",
+        "fr": "Artère coronaire droite"
+      },
+      {
+        "en": "Circumflex artery",
+        "fr": "Artère circonflexe"
+      },
+      {
+        "en": "Anterior interventricular artery",
+        "fr": "Artère interventriculaire antérieure"
+      }
+    ],
+    "answer": 1,
+    "explanation": {
+      "en": "About 85 % of people have a right-dominant circulation; in about one in ten it comes from the circumflex artery.",
+      "fr": "Environ 85 % des personnes ont une dominance droite ; chez environ une sur dix, elle vient de l'artère circonflexe."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_infarction",
+    "type": "mcq",
+    "organId": "coronary_arteries",
+    "difficulty": 1,
+    "prompt": {
+      "en": "What is the blockage of a coronary artery that kills part of the heart muscle called?",
+      "fr": "Comment appelle-t-on l'obstruction d'une artère coronaire qui détruit une partie du muscle cardiaque ?"
+    },
+    "choices": [
+      {
+        "en": "Valve prolapse",
+        "fr": "Prolapsus valvulaire"
+      },
+      {
+        "en": "Atrial fibrillation",
+        "fr": "Fibrillation atriale"
+      },
+      {
+        "en": "Myocardial infarction",
+        "fr": "Infarctus du myocarde"
+      },
+      {
+        "en": "Pulmonary embolism",
+        "fr": "Embolie pulmonaire"
+      }
+    ],
+    "answer": 2,
+    "explanation": {
+      "en": "Without oxygen, the heart muscle supplied by the blocked artery dies: this is a heart attack.",
+      "fr": "Privé d'oxygène, le muscle irrigué par l'artère obstruée meurt : c'est l'infarctus."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_coronary_sinus_drain",
+    "type": "mcq",
+    "organId": "coronary_sinus",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Where does the coronary sinus empty?",
+      "fr": "Où se déverse le sinus coronaire ?"
+    },
+    "choices": [
+      {
+        "en": "Into the superior vena cava",
+        "fr": "Dans la veine cave supérieure"
+      },
+      {
+        "en": "Into the right atrium",
+        "fr": "Dans l'oreillette droite"
+      },
+      {
+        "en": "Into the left atrium",
+        "fr": "Dans l'oreillette gauche"
+      },
+      {
+        "en": "Into the pulmonary trunk",
+        "fr": "Dans le tronc pulmonaire"
+      }
+    ],
+    "answer": 1,
+    "explanation": {
+      "en": "It opens into the right atrium between the inferior vena cava and the tricuspid valve.",
+      "fr": "Il s'ouvre dans l'oreillette droite entre la veine cave inférieure et la valve tricuspide."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_great_vein_course",
+    "type": "mcq",
+    "organId": "great_cardiac_vein",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Which artery does the great cardiac vein run alongside at first?",
+      "fr": "Quelle artère la grande veine du cœur accompagne-t-elle d'abord ?"
+    },
+    "choices": [
+      {
+        "en": "Right marginal artery",
+        "fr": "Artère marginale droite"
+      },
+      {
+        "en": "Anterior interventricular artery",
+        "fr": "Artère interventriculaire antérieure"
+      },
+      {
+        "en": "Posterior interventricular artery",
+        "fr": "Artère interventriculaire postérieure"
+      },
+      {
+        "en": "Right coronary artery",
+        "fr": "Artère coronaire droite"
+      }
+    ],
+    "answer": 1,
+    "explanation": {
+      "en": "It climbs in the anterior interventricular groove beside that artery, then follows the circumflex artery.",
+      "fr": "Elle remonte dans le sillon interventriculaire antérieur le long de cette artère, puis suit l'artère circonflexe."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_arch_branches",
+    "type": "mcq",
+    "organId": "aortic_arch",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Which artery does NOT arise from the aortic arch?",
+      "fr": "Quelle artère ne naît PAS de la crosse de l'aorte ?"
+    },
+    "choices": [
+      {
+        "en": "Right common carotid artery",
+        "fr": "Artère carotide commune droite"
+      },
+      {
+        "en": "Left common carotid artery",
+        "fr": "Artère carotide commune gauche"
+      },
+      {
+        "en": "Brachiocephalic trunk",
+        "fr": "Tronc brachiocéphalique"
+      },
+      {
+        "en": "Left subclavian artery",
+        "fr": "Artère subclavière gauche"
+      }
+    ],
+    "answer": 0,
+    "explanation": {
+      "en": "The right common carotid artery comes from the brachiocephalic trunk, not directly from the arch.",
+      "fr": "L'artère carotide commune droite naît du tronc brachiocéphalique, pas directement de la crosse."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_ligamentum",
+    "type": "mcq",
+    "organId": "aortic_arch",
+    "difficulty": 3,
+    "prompt": {
+      "en": "The ligamentum arteriosum is the remnant of which fetal vessel?",
+      "fr": "Le ligament artériel est le reste de quel vaisseau fœtal ?"
+    },
+    "choices": [
+      {
+        "en": "The ductus venosus",
+        "fr": "Le canal veineux"
+      },
+      {
+        "en": "The foramen ovale",
+        "fr": "Le foramen ovale"
+      },
+      {
+        "en": "The ductus arteriosus",
+        "fr": "Le canal artériel"
+      },
+      {
+        "en": "The umbilical artery",
+        "fr": "L'artère ombilicale"
+      }
+    ],
+    "answer": 2,
+    "explanation": {
+      "en": "Before birth the ductus arteriosus sends blood from the pulmonary artery to the aorta, bypassing the lungs; it then closes into a ligament.",
+      "fr": "Avant la naissance, le canal artériel envoie le sang de l'artère pulmonaire vers l'aorte en évitant les poumons ; il se ferme ensuite en ligament."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_pulmonary_artery_blood",
+    "type": "mcq",
+    "organId": "pulmonary_trunk",
+    "difficulty": 1,
+    "prompt": {
+      "en": "What kind of blood do the pulmonary arteries carry?",
+      "fr": "Quel type de sang transportent les artères pulmonaires ?"
+    },
+    "choices": [
+      {
+        "en": "Oxygen-poor blood, to the heart",
+        "fr": "Du sang pauvre en oxygène, vers le cœur"
+      },
+      {
+        "en": "Oxygen-rich blood, to the lungs",
+        "fr": "Du sang riche en oxygène, vers les poumons"
+      },
+      {
+        "en": "Oxygen-rich blood, to the heart",
+        "fr": "Du sang riche en oxygène, vers le cœur"
+      },
+      {
+        "en": "Oxygen-poor blood, to the lungs",
+        "fr": "Du sang pauvre en oxygène, vers les poumons"
+      }
+    ],
+    "answer": 3,
+    "explanation": {
+      "en": "Arteries carry blood away from the heart; the pulmonary arteries carry oxygen-poor blood to the lungs to be oxygenated.",
+      "fr": "Les artères emportent le sang loin du cœur ; les artères pulmonaires conduisent le sang pauvre en oxygène vers les poumons pour qu'il s'y oxygène."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_pulmonary_vein_count",
+    "type": "mcq",
+    "organId": "right_pulmonary_veins",
+    "difficulty": 2,
+    "prompt": {
+      "en": "How many pulmonary veins usually open into the left atrium?",
+      "fr": "Combien de veines pulmonaires s'ouvrent habituellement dans l'oreillette gauche ?"
+    },
+    "choices": [
+      {
+        "en": "Four",
+        "fr": "Quatre"
+      },
+      {
+        "en": "One",
+        "fr": "Une"
+      },
+      {
+        "en": "Two",
+        "fr": "Deux"
+      },
+      {
+        "en": "Six",
+        "fr": "Six"
+      }
+    ],
+    "answer": 0,
+    "explanation": {
+      "en": "Usually two from each lung, a superior and an inferior one.",
+      "fr": "Habituellement deux par poumon, une supérieure et une inférieure."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_svc_drain",
+    "type": "mcq",
+    "organId": "superior_vena_cava",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Which region does the superior vena cava drain?",
+      "fr": "Quelle région la veine cave supérieure draine-t-elle ?"
+    },
+    "choices": [
+      {
+        "en": "Legs and abdomen",
+        "fr": "Membres inférieurs et abdomen"
+      },
+      {
+        "en": "The lungs",
+        "fr": "Les poumons"
+      },
+      {
+        "en": "The heart wall",
+        "fr": "La paroi du cœur"
+      },
+      {
+        "en": "Head, neck, arms and upper chest",
+        "fr": "Tête, cou, membres supérieurs et haut du thorax"
+      }
+    ],
+    "answer": 3,
+    "explanation": {
+      "en": "Everything above the diaphragm except the lungs and the heart drains into the superior vena cava.",
+      "fr": "Tout ce qui est au-dessus du diaphragme, sauf les poumons et le cœur, se draine dans la veine cave supérieure."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_largest_vein",
+    "type": "mcq",
+    "organId": "inferior_vena_cava",
+    "difficulty": 1,
+    "prompt": {
+      "en": "Which is the largest vein in the body?",
+      "fr": "Quelle est la plus grosse veine du corps ?"
+    },
+    "choices": [
+      {
+        "en": "Superior vena cava",
+        "fr": "Veine cave supérieure"
+      },
+      {
+        "en": "Coronary sinus",
+        "fr": "Sinus coronaire"
+      },
+      {
+        "en": "Inferior vena cava",
+        "fr": "Veine cave inférieure"
+      },
+      {
+        "en": "Right pulmonary vein",
+        "fr": "Veine pulmonaire droite"
+      }
+    ],
+    "answer": 2,
+    "explanation": {
+      "en": "The inferior vena cava returns the blood of everything below the diaphragm.",
+      "fr": "La veine cave inférieure ramène le sang de tout ce qui se trouve sous le diaphragme."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_circulation_order",
+    "type": "mcq",
+    "organId": "chambers",
+    "difficulty": 3,
+    "prompt": {
+      "en": "Blood returning from the body passes through which order of chambers?",
+      "fr": "Dans quel ordre le sang qui revient du corps traverse-t-il les cavités ?"
+    },
+    "choices": [
+      {
+        "en": "Right atrium, left atrium, right ventricle, left ventricle",
+        "fr": "Oreillette droite, oreillette gauche, ventricule droit, ventricule gauche"
+      },
+      {
+        "en": "Left atrium, left ventricle, (lungs), right atrium, right ventricle",
+        "fr": "Oreillette gauche, ventricule gauche, (poumons), oreillette droite, ventricule droit"
+      },
+      {
+        "en": "Right ventricle, right atrium, (lungs), left ventricle, left atrium",
+        "fr": "Ventricule droit, oreillette droite, (poumons), ventricule gauche, oreillette gauche"
+      },
+      {
+        "en": "Right atrium, right ventricle, (lungs), left atrium, left ventricle",
+        "fr": "Oreillette droite, ventricule droit, (poumons), oreillette gauche, ventricule gauche"
+      }
+    ],
+    "answer": 3,
+    "explanation": {
+      "en": "The right heart sends blood to the lungs; it comes back oxygenated to the left heart, which sends it to the body.",
+      "fr": "Le cœur droit envoie le sang aux poumons ; il revient oxygéné au cœur gauche, qui l'envoie vers le corps."
+    },
+    "status": "draft"
+  }
+]

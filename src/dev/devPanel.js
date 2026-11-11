@@ -41,8 +41,6 @@ export function mountDevPanel(viewer) {
   panel.append(selected);
   viewer.onSelect((id) => (selected.textContent = `Selected: ${id ?? 'none'}`));
 
-  panel.append(createInfoSection(viewer));
-
   const reset = document.createElement('button');
   reset.textContent = 'Reset view';
   reset.style.marginTop = '10px';
@@ -55,83 +53,6 @@ export function mountDevPanel(viewer) {
   });
 
   document.body.append(panel);
-}
-
-/** A field may be plain text or `{ en, fr }`, as `name` and `function` are in organs.json. */
-function localized(value, lang) {
-  if (value == null) return '';
-  if (typeof value === 'string') return value;
-  return value[lang] ?? value.en ?? '';
-}
-
-// Shows the selected structure's metadata from organs.json in English or French.
-// Early version of Learn mode: Track C builds the real one in src/learn/.
-function createInfoSection(viewer) {
-  let lang = 'en';
-  let currentId = null;
-
-  const section = document.createElement('div');
-  section.id = 'organ-info';
-  section.style.cssText = 'margin-top:8px;max-width:260px;font-size:13px;line-height:1.35';
-
-  const switcher = document.createElement('div');
-  const buttons = ['en', 'fr'].map((code) => {
-    const button = document.createElement('button');
-    button.textContent = code.toUpperCase();
-    button.dataset.lang = code;
-    button.style.cssText = 'margin-right:4px;font-size:11px;padding:0 6px';
-    button.addEventListener('click', () => {
-      lang = code;
-      render();
-    });
-    return button;
-  });
-  switcher.append(...buttons);
-
-  const body = document.createElement('div');
-  body.style.marginTop = '6px';
-  section.append(switcher, body);
-
-  const line = (text, style = '') => {
-    const div = document.createElement('div');
-    div.textContent = text;
-    div.style.cssText = style;
-    return div;
-  };
-
-  function render() {
-    buttons.forEach((b) => (b.style.fontWeight = b.dataset.lang === lang ? '700' : '400'));
-    body.replaceChildren();
-    if (!currentId) return;
-    const organ = viewer.organ(currentId);
-    if (!organ) {
-      body.append(
-        line(
-          lang === 'fr'
-            ? 'Pas encore de fiche pour cette structure (organs.json).'
-            : 'No details for this structure yet (organs.json).',
-          'opacity:.7',
-        ),
-      );
-      return;
-    }
-    body.append(line(localized(organ.name, lang) || currentId, 'font-weight:600;font-size:14px'));
-    const fn = localized(organ.function, lang);
-    if (fn) body.append(line(fn, 'margin-top:4px'));
-    const location = localized(organ.location, lang);
-    if (location) body.append(line(location, 'margin-top:4px;opacity:.8'));
-    for (const fact of organ.facts ?? []) {
-      const text = localized(fact, lang);
-      if (text) body.append(line(`• ${text}`, 'margin-top:2px'));
-    }
-  }
-
-  viewer.onSelect((id) => {
-    currentId = id;
-    render();
-  });
-  render();
-  return section;
 }
 
 function createARSection(viewer) {

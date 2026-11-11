@@ -4,6 +4,7 @@ import { loadGLB, loadOrganIndex } from './render/loader.js';
 import { createPlaceholderBody } from './render/placeholder.js';
 import { mountDevPanel } from './dev/devPanel.js';
 import { registerServiceWorker } from './pwa/register.js';
+import { mountLearnMode } from './learn/learnMode.js';
 
 // Registered first, so the app shell is cached even if the viewer fails to start.
 registerServiceWorker();
@@ -30,6 +31,7 @@ const [model, meta] = await Promise.all([loadModel(modelUrl), loadOrganIndex(ORG
 
 const viewer = await createViewer({ container, model, meta });
 mountDevPanel(viewer);
+mountLearnMode(viewer, meta);
 
 // Handy for debugging and automated tests.
 window.viewer = viewer;

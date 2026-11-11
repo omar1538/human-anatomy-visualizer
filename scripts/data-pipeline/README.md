@@ -1,6 +1,6 @@
 # Data pipeline (Track B)
 
-Turns the raw datasets into the GLB the app loads (`heart.glb`; one GLB per entry in `systems`),
+Turns the raw datasets into the GLB files the app loads: one GLB per body system,
 in the frame and naming defined in [`docs/DATA_CONTRACT.md`](../../docs/DATA_CONTRACT.md).
 
 ```
@@ -9,13 +9,13 @@ raw meshes ─► load + place in app frame ─► clean ─► decimate ─► 
 ```
 
 | Step | What it does |
-|---|---|
+|------|--------------|
 | load | BodyParts3D: union of the OBJ element files of one or more FMA concepts (minus `exclude_fma`). HRA: chosen nodes of a GLB. |
-| place | BodyParts3D: mm → m, Z-up → Y-up. HRA: whole organ fitted onto the matching BodyParts3D organ (ICP, rotation + uniform scale + translation); the same transform is used for every part of that organ. Then shift to the origin (`origin` in the config) and cut with `clip_y` (cuts are capped). |
+| place | BodyParts3D: mm → m, Z-up → Y-up, body bounding-box centre → origin. HRA: whole organ fitted onto the matching BodyParts3D organ (ICP, rotation + uniform scale + translation); the same transform is used for every part of that organ. |
 | clean | weld duplicate vertices, drop degenerate and duplicate faces, drop unused vertices, drop fragments smaller than `min_component_faces`. |
-| decimate | quadric decimation (`fast-simplification`) down to `max_faces`; a closed mesh stays closed (gentler settings or a higher target if needed). |
+| decimate | quadric decimation (`fast-simplification`) down to `max_faces`. |
 | finish | consistent winding (outward normals when watertight), fresh smooth unit normals. |
-| group | node tree `system → group → structure` (`heart → valves → mitral_valve`); node name = `id`; one PBR material per structure, named `id`. |
+| group | node tree `system → organ group → structure`; node name = `id`; one PBR material per structure, named `id`. |
 | export | GLB per system, provenance in node `extras`, attributions in `asset.copyright`. |
 
 ## Setup
@@ -28,7 +28,7 @@ python -m venv .venv
 # .venv/bin/python -m pip install -r scripts/data-pipeline/requirements.txt    # macOS/Linux
 ```
 
-Raw data goes in `data/raw/` (ignored by Git except `data/raw/hra/`; see `docs/DATA_SOURCES.md` for licences, download commands and checksums):
+Raw data goes in `data/raw/` (ignored by Git, see `docs/DATA_SOURCES.md` for licences):
 
 ```
 data/raw/bodyparts3d/   https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html
@@ -42,7 +42,7 @@ data/raw/hra/           https://humanatlas.io/3d-reference-library
 
 ```sh
 .venv/Scripts/python scripts/data-pipeline/build.py --config scripts/data-pipeline/config/heart.json
-.venv/Scripts/python scripts/data-pipeline/check_glb.py data/out/heart.glb
+.venv/Scripts/python scripts/data-pipeline/check_glb.py data/out/*.glb
 ```
 
 Output goes to `data/out/` (ignored). Copy accepted GLBs to `public/assets/models/`
@@ -57,37 +57,29 @@ and attribution on every mesh node. Also run the
 
 ```jsonc
 {
-  "name": "heart-v1",
-  "origin": { "bp3d_centre_of": ["FMA7088"] },     // origin = centre of these BodyParts3D concepts (default: body centre)
-  "defaults": { "max_faces": 3000, "min_component_faces": 0 },
-  "systems": [ { "id": "heart" } ],                 // one GLB per entry: heart.glb
+  "name": "spike-heart",
+  "defaults": { "max_faces": 6000, "min_component_faces": 20, "color": "#b5443f" },
+  "systems": [ { "id": "circulatory" } ],          // one GLB per system
   "structures": [                                   // parents before children
-    { "id": "chambers", "system": "heart", "label": "Chambers and walls" },   // group node, no mesh
-    { "id": "left_ventricle", "system": "heart", "parent": "chambers",
-      "label": "Left ventricle", "max_faces": 20000, "color": "#a83a35",
+    { "id": "heart", "system": "circulatory", "label": "Heart" },          // group node, no mesh
+    { "id": "heart_left_ventricle", "system": "circulatory", "parent": "heart",
+      "label": "Left ventricle", "max_faces": 8000, "color": "#a83a35",
       "source": { "type": "hra", "file": "3d-vh-m-heart.glb",
                   "nodes": ["VH_M_heart_left_ventricle"],
-                  "register_to": ["FMA7088"] } },                          // fit onto the BodyParts3D heart
-    { "id": "right_pulmonary_artery", "system": "heart", "parent": "great_vessels",
-      "source": { "type": "bp3d", "fma": ["FMA50872"], "exclude_fma": ["FMA67994"] } },  // minus intrapulmonary part
-    { "id": "inferior_vena_cava", "system": "heart", "parent": "great_vessels",
-      "clip_y": [-0.075, null],                                            // cut below y = -0.075 m, cap the cut
-      "source": { "type": "bp3d", "fma": ["FMA10951"] } }
+                  "register_to": ["FMA7088"] } },                          // fit onto BodyParts3D heart
+    { "id": "left_coronary_artery", "system": "circulatory", "parent": "heart",
+      "source": { "type": "bp3d", "fma": ["FMA50040"], "exclude_fma": [] } }
   ]
 }
 ```
 
-- `id`: lower snake_case, unique, equals the GLB node name and the `organs.json` id.
+- `id`: lower snake_case, unique across all systems, equals the GLB node name and the `organs.json` id.
 - `label`: for the build report only; display names live in `organs.json`.
-- `max_faces`: decimation target. Closed meshes stay closed, so the result can be a bit above the target.
-- `min_component_faces`: drop loose fragments smaller than this (default 0 = keep all).
-- `clip_y`: `[min, max]` in metres in the final frame (`null` = no cut); cuts are capped.
-- `double_sided`: set for thin sheets (valves) that have no inside.
+- `double_sided`: set for thin sheets (valves, membranes) that have no inside.
 - Find FMA ids in `data/raw/bodyparts3d/partof_parts_list_e.txt`.
 
 ## Frame
 
-App frame: metres, **+Y up, +Z anterior (the body faces +Z), +X = subject's left**.
-BodyParts3D is converted from its raw frame (mm, +Z up, −Y anterior); HRA organs are already in these axes
-and are fitted onto the BodyParts3D organ. The origin is the whole-body centre (`BP3D_BODY_CENTRE_MM` in
-`sources.py`) unless the config sets `origin`; `heart.json` puts it at the centre of the heart.
+App frame (all GLBs): metres, **+Y up, +Z anterior (the body faces +Z), +X = subject's left**,
+origin = centre of the BodyParts3D whole-body bounding box (`BP3D_BODY_CENTRE_MM` in `sources.py`;
+recompute with `build.py --body-centre`). The soles of the feet are at y ≈ −0.86 m.

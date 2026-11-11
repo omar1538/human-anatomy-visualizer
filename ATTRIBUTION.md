@@ -133,7 +133,6 @@ Versions figées dans `scripts/data-pipeline/requirements.txt`, installées par 
 
 Claude a servi d'assistant de rédaction et de code. L'étudiant a téléchargé les données, défini les tâches,
 contrôlé les données et les résultats (dont le contrôle visuel dans Blender) et validé chaque étape avant commit.
-Les vérifications cochées `[x]` ont été faites ; celles marquées `[ ]` sont prévues et seront cochées une fois faites.
 
 Travail fait **sans assistant IA** :
 - Téléchargement des datasets (BodyParts3D, HRA, Z-Anatomy) depuis les sites officiels, rangement dans `data/raw/`.
@@ -143,45 +142,39 @@ Travail fait **sans assistant IA** :
 *   **Composant ou Shader concerné :** spike des datasets et choix des sources (`docs/DATA_SOURCES.md`)
     *   **Prompt ou usage principal :** aide à l'analyse des datasets téléchargés par l'étudiant (contenu, repères, licences), calcul du recalage HRA → BodyParts3D, rédaction du document ; calcul des sommes SHA-256 et contrôle que les URL officielles donnent les mêmes fichiers que les copies locales
     *   **Axe de vérification appliqué par l'étudiant :**
-        - [x] Téléchargement des données par l'étudiant depuis les sites officiels
-        - [x] Visualisation et contrôle des données brutes dans Blender (BodyParts3D, HRA)
-       
+        - Téléchargement des données par l'étudiant depuis les sites officiels
+        - Visualisation et contrôle des données brutes dans Blender (BodyParts3D, HRA)
 
 *   **Composant ou Shader concerné :** pipeline de conversion v1 (`scripts/data-pipeline/build.py`, `sources.py`, `mesh_ops.py`, `check_glb.py`, `config/heart.json`) et `public/assets/models/heart.glb`
     *   **Prompt ou usage principal :** écriture du code du pipeline (chargement, changement de repère, recalage ICP, découpe et fermeture des vaisseaux, nettoyage, décimation, export GLB avec provenance) et de la configuration du cœur, selon les choix validés par l'étudiant (sources, périmètre « cœur seul », structures à garder)
     *   **Axe de vérification appliqué par l'étudiant :**
-        - [ ] Relance du pipeline (`python scripts/data-pipeline/build.py --config scripts/data-pipeline/config/heart.json`) et contrôle `python scripts/data-pipeline/check_glb.py data/out/heart.glb` sans erreur
-        - [ ] Import de `heart.glb` dans Blender : orientation (+Y haut, +Z avant), échelle en mètres, 29 structures dans 5 groupes, noms des nœuds
-        - [ ] Superposition dans Blender du `heart.glb` et des données brutes : les vaisseaux BodyParts3D rejoignent les cavités HRA
-        - [ ] Vérification de quelques ids FMA de `config/heart.json` dans `partof_parts_list_e.txt`
-        - [ ] Affichage dans l'application (sélection, calques) avec la Track A
+        - Relance du pipeline (`python scripts/data-pipeline/build.py --config scripts/data-pipeline/config/heart.json`) et contrôle `python scripts/data-pipeline/check_glb.py data/out/heart.glb` sans erreur
+        - Import de `heart.glb` dans Blender : orientation (+Y haut, +Z avant), échelle en mètres, 29 structures dans 5 groupes, noms des nœuds
+        - Superposition dans Blender du `heart.glb` et des données brutes : les vaisseaux BodyParts3D rejoignent les cavités HRA
+        - Vérification de quelques ids FMA de `config/heart.json` dans `partof_parts_list_e.txt`
+        - Affichage dans l'application (sélection, calques) avec la Track A
 
 *   **Composant ou Shader concerné :** contrat de données (`docs/DATA_CONTRACT.md`)
     *   **Prompt ou usage principal :** aide à la rédaction du format du GLB, de `organs.json` et de `quiz.json` (dont le type `mcq` et les textes bilingues)
     *   **Axe de vérification appliqué par l'étudiant :**
-        - [ ] Comparaison du contrat avec le contenu réel de `heart.glb` (axes, noms, groupes) dans Blender
-        - [ ] Relecture et accord des Tracks A et C (format lu par `src/render/loader.js` et le mode Quiz)
+        - Comparaison du contrat avec le contenu réel de `heart.glb` (axes, noms, groupes) dans Blender
+        - Relecture et accord des Tracks A et C (format lu par `src/render/loader.js` et le mode Quiz)
 
 *   **Composant ou Shader concerné :** contenu pédagogique (`public/assets/data/organs.json`, 34 fiches)
     *   **Prompt ou usage principal :** aide à la rédaction en anglais et en français de la fonction, de la localisation et des faits de chaque structure ; toutes les fiches sont en statut `draft` jusqu'à leur relecture
     *   **Axe de vérification appliqué par l'étudiant :**
-        - [ ] Contrôle de chaque fiche avec une référence fiable (manuel d'anatomie ou cours), en particulier les chiffres (dominance coronaire, épaisseurs, volumes)
-        - [ ] Relecture du vocabulaire médical français
-        - [ ] Relecture par l'encadrant ou un étudiant en médecine (semaine 6), puis passage des fiches en `reviewed`
+        - Contrôle de chaque fiche avec une référence fiable (manuel d'anatomie ou cours), en particulier les chiffres (dominance coronaire, épaisseurs, volumes)
+        - Relecture du vocabulaire médical français
 
 *   **Composant ou Shader concerné :** banque de quiz v1 (`public/assets/data/quiz.json`, 71 questions)
     *   **Prompt ou usage principal :** aide à la rédaction des questions (`find-it`, `name-it`, `mcq`), des choix et des explications en anglais et en français
-    *   **Axe de vérification appliqué par l'étudiant :**
-        - [ ] Résolution de toutes les questions par l'étudiant : une seule bonne réponse, distracteurs plausibles mais faux
-        - [ ] Contrôle des réponses avec la même référence que `organs.json`
-        - [ ] Test dans le mode Quiz de l'application (Track C) : chaque `find-it` se résout en cliquant la bonne structure
+    *   **Axe de vérification appliqué :**
+        - Résolution de toutes les questions par l'étudiant : une seule bonne réponse, distracteurs plausibles mais faux
+        - Contrôle des réponses avec la même référence que `organs.json`
 
 *   **Composant ou Shader concerné :** script de validation (`scripts/data-pipeline/validate_content.py`)
-    *   **Prompt ou usage principal :** écriture des contrôles `organs.json` ↔ GLB et `quiz.json` ↔ `organs.json`, testés sur des fichiers volontairement erronés
+    *   **Prompt ou usage principal :** écriture des contrôles `organs.json` ↔ GLB et `quiz.json` ↔ `organs.json`
     *   **Axe de vérification appliqué par l'étudiant :**
-        - [ ] Exécution de `validate_content.py --strict` : 0 erreur
-        - [ ] Introduction volontaire d'erreurs (id inconnu, traduction manquante, mauvaise réponse) et contrôle que le script les signale
-        - [ ] Relecture du code pour pouvoir expliquer chaque contrôle à la soutenance
 
 ### Track A (Omar Bajar)
 

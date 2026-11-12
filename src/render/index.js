@@ -1,5 +1,4 @@
 // Track A: public API of the rendering layer. Tracks B and C only use this file.
-// See docs/RENDERING_API.md.
 import { createRenderer } from './renderer.js';
 import { createScene, frameObject } from './scene.js';
 import { createControls } from './controls.js';

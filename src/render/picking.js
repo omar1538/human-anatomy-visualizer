@@ -19,7 +19,12 @@ function highlightableMeshes(object) {
   return meshes;
 }
 
-export function createPicker({ camera, domElement, root, onChange }) {
+/**
+ * @param {object} options
+ * @param {(hit: THREE.Intersection) => boolean} [options.accept] extra test for a hit, for example
+ * to ignore the parts a slicing plane has cut away
+ */
+export function createPicker({ camera, domElement, root, onChange, accept = () => true }) {
   const raycaster = new THREE.Raycaster();
   const pointer = new THREE.Vector2();
   let selected = null; // a mesh or a group
@@ -75,7 +80,7 @@ export function createPicker({ camera, domElement, root, onChange }) {
     // three.js raycasting ignores `visible`, so hidden systems are filtered out by hand.
     const hits = raycaster
       .intersectObject(root, true)
-      .filter((h) => h.object.isMesh && isEffectivelyVisible(h.object));
+      .filter((h) => h.object.isMesh && isEffectivelyVisible(h.object) && accept(h));
     setSelected(hits[0]?.object ?? null);
   }
 

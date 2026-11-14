@@ -47,12 +47,68 @@ export function mountDevPanel(viewer) {
   reset.addEventListener('click', () => viewer.resetView());
   panel.append(reset);
 
+  panel.append(createSliceSection(viewer));
   panel.append(createARSection(viewer));
   viewer.onARChange((active) => {
     panel.style.display = active ? 'none' : 'block';
   });
 
   document.body.append(panel);
+}
+
+// Cuts the model with a plane to show the inside (for example the chambers of the heart).
+function createSliceSection(viewer) {
+  const section = document.createElement('div');
+  section.id = 'slice';
+  section.style.marginTop = '10px';
+
+  const axis = document.createElement('select');
+  axis.id = 'slice-axis';
+  for (const [value, text] of [
+    ['', 'Slice: off'],
+    ['z', 'Slice: front-back'],
+    ['x', 'Slice: left-right'],
+    ['y', 'Slice: top-bottom'],
+  ]) {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = text;
+    axis.append(option);
+  }
+
+  const position = document.createElement('input');
+  position.id = 'slice-position';
+  position.type = 'range';
+  position.min = '0';
+  position.max = '100';
+  position.value = '50';
+  position.style.cssText = 'display:block;width:100%;margin-top:6px';
+
+  const flipLabel = document.createElement('label');
+  flipLabel.style.cssText = 'display:block;margin-top:4px;cursor:pointer';
+  const flip = document.createElement('input');
+  flip.id = 'slice-flip';
+  flip.type = 'checkbox';
+  flipLabel.append(flip, ' keep the other side');
+
+  function apply() {
+    const on = Boolean(axis.value);
+    position.disabled = !on;
+    flip.disabled = !on;
+    if (!on) return viewer.clearSlice();
+    viewer.setSlice({
+      axis: axis.value,
+      position: Number(position.value) / 100,
+      flip: flip.checked,
+    });
+  }
+  axis.addEventListener('change', apply);
+  position.addEventListener('input', apply);
+  flip.addEventListener('change', apply);
+  apply();
+
+  section.append(axis, position, flipLabel);
+  return section;
 }
 
 function createARSection(viewer) {

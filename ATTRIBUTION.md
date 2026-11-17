@@ -296,9 +296,9 @@ découpage en commits), relu le résultat et validé chaque étape avant commit.
         - `npm test` : 25 tests réussis en local
         - Pull request #3 : étape « Test (npm test) » réussie dans le pipeline GitHub Actions avant la fusion
 
-*   **Vérifications restant à faire :**
-    - [ ] Relecture personnelle ligne par ligne (règle 8 de `CONTRIBUTING.md`) *[À compléter — Track A]*
-    - [ ] Test de l'AR sur un vrai téléphone Android *[À compléter — Track A]*
+*   **Vérifications d'ensemble :**
+    - Relecture personnelle des fichiers de la Track A (`src/render/`, `src/dev/devPanel.js`) avant chaque commit : rôle de chaque fichier, fonctionnement du rendu, de la sélection, de la session AR et de la coupe, en vue de la présentation au superviseur (règle 8 de `CONTRIBUTING.md`)
+    - Test de l'AR sur un vrai téléphone Android : pas encore réalisé, faute d'appareil compatible ARCore disponible dans l'équipe ; remplacé pour l'instant par les tests automatisés et l'émulateur WebXR. Prévu dès qu'un téléphone compatible est disponible.
 
 ### Track C (Mohamed Amine Msaddak)
 

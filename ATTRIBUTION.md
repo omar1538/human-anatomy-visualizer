@@ -149,9 +149,9 @@ Versions figées dans `scripts/data-pipeline/requirements.txt`, installées par 
 
 ## 4. Déclaration de l'usage des Assistants IA (Copilot, ChatGPT, Claude)
 
-### Track B (Adam Derbel), assistant : Claude (Anthropic), dans VS Code
+### Track B (Adam Derbel), assistant : Claude Opus 5.5 (Anthropic), via l'extension Claude Code dans VS Code
 
-Claude a servi d'assistant de rédaction et de code. L'étudiant a téléchargé les données, défini les tâches,
+Claude a servi d'assistant de rédaction et de code. Les prompts ci-dessous sont des versions simplifiées des demandes faites à Claude (en français), sauf celui du CI/CD, recopié tel quel. L'étudiant a téléchargé les données, défini les tâches,
 contrôlé les données et les résultats (dont le contrôle visuel dans Blender) et validé chaque étape avant commit.
 
 Travail fait **sans assistant IA** :
@@ -160,13 +160,13 @@ Travail fait **sans assistant IA** :
   orientation, échelle, parties présentes ou manquantes).
 
 *   **Composant ou Shader concerné :** spike des datasets et choix des sources (`docs/DATA_SOURCES.md`)
-    *   **Prompt ou usage principal :** aide à l'analyse des datasets téléchargés par l'étudiant (contenu, repères, licences), calcul du recalage HRA → BodyParts3D, rédaction du document ; calcul des sommes SHA-256 et contrôle que les URL officielles donnent les mêmes fichiers que les copies locales
+    *   **Prompt ou usage principal :** « J'ai téléchargé BodyParts3D, Z-Anatomy et HRA dans data/raw. Compare-les pour le cœur : quelles structures, quelles unités et quels axes, quelles licences. Dis-moi lesquels utiliser et écris le résultat dans docs/DATA_SOURCES.md. » Puis : « Ajoute une section qui explique comment retélécharger les données, avec les URL et les sommes de contrôle. »
     *   **Axe de vérification appliqué par l'étudiant :**
         - Téléchargement des données par l'étudiant depuis les sites officiels
         - Visualisation et contrôle des données brutes dans Blender (BodyParts3D, HRA)
 
 *   **Composant ou Shader concerné :** pipeline de conversion v1 (`scripts/data-pipeline/build.py`, `sources.py`, `mesh_ops.py`, `check_glb.py`, `config/heart.json`) et `public/assets/models/heart.glb`
-    *   **Prompt ou usage principal :** écriture du code du pipeline (chargement, changement de repère, recalage ICP, découpe et fermeture des vaisseaux, nettoyage, décimation, export GLB avec provenance) et de la configuration du cœur, selon les choix validés par l'étudiant (sources, périmètre « cœur seul », structures à garder)
+    *   **Prompt ou usage principal :** « Écris un pipeline Python qui prend les cavités et les valves du cœur HRA et les vaisseaux de BodyParts3D, les met dans le même repère (mètres, Y vers le haut), les nettoie, les décime, les renomme en snake_case, les range en groupes et exporte un seul heart.glb avec la source et la licence de chaque maillage. »
     *   **Axe de vérification appliqué par l'étudiant :**
         - Relance du pipeline (`python scripts/data-pipeline/build.py --config scripts/data-pipeline/config/heart.json`) et contrôle `python scripts/data-pipeline/check_glb.py data/out/heart.glb` sans erreur
         - Import de `heart.glb` dans Blender : orientation (+Y haut, +Z avant), échelle en mètres, 29 structures dans 5 groupes, noms des nœuds
@@ -175,27 +175,52 @@ Travail fait **sans assistant IA** :
         - Affichage dans l'application (sélection, calques) avec la Track A
 
 *   **Composant ou Shader concerné :** contrat de données (`docs/DATA_CONTRACT.md`)
-    *   **Prompt ou usage principal :** aide à la rédaction du format du GLB, de `organs.json` et de `quiz.json` (dont le type `mcq` et les textes bilingues)
+    *   **Prompt ou usage principal :** « Écris le contrat de données entre ma piste et les pistes A et C : comment est fait heart.glb (axes, noms des nœuds, groupes) et le format de organs.json et de quiz.json. » Puis : « On passe le contrat en version finale. »
     *   **Axe de vérification appliqué par l'étudiant :**
         - Comparaison du contrat avec le contenu réel de `heart.glb` (axes, noms, groupes) dans Blender
         - Relecture et accord des Tracks A et C (format lu par `src/render/loader.js` et le mode Quiz)
 
 *   **Composant ou Shader concerné :** contenu pédagogique (`public/assets/data/organs.json`, 34 fiches)
-    *   **Prompt ou usage principal :** aide à la rédaction en anglais et en français de la fonction, de la localisation et des faits de chaque structure ; toutes les fiches sont en statut `draft` jusqu'à leur relecture
+    *   **Prompt ou usage principal :** « Crée organs.json avec une fiche pour chaque structure de heart.glb : nom, fonction, localisation et quelques faits, en anglais et en français. Commence par les 4 cavités et le septum, puis fais toutes les autres. » Toutes les fiches restent en statut `draft` jusqu'à leur relecture.
     *   **Axe de vérification appliqué par l'étudiant :**
         - Contrôle de chaque fiche avec une référence fiable (manuel d'anatomie ou cours), en particulier les chiffres (dominance coronaire, épaisseurs, volumes)
         - Relecture du vocabulaire médical français
 
 *   **Composant ou Shader concerné :** banque de quiz v1 (`public/assets/data/quiz.json`, 71 questions)
-    *   **Prompt ou usage principal :** aide à la rédaction des questions (`find-it`, `name-it`, `mcq`), des choix et des explications en anglais et en français
+    *   **Prompt ou usage principal :** « Écris une banque de quiz d'au moins 60 questions sur le cœur, en anglais et en français, avec une explication pour chaque réponse : des questions où l'on clique sur la structure, où l'on nomme la structure surlignée, et des QCM sur la fonction. »
     *   **Axe de vérification appliqué :**
         - Résolution de toutes les questions par l'étudiant : une seule bonne réponse, distracteurs plausibles mais faux
         - Contrôle des réponses avec la même référence que `organs.json`
 
 *   **Composant ou Shader concerné :** script de validation (`scripts/data-pipeline/validate_content.py`)
-    *   **Prompt ou usage principal :** écriture des contrôles `organs.json` ↔ GLB et `quiz.json` ↔ `organs.json`
+    *   **Prompt ou usage principal :** « Écris un script de validation qui vérifie que chaque maillage de heart.glb a sa fiche dans organs.json, avec les textes en anglais et en français et une licence. » Puis : « Ajoute la vérification de quiz.json. »
     *   **Axe de vérification appliqué par l'étudiant :**
         - Exécution de `python scripts/data-pipeline/validate_content.py --strict` : 0 erreur
+
+*   **Composant ou Shader concerné :** pipeline CI/CD (`.github/workflows/ci-cd.yml`, script `validate` de `package.json`, `docs/SETUP.md`)
+    *   **Prompt ou usage principal :** (recopié tel quel)
+
+        > Ajoute une pipeline CI/CD avec GitHub Actions à ce projet.
+        >
+        > Avant de commencer, lis tout le projet pour comprendre la structure du projet.
+        >
+        > Crée le fichier .github/workflows/ci-cd.yml avec :
+        > - Déclenchement : à chaque push et pull request sur main.
+        > - Job CI :
+        >   1. Installer les dépendances
+        >   2. Lint (ESLint)
+        >   3. Lancer le script de validation des données (chaque mesh a ses métadonnées FR/EN, une licence et un auteur, et le fichier GLB existe). Si ce script n'existe pas, crée scripts/validate.mjs en respectant docs/DATA_CONTRACT.md.
+        >   4. Faire échouer la CI si un fichier .glb dépasse 5 Mo.
+        >   5. Build de l'application.
+        > - Job CD : déployer sur GitHub Pages, seulement sur push dans main et seulement si la CI passe (actions/upload-pages-artifact et actions/deploy-pages).
+        >
+        > Ajoute aussi ce qui manque pour que tout fonctionne : scripts "lint", "build" et "validate" dans package.json, config ESLint si absente, et le bon "base" dans la config Vite pour GitHub Pages.
+        >
+        > Ensuite, lance localement lint, validate et build pour vérifier qu'ils passent, et corrige les erreurs.
+        > À la fin, explique-moi en français ce que tu as ajouté et ce que je dois activer moi-même sur GitHub (Settings → Pages → Source : GitHub Actions).
+        >
+        > Ne fais pas de commit sans me demander.
+    *   **Axe de vérification appliqué par l'étudiant :**
 
 ### Track A (Omar Bajar), assistant : Claude (Claude Code, Anthropic)
 

@@ -222,16 +222,83 @@ Travail fait **sans assistant IA** :
         > Ne fais pas de commit sans me demander.
     *   **Axe de vérification appliqué par l'étudiant :**
 
-### Track A (Omar Bajar), assistant : Claude (Claude Code, Anthropic)
+### Track A (Omar Bajar), assistant : Claude Opus 5.5 (Anthropic), via Claude Code dans VS Code
 
-*   **Composant ou Shader concerné :** `src/render/` (`renderer.js`, `scene.js`, `controls.js`, `layers.js`, `picking.js`, `loader.js`, `xr.js`, `index.js`), `src/dev/devPanel.js`, `src/main.js`, `docs/RENDERING_API.md`, `docs/ROADMAP.md`, `README.md`
-    *   **Prompt ou usage principal :** génération et correction du code de rendu et de la session WebXR AR, diagnostic d'erreurs (blocage de la détection du support WebXR, framebuffer `null` des émulateurs), écriture des tests de vérification, rédaction de la documentation
+Claude a servi d'assistant de code, de diagnostic et de rédaction. Les prompts ci-dessous sont des
+reformulations structurées des demandes faites à l'assistant : chacun regroupe les échanges d'une même
+tâche et n'est pas recopié mot pour mot. L'étudiant a défini les tâches et les choix (AR plutôt que VR,
+découpage en commits), relu le résultat et validé chaque étape avant commit.
+
+*   **Composant ou Shader concerné :** socle du viewer 3D (`src/render/renderer.js`, `scene.js`, `controls.js`, `index.js`)
+    *   **Prompt ou usage principal :**
+        > Contexte : application d'anatomie dans le navigateur, Three.js r187 (versions figées), Vite.
+        > Tâche : crée un viewer 3D avec `WebGPURenderer` et repli automatique sur WebGL 2, une caméra
+        > cadrée sur le modèle, des contrôles orbite / zoom / déplacement à la souris et au doigt, et un
+        > rendu à la demande pour économiser la batterie.
+        > Contraintes : les autres pistes n'utilisent que `src/render/index.js` ; documente cette API.
+        > Livrable : code commenté, `docs/RENDERING_API.md`, lint et build sans erreur.
     *   **Axe de vérification appliqué par l'étudiant :**
-        - [x] `npm run lint` et `npm run build` à chaque changement
-        - [x] Tests automatisés de la logique AR contre une session WebXR simulée (sélection d'organes et de groupes, placement, restauration de la scène, chargement de `organs.json`)
-        - [x] Essais dans Chrome (WebGL 2) et dans l'émulateur WebXR `iwer` avec le vrai `heart.glb` et des captures d'écran ; lecture du code source de Three.js r187
-        - [ ] Relecture personnelle ligne par ligne (règle 8 de `CONTRIBUTING.md`) *[À compléter — Track A]*
-        - [ ] Test sur un vrai téléphone Android *[À compléter — Track A]*
+        - `npm run lint` et `npm run build`
+        - Essai dans Chrome : le panneau indique le moteur actif (`WebGPU` ou `WebGL 2`), le modèle est cadré et manipulable
+
+*   **Composant ou Shader concerné :** calques et sélection (`src/render/layers.js`, `picking.js`)
+    *   **Prompt ou usage principal :**
+        > Tâche : regroupe les maillages par calque (afficher / masquer) et permets de sélectionner une
+        > structure au clic, avec une surbrillance. Ensuite, applique `docs/DATA_CONTRACT.md` : un id de
+        > groupe (`chambers`, `valves`…) doit aussi être sélectionnable et surligner toute sa structure.
+        > Contraintes : ignorer les parties masquées, ne pas confondre un clic et une rotation, ne pas
+        > teinter les autres organes qui partagent un matériau.
+    *   **Axe de vérification appliqué par l'étudiant :**
+        - Sélection au clic et par id dans le navigateur avec le vrai `heart.glb`
+        - Tests automatisés (`tests/render.test.mjs`) : sélection de groupe, restauration de la surbrillance, un seul clonage de matériau par maillage
+
+*   **Composant ou Shader concerné :** réalité augmentée WebXR (`src/render/xr.js`, contournement dans `renderer.js`)
+    *   **Prompt ou usage principal :**
+        > Contexte : le cœur du projet est l'expérience AR (WebXR Device API), cible Chrome sur Android.
+        > Tâche : ajoute une session `immersive-ar` avec détection de surface (hit test) et un réticule ;
+        > un tap place une copie de l'organe ou du groupe sélectionné à une taille lisible, tournée vers
+        > l'utilisateur ; sans surface détectée, la copie flotte devant le téléphone. À la sortie, restaure
+        > la scène.
+        > Contraintes : ne jamais modifier le modèle d'origine ; l'application doit démarrer même si le
+        > navigateur ne répond pas sur le support de l'AR.
+        > Puis : diagnostique pourquoi la session plante dans l'émulateur WebXR et corrige sans effet sur
+        > les vrais téléphones.
+    *   **Axe de vérification appliqué par l'étudiant :**
+        - Tests automatisés contre une session WebXR simulée (placement, échange de sélection, restauration de la scène)
+        - Essais dans l'émulateur WebXR `iwer` avec le vrai `heart.glb` (organe, groupe, détection de surface), captures d'écran
+        - Lecture du code source de Three.js r187 pour confirmer la cause du plantage de l'émulateur
+
+*   **Composant ou Shader concerné :** chargement selon le contrat de données (`src/render/loader.js`, `src/main.js`)
+    *   **Prompt ou usage principal :**
+        > Tâche : charge par défaut `heart.glb` et `organs.json` comme décrit dans `docs/DATA_CONTRACT.md`,
+        > indexe `organs.json` par id et expose `viewer.organ(id)` pour le mode Learn.
+        > Contraintes : si le modèle ou le fichier de données manque, l'application démarre quand même.
+    *   **Axe de vérification appliqué par l'étudiant :**
+        - Essai dans Chrome : 29 structures, 5 calques, fiches FR/EN affichées à la sélection
+        - Tests automatisés : fichier manquant, invalide ou injoignable
+
+*   **Composant ou Shader concerné :** coupe de l'organe (`src/render/slicing.js`)
+    *   **Prompt ou usage principal :**
+        > Tâche : ajoute un plan de coupe (avant-arrière, gauche-droite, haut-bas) avec une position
+        > réglable, pour voir l'intérieur du cœur. La surface coupée doit paraître pleine, pas creuse.
+        > Contraintes : traiter à part les maillages non fermés ; un clic doit traverser la partie
+        > retirée ; pas de nouvelle dépendance.
+    *   **Axe de vérification appliqué par l'étudiant :**
+        - Captures d'écran des trois coupes sur le vrai `heart.glb`
+        - Tests automatisés (`tests/slicing.test.mjs`), dont la liste des 4 structures non fermées du vrai modèle
+
+*   **Composant ou Shader concerné :** tests automatisés et étape « Test » du pipeline (`tests/`, `package.json`, `.github/workflows/ci-cd.yml`)
+    *   **Prompt ou usage principal :**
+        > Tâche : écris des tests pour la sélection, le placement AR, le chargement de `organs.json` et la
+        > coupe, avec le lanceur de tests intégré à Node, puis ajoute une étape « Test » au pipeline CI/CD.
+        > Contraintes : aucune nouvelle dépendance ; ne pas renommer le job CI exigé par la protection de `main`.
+    *   **Axe de vérification appliqué par l'étudiant :**
+        - `npm test` : 25 tests réussis en local
+        - Pull request #3 : étape « Test (npm test) » réussie dans le pipeline GitHub Actions avant la fusion
+
+*   **Vérifications d'ensemble :**
+    - Relecture personnelle des fichiers de la Track A (`src/render/`, `src/dev/devPanel.js`) avant chaque commit : rôle de chaque fichier, fonctionnement du rendu, de la sélection, de la session AR et de la coupe, en vue de la présentation au superviseur (règle 8 de `CONTRIBUTING.md`)
+    - Test de l'AR sur un vrai téléphone Android : pas encore réalisé, faute d'appareil compatible ARCore disponible dans l'équipe ; remplacé pour l'instant par les tests automatisés et l'émulateur WebXR. Prévu dès qu'un téléphone compatible est disponible.
 
 ### Track C (Mohamed Amine Msaddak)
 

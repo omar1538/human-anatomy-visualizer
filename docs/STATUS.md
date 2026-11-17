@@ -64,15 +64,16 @@ AR (from `track-a/webxr-ar`):
 - Conversion pipeline v1 in Python (`scripts/data-pipeline/`). It combines BodyParts3D (vessels) and
   HuBMAP HRA (chambers, valves), fitted together with ICP, then cleaned, decimated and exported as GLB.
   A check script verifies the output.
-- Draft data contract ([`DATA_CONTRACT.md`](DATA_CONTRACT.md)): the mesh name is the organ id, the
-  parent group is the layer, units are metres with +Y up, and the `organs.json` format.
+- Data contract v1.0, final ([`DATA_CONTRACT.md`](DATA_CONTRACT.md)): the mesh name is the organ id, the
+  parent group is the layer, units are metres with +Y up, and the `organs.json` and `quiz.json` formats.
 - Data sources and licences (CC BY 4.0), download instructions with SHA-256 checksums, and credits
   in `ATTRIBUTION.md`.
 
 ### Track C: Platform & UX
 
-- GitHub Pages deploy (`.github/workflows/deploy.yml`): every push to `main` runs `npm ci`, lint
-  and build, then publishes `dist/`.
+- CI/CD (`.github/workflows/ci-cd.yml`, replaces `deploy.yml`): every push and pull request to `main`
+  runs `npm ci`, lint, data validation, a 5 MB limit on `.glb` files and build; a push to `main`
+  whose CI passed is then published to GitHub Pages.
 - PWA skeleton: `manifest.webmanifest`, placeholder icons, and a service worker (`public/sw.js`)
   with a versioned app-shell cache. HTML is network-first, other files are cache-first. The app
   works offline after the first visit.
@@ -100,8 +101,7 @@ AR (from `track-a/webxr-ar`):
 2. **Raw data in Git.** `main` now contains `data/raw/hra/` (5.8 MB), committed through a
    `.gitignore` exception, but CONTRIBUTING rule 6 says no raw datasets in Git. The female heart
    in it is not used by the pipeline. Keep it (and update rule 6) or remove it.
-3. **Data contract sections marked "proposed"** (axes, origin, node tree, ids, materials) need
-   Tracks A and C to agree before the contract is final.
+3. ~~**Data contract sections marked "proposed"**~~: done, `DATA_CONTRACT.md` is final (v1.0, 2026-11-17).
 
 ## Before Week 2 starts
 

@@ -17,6 +17,11 @@ are shared files.
 - WebGPU: recent Chrome or Edge. The panel shows `Renderer: WebGPU`.
 - Fallback: open the app in a browser without WebGPU (or one where it is disabled). The panel shows `Renderer: WebGL 2`. Everything must still work.
 
+## Developer panel
+
+Add `?dev` to the address (for example `http://localhost:5173/?dev`) to show the developer panel:
+active renderer (WebGPU or WebGL 2), raw layer ids, and test controls. Users never see it.
+
 ## Deployment (GitHub Pages)
 
 Every push to `main` runs `.github/workflows/deploy.yml`: `npm ci`, `npm run lint`, `npm run build`

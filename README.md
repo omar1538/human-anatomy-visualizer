@@ -43,10 +43,10 @@ For development without a phone, use a WebXR emulator in the browser: see "Testi
 
 Each member owns one track and its issues (labels `track-a`, `track-b`, `track-c`).
 
-| Track                    | Owner      | Focus                                                                                     |
-| ------------------------ | ---------- | ----------------------------------------------------------------------------------------- |
-| **A: WebXR & rendering** | Omar | WebXR AR sessions and interaction, renderer, scene, layers, picking, slicing, performance |
-| **B: Data & content**    | Adam | Datasets, conversion pipeline, organ metadata, educational content, quiz bank, licences   |
+| Track                    | Owner         | Focus                                                                                     |
+| ------------------------ | ------------- | ----------------------------------------------------------------------------------------- |
+| **A: WebXR & rendering** | Omar          | WebXR AR sessions and interaction, renderer, scene, layers, picking, slicing, performance |
+| **B: Data & content**    | Adam          | Datasets, conversion pipeline, organ metadata, educational content, quiz bank, licences   |
 | **C: Platform & UX**     | Mohamed Amine | App shell, UI, learn/quiz modes, shareable links, PWA, CI/CD, tests, docs                 |
 
 ## Tech
@@ -58,8 +58,8 @@ glTF/GLB · HTML/CSS/JavaScript (ES modules) · Service Worker + Web App Manifes
 
 ```
 src/render/            Track A: WebXR AR, renderer, scene, controls, layers, picking
-src/dev/               Temporary developer panel, until the real interface exists
-src/ui/                Track C: panels, search, toolbar
+src/dev/               Developer panel (backend, raw ids, test controls), only with ?dev in the URL
+src/ui/                Track C: toolbar, layers, About and credits window
 src/learn/             Track C: learn mode, quiz mode, progress, shareable links
 src/pwa/               Track C: manifest helpers, service worker
 scripts/data-pipeline/ Track B: conversion, decimation, validation scripts

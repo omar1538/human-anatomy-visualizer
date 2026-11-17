@@ -16,6 +16,7 @@ const TEXT = {
     draft: 'Draft content, not yet reviewed by a medical reader.',
     missing: 'No details for this structure yet.',
     language: 'Language',
+    notice: 'Educational use only, not a medical tool.',
   },
   fr: {
     region: 'Détails de la structure',
@@ -29,6 +30,7 @@ const TEXT = {
     draft: 'Contenu provisoire, pas encore relu par un spécialiste.',
     missing: 'Pas encore de fiche pour cette structure.',
     language: 'Langue',
+    notice: 'Usage pédagogique uniquement, pas un outil médical.',
   },
 };
 
@@ -105,7 +107,8 @@ export function mountLearnMode(viewer, meta = {}) {
     body.replaceChildren();
 
     if (!currentId) {
-      body.append(el('p', 'learn-hint', t.hint));
+      // The notice is visible from the first screen, as the cahier des charges requires.
+      body.append(el('p', 'learn-hint', t.hint), el('p', 'learn-notice', t.notice));
       return;
     }
     const organ = viewer.organ(currentId);
@@ -150,9 +153,11 @@ export function mountLearnMode(viewer, meta = {}) {
   });
   onLanguageChange(render);
 
-  // Escape closes the panel, unless the user is typing in a field.
+  // Escape closes the panel, unless the user is typing in a field or a window (About) is open:
+  // then Escape closes that window only.
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && currentId && !e.target.closest?.('input, textarea')) {
+    const typing = e.target.closest?.('input, textarea, select');
+    if (e.key === 'Escape' && currentId && !typing && !document.querySelector('dialog[open]')) {
       viewer.select(null);
     }
   });

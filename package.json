@@ -12,6 +12,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint src public/sw.js",
+    "test": "node --test \"tests/**/*.test.mjs\"",
     "validate": "python scripts/data-pipeline/validate_content.py --strict",
     "format": "prettier --write ."
   },

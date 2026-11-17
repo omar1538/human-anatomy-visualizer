@@ -40,6 +40,10 @@ export function buildPlacement(source, { size = DEFAULT_SIZE_M, showAll = false 
   source.updateWorldMatrix(true, false);
   const copy = source.clone(true);
   copy.visible = true; // the original may be hidden during the session
+  // Slicing helpers (cut-surface fills) are not part of the anatomy: leave them out of the copy.
+  const helpers = [];
+  copy.traverse((o) => o.userData.sliceHelper && helpers.push(o));
+  helpers.forEach((o) => o.removeFromParent());
   const materials = [];
   copy.traverse((o) => {
     if (showAll) o.visible = true;

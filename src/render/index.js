@@ -5,6 +5,7 @@ import { createControls } from './controls.js';
 import { createLayers } from './layers.js';
 import { createPicker } from './picking.js';
 import { createAR } from './xr.js';
+import { createSlicer } from './slicing.js';
 
 /**
  * @param {object} options
@@ -27,6 +28,7 @@ export async function createViewer({ container, model, meta = {} }) {
   controls.update();
 
   const layers = createLayers(model, meta);
+  const slicer = createSlicer({ scene, model });
   const listeners = new Set();
   let needsRender = true;
 
@@ -34,6 +36,8 @@ export async function createViewer({ container, model, meta = {} }) {
     camera,
     domElement: renderer.domElement,
     root: model,
+    // A click goes through the parts the slicing plane has removed.
+    accept: (hit) => slicer.keeps(hit.point),
     onChange: (id, mesh) => {
       needsRender = true;
       listeners.forEach((cb) => cb(id, mesh));
@@ -108,6 +112,22 @@ export async function createViewer({ container, model, meta = {} }) {
       needsRender = true;
     },
     isSystemVisible: (system) => layers.isSystemVisible(system),
+    /**
+     * Cuts the model with a plane and fills the cut surface.
+     * @param {{ axis?: 'x' | 'y' | 'z', position?: number, flip?: boolean }} [options]
+     * `axis`: 'x' left-right, 'y' top-bottom, 'z' front-back (default). `position` goes from 0 to 1
+     * across the model (default 0.5). By default the part towards +axis is removed; `flip` swaps sides.
+     */
+    setSlice(options) {
+      slicer.set(options);
+      needsRender = true;
+    },
+    clearSlice() {
+      slicer.clear();
+      needsRender = true;
+    },
+    /** @returns {{ axis: string, position: number, flip: boolean } | null} the current cut */
+    getSlice: () => slicer.get(),
     /** Selects an organ or a group (for example 'valves') by id; pass null to clear. */
     select: (id) => picker.selectById(id),
     /**
@@ -134,7 +154,7 @@ export async function createViewer({ container, model, meta = {} }) {
       let triangles = 0;
       let drawCalls = 0;
       model.traverse((o) => {
-        if (!o.isMesh || !o.visible) return;
+        if (!o.isMesh || !o.visible || o.userData.sliceHelper) return;
         const g = o.geometry;
         triangles += (g.index ? g.index.count : g.attributes.position.count) / 3;
         drawCalls += 1;
@@ -143,6 +163,7 @@ export async function createViewer({ container, model, meta = {} }) {
     },
     dispose() {
       ar.dispose();
+      slicer.dispose();
       resize.disconnect();
       picker.dispose();
       controls.dispose();

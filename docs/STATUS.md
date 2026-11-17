@@ -71,8 +71,9 @@ AR (from `track-a/webxr-ar`):
 
 ### Track C: Platform & UX
 
-- GitHub Pages deploy (`.github/workflows/deploy.yml`): every push to `main` runs `npm ci`, lint
-  and build, then publishes `dist/`.
+- CI/CD (`.github/workflows/ci-cd.yml`, replaces `deploy.yml`): every push and pull request to `main`
+  runs `npm ci`, lint, data validation, a 5 MB limit on `.glb` files and build; a push to `main`
+  whose CI passed is then published to GitHub Pages.
 - PWA skeleton: `manifest.webmanifest`, placeholder icons, and a service worker (`public/sw.js`)
   with a versioned app-shell cache. HTML is network-first, other files are cache-first. The app
   works offline after the first visit.

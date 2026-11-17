@@ -76,10 +76,10 @@ L'application installe ses dépendances par npm, avec des versions exactes figé
     *   **Lien CDN de référence :** https://cdn.jsdelivr.net/npm/prettier@3.9.10/
     *   **Rôle dans le projet :** formatage du code
 
-*   **Bibliothèque :** GitHub Actions : checkout, setup-node, configure-pages, upload-pages-artifact, deploy-pages
-    *   **Version fixée :** v7, v7, v6, v5, v5 (versions majeures, `.github/workflows/deploy.yml`)
+*   **Bibliothèque :** GitHub Actions : checkout, setup-node, setup-python, configure-pages, upload-pages-artifact, deploy-pages
+    *   **Version fixée :** v7, v7, v7, v6, v5, v5 (versions majeures, `.github/workflows/ci-cd.yml`)
     *   **Lien CDN de référence :** sans objet (https://github.com/actions)
-    *   **Rôle dans le projet :** build et déploiement automatiques sur GitHub Pages
+    *   **Rôle dans le projet :** CI (lint, validation des données, taille des GLB, build) et déploiement automatique sur GitHub Pages
 
 *   **Bibliothèque :** Immersive Web Emulator (Meta) et `iwer` (outil de test, non intégré au dépôt)
     *   **Version fixée :** 2.8.0

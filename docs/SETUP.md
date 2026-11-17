@@ -5,7 +5,8 @@ Everyone must use the same Node version and the same dependency versions.
 1. Install **Node 22** (`.nvmrc` says which; with nvm: `nvm use`). Node 20 or newer also works.
 2. Install dependencies from the lockfile: `npm ci` (not `npm install`, so versions never drift).
 3. Start the dev server: `npm run dev`, then open the printed address.
-4. Before opening a pull request: `npm run lint` and `npm run build` must pass.
+4. Before opening a pull request: `npm run lint`, `npm run validate` and `npm run build` must pass
+   (`validate` needs Python 3, standard library only).
 5. Format with `npm run format` (Prettier).
 
 Dependencies are pinned to exact versions in `package.json`. Add or upgrade one only in a
@@ -24,9 +25,14 @@ active renderer (WebGPU or WebGL 2), raw layer ids, and test controls. Users nev
 
 ## Deployment (GitHub Pages)
 
-Every push to `main` runs `.github/workflows/deploy.yml`: `npm ci`, `npm run lint`, `npm run build`
-(Node version from `.nvmrc`), then publishes `dist/` to GitHub Pages. A failing lint or build
-means nothing is deployed.
+`.github/workflows/ci-cd.yml` has two jobs:
+
+- **CI**, on every push and pull request to `main`: `npm ci`, `npm run lint`, `npm run validate`
+  (data contract: every GLB node has its EN/FR record, licence and attribution; the GLB exists;
+  `quiz.json` is consistent), a check that fails if any `.glb` file in Git is larger than 5 MB
+  (5 × 1024 × 1024 bytes), then `npm run build`. Node version from `.nvmrc`, Python 3.13.
+- **CD**, only after a push to `main` whose CI passed: publishes the `dist/` built by the CI job
+  to GitHub Pages. A pull request is checked but never deployed.
 
 One-time setup (repository admin): **Settings > Pages > Build and deployment > Source: "GitHub Actions"**.
 The site URL appears in the run summary and under Settings > Pages. A run can also be started by

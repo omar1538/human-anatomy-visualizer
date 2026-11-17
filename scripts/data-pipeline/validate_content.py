@@ -6,6 +6,7 @@
         --organs public/assets/data/organs.json
 
 Errors (exit code 1):
+- the GLB file is missing or is not a glTF 2.0 binary
 - organs.json is not an array of objects; an id is missing, malformed or duplicated
 - a structure or group node of the GLB has no record, or a record has no node
 - a structure node has no `licence` or `attribution` in its extras; `asset.copyright` is empty
@@ -87,7 +88,12 @@ def validate(glb: Path, organs: Path, strict: bool, quiz: Path | None = None) ->
     errors: list[str] = []
     warnings: list[str] = []
 
-    doc = read_glb_json(glb)
+    if not glb.is_file():
+        return [f"{glb}: GLB file not found"], warnings
+    try:
+        doc = read_glb_json(glb)
+    except (OSError, ValueError, struct.error) as e:
+        return [f"{glb.name}: cannot read: {e}"], warnings
     if not str(doc.get("asset", {}).get("copyright", "")).strip():
         errors.append(f"{glb.name}: asset.copyright is empty")
     tree = glb_tree(doc)

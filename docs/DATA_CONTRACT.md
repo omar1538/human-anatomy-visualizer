@@ -2,20 +2,21 @@
 
 Defined in Week 1, changed only through a PR reviewed by all three.
 
-> **Status: draft from the Week 1 dataset spike (Track B), heart-only scope.** Sections marked
-> *(proposed)* need agreement from Tracks A and C before this is final.
+> **Status: final, version 1.0 (2026-11-17), heart-only scope.** Checked against the code in `main`:
+> `src/render/` (Track A) and `src/learn/` (Track C) load `heart.glb` and `organs.json` as described here.
+> Any change (new id, renamed id, new field, new axis convention) needs a new version and a PR reviewed by all three tracks.
 
 ## Mesh file (GLB)
 - One file: `public/assets/models/heart.glb` (a light version for phones comes in Week 5).
 - Every selectable structure is a named node whose name equals the `id` in `organs.json`.
-- Units: metres. Axes *(proposed)*: **+Y up, +Z anterior (the heart's front faces +Z, i.e. towards a default
+- Units: metres. Axes: **+Y up, +Z anterior (the heart's front faces +Z, i.e. towards a default
   Three.js camera), +X = the subject's left** (glTF convention). The heart sits as in the body: apex pointing
   down, forward and to the left.
-- Origin *(proposed)*: **centre of the heart** (bounding box of the BodyParts3D heart). The model spans about
+- Origin: **centre of the heart** (bounding box of the BodyParts3D heart). The model spans about
   ±0.06 m around it; the aortic arch reaches y ≈ +0.09 m, the cut vessels end at y = −0.075 m.
 - Each mesh has `POSITION`, `NORMAL` (unit length) and indices. No textures, no UVs, no vertex colours.
 
-### Node tree *(proposed)*
+### Node tree
 ```
 heart                                   (root, extras.kind = "system")
 ├── chambers                            (group, extras.kind = "group")
@@ -34,14 +35,15 @@ heart                                   (root, extras.kind = "system")
 ```
 - The five groups are the **layers** the UI shows and hides (they replace "systems" in the whole-body plan).
 - Nodes carry no transform (identity); geometry is already in the heart frame.
-- Group nodes are selectable too: picking a mesh can walk up to its group ("select all valves").
+- Group nodes are selectable too: a click selects one structure; a group is selected by its id
+  (`selectById('valves')`, Learn mode links), which highlights all its structures.
 
-### Ids *(proposed)*
+### Ids
 - Lower snake_case, `[a-z0-9_]`, unique: `left_ventricle`, `mitral_valve`.
   (Three.js renames nodes containing spaces, dots, colons or brackets; snake_case survives unchanged and is safe in URLs.)
 - Ids are stable: lesson links and quiz progress store them. Renaming an id is a contract change.
 
-### Materials *(proposed)*
+### Materials
 - One PBR material per mesh, named like the node, with a base colour per structure
   (metallic 0, roughness 0.6). Usual teaching colours: arteries and oxygenated blood red, veins and the
   pulmonary arteries blue, valves pale. Track A may replace materials at runtime (highlight, x-ray).
@@ -140,3 +142,9 @@ Choices are already in random order; the app may shuffle them again.
 `validate_content.py` also checks `quiz.json`: ids, types, that every organ id exists, that `answer`
 matches `choices`, both languages, and (with `--strict`) at least 60 questions and at least one question
 about every structure.
+
+## Versions
+
+| Version | Date | Change |
+|---|---|---|
+| 1.0 | 2026-11-17 | Final. GLB frame, node tree, ids and materials (draft since Week 1) are confirmed by the code of Tracks A and C; `organs.json` (Week 3) and `quiz.json` with the `mcq` type and bilingual texts (Week 4) |

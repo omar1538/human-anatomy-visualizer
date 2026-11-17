@@ -1,11 +1,11 @@
-// Temporary developer panel to exercise the viewer API.
-// Track C replaces this with the real interface (src/ui/). Safe to delete then.
+// Developer panel to exercise the viewer API: backend, raw ids, test controls.
+// Shown only with ?dev in the URL; users get the real interface in src/ui/.
 
 /** @param {Awaited<ReturnType<typeof import('../render/index.js').createViewer>>} viewer */
 export function mountDevPanel(viewer) {
   const panel = document.createElement('div');
   panel.style.cssText =
-    'position:fixed;top:12px;left:12px;padding:12px 14px;background:rgba(15,21,32,.85);border:1px solid #2e75b6;border-radius:8px;font-size:14px;min-width:190px';
+    'position:fixed;bottom:12px;left:12px;padding:12px 14px;background:rgba(15,21,32,.85);border:1px solid #2e75b6;border-radius:8px;font-size:14px;min-width:190px';
 
   const backend = document.createElement('div');
   backend.id = 'backend';

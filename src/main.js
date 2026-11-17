@@ -5,6 +5,7 @@ import { createPlaceholderBody } from './render/placeholder.js';
 import { mountDevPanel } from './dev/devPanel.js';
 import { registerServiceWorker } from './pwa/register.js';
 import { mountLearnMode } from './learn/learnMode.js';
+import { mountUI } from './ui/toolbar.js';
 
 // Registered first, so the app shell is cached even if the viewer fails to start.
 registerServiceWorker();
@@ -26,12 +27,15 @@ async function loadModel(url) {
   }
 }
 
-const modelUrl = new URLSearchParams(location.search).get('model') ?? DEFAULT_MODEL;
+const params = new URLSearchParams(location.search);
+const modelUrl = params.get('model') ?? DEFAULT_MODEL;
 const [model, meta] = await Promise.all([loadModel(modelUrl), loadOrganIndex(ORGANS_URL)]);
 
 const viewer = await createViewer({ container, model, meta });
-mountDevPanel(viewer);
+mountUI(viewer, meta);
 mountLearnMode(viewer, meta);
+// The developer panel (backend, raw ids, test controls) only with ?dev in the URL.
+if (params.has('dev')) mountDevPanel(viewer);
 
 // Handy for debugging and automated tests.
 window.viewer = viewer;

@@ -310,6 +310,22 @@ le code, les tests et les textes ; l'étudiant a défini les tâches et doit rel
 - [ ] *[À compléter — Track C]* : déclarer aussi le travail des semaines 1 et 2 fait avec le même assistant
   (déploiement et PWA, Learn mode, interface `src/ui/`, crédits), qui n'est pas encore décrit ici.
 
+*   **Composant ou Shader concerné :** plan de test sur appareils réels (`docs/TEST_PLAN.md`)
+    *   **Prompt ou usage principal :** (extrait recopié tel quel)
+
+        > Create docs/TEST_PLAN.md: a short checklist that a team member can follow on real devices,
+        > with a place to record results (device, browser, version, pass/fail, notes):
+        > - laptop Chrome/Edge: confirm the WebGPU backend is active (?dev shows it), interaction is
+        >   smooth, and there are no console errors
+        > - Firefox or a browser with WebGPU off: confirm the WebGL 2 fallback looks identical
+        > - mid-range Android phone: install the PWA, go offline, reopen, use Learn mode and slicing, AR
+        > - iPhone Safari: install to home screen, offline
+        > - an FPS measurement method for the "smooth on a mid-range phone" requirement
+    *   **Axe de vérification appliqué :**
+        - Libellés de l'interface et comportement vérifiés dans le code (`src/ui/toolbar.js`, `src/dev/devPanel.js`, rendu à la demande dans `src/render/index.js`)
+        - Le seuil de fluidité (30 FPS sur téléphone, 55 sur ordinateur) est une proposition à valider par l'équipe : le cahier des charges ne donne pas de chiffre
+        - `npm run lint`, `npm test`, `npm run validate`, `npm run build`
+        - [ ] Exécution du plan sur de vrais appareils (aucun résultat n'est encore saisi)
 *   **Composant ou Shader concerné :** mise à jour de `docs/STATUS.md` au 18 novembre, et auteur des icônes dans ce fichier (retrouvé dans l'historique Git)
     *   **Prompt ou usage principal :** (extrait recopié tel quel)
 

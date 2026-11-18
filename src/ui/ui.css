@@ -127,6 +127,67 @@
   text-decoration: underline;
 }
 
+/* Slicing panel (Track A): same look as the layers list. */
+.ui-slice {
+  padding: 8px 10px;
+  min-width: 220px;
+  background: var(--ui-bg);
+  border: 1px solid var(--ui-border);
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+}
+
+.ui-slice[hidden] {
+  display: none;
+}
+
+.ui-slice-axes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+.ui-slice-axis {
+  font-size: 13px;
+}
+
+.ui-slice-axis[aria-pressed='true'] {
+  background: var(--ui-border);
+  font-weight: 700;
+}
+
+.ui-slice-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.ui-slice-row input[type='range'] {
+  width: 100%;
+  accent-color: var(--ui-border);
+}
+
+.ui-slice-flip {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.ui-slice-flip input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--ui-border);
+}
+
+.ui-slice-row input:disabled,
+.ui-slice-row input:disabled + span {
+  opacity: 0.45;
+}
+
 .ui-notice-line {
   margin: 6px 0 0;
   font-size: 12px;

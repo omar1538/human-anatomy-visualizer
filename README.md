@@ -1,32 +1,46 @@
 # Human Anatomy Visualizer
 
-An **extended reality anatomy learning app** that runs in the browser, built on the **WebXR Device API**.
-Choose an organ on your phone, project it into the real space around you, and walk around it to study it.
-No installation and no account.
-
-We build for **augmented reality (AR)** rather than virtual reality: it needs only a phone, which students
-already have, and it keeps them in their real surroundings.
+An **interactive 3D anatomy viewer** that runs in the browser and renders **with WebGPU only**.
+Rotate the heart, show it layer by layer, cut through it, and read what each structure does, in
+English or French. It installs as an app and works offline. No account.
 
 > Educational use only. Not a medical tool.
 
+## WebGPU only
+
+The app renders with **WebGPU and nothing else**: there is **no WebGL 2 fallback**. A browser or
+device without WebGPU shows a "WebGPU is required" message (EN/FR) with the reason, instead of the
+heart.
+
+| Platform                 | Browser                                   | Works?                                     |
+| ------------------------ | ----------------------------------------- | ------------------------------------------ |
+| Windows, macOS, ChromeOS | Chrome or Edge, recent version            | Yes                                        |
+| Android                  | Chrome, recent version, on a recent phone | Yes on most recent phones; older ones no   |
+| iPhone, iPad, Mac        | Safari 26 or later                        | Yes; earlier versions show the message     |
+| Any                      | Firefox                                   | Only where Firefox has WebGPU switched on  |
+| Older GPUs or drivers    | Any                                       | The message, if the browser blocks the GPU |
+
+Add `?dev` to the address to see the active renderer (`Renderer: WebGPU`).
+
 ## The experience
 
-1. Choose an organ on the phone.
-2. Enter AR. The phone's camera shows your room.
-3. Point at a surface and tap. The organ appears there at a size you can study.
-4. Walk around it and look at it from any side. Tap again to move it.
+1. Open the link (or the installed app). The heart appears.
+2. Rotate, zoom and pan with the mouse or with your fingers.
+3. Show or hide layers, cut through the heart with "Slice", tap a structure to learn about it.
+4. Optional, where supported: "View in AR" places the heart in your room through the phone's camera.
 
 ## Features
 
 | Feature                                                                                                              | Status                                                                                                                                      |
 | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Place an organ, a group or the whole heart in your room** with WebXR, on a detected surface or floating in the air | Done: tested in a WebXR emulator, real-phone test pending                                                                                   |
+| **3D viewer on WebGPU** (no WebGL 2 fallback), mouse and touch controls                                              | Done: runs on WebGPU in Edge on a laptop GPU; phones pending                                                                                |
+| **Place an organ, a group or the whole heart in your room** with WebXR, on a detected surface or floating in the air | Written; now needs WebXR through WebGPU (`XRGPUBinding`), which most phone browsers do not have yet                                         |
 | **Move, rotate and scale** the placed organ with gestures                                                            | Planned                                                                                                                                     |
 | **Choose organs and see labels inside AR**                                                                           | Planned                                                                                                                                     |
 | **Explore the heart by layer** (chambers, valves, coronary arteries, cardiac veins, great vessels)                   | Done                                                                                                                                        |
 | **Learn mode**: select a structure to get its function, location and key facts (EN/FR)                               | Working: the Learn panel (`src/learn/`) shows the FR/EN record of the selected structure or group; texts are drafts until the Week 6 review |
 | **Quiz mode**: "find this organ", "name this organ", with progress saved on the device                               | Planned                                                                                                                                     |
-| **Slicing**: cut through an organ with an adjustable plane to see the inside                                         | Planned                                                                                                                                     |
+| **Slicing**: cut through an organ with an adjustable plane to see the inside                                         | Done: "Slice" menu in the toolbar (three axes, position, keep the other half)                                                               |
 | **Shareable lesson links**: a teacher sends one link, the class sees the same view                                   | Planned                                                                                                                                     |
 | **Offline PWA**: revise anywhere, no connection needed                                                               | Working: installable, and the heart, `organs.json` and the quiz bank work offline after the first visit                                     |
 | _Stretch:_ **flow visualisation** along vessels and airways with WebGPU compute shaders                              | Stretch                                                                                                                                     |
@@ -36,30 +50,33 @@ Scope is split into **core** (must ship) and **stretch** (only if the core is so
 
 ## Where AR runs
 
-AR targets **Chrome on Android phones with ARCore**. Other browsers and desktops get the 3D view without AR.
-For development without a phone, use a WebXR emulator in the browser: see "Testing AR" in `docs/RENDERING_API.md`.
+AR is optional. Because the renderer is WebGPU only, an AR session must also run through WebGPU (the
+WebXR/WebGPU binding, `XRGPUBinding`). The "View in AR" button only appears in browsers that provide
+it together with immersive AR; today that is very few phones. Everywhere else the 3D viewer works
+without AR. See "Testing AR" in `docs/RENDERING_API.md`.
 
 ## Team and tracks
 
 Each member owns one track and its issues (labels `track-a`, `track-b`, `track-c`).
 
-| Track                    | Owner         | Focus                                                                                     |
-| ------------------------ | ------------- | ----------------------------------------------------------------------------------------- |
-| **A: WebXR & rendering** | Omar          | WebXR AR sessions and interaction, renderer, scene, layers, picking, slicing, performance |
-| **B: Data & content**    | Adam          | Datasets, conversion pipeline, organ metadata, educational content, quiz bank, licences   |
-| **C: Platform & UX**     | Mohamed Amine | App shell, UI, learn/quiz modes, shareable links, PWA, CI/CD, tests, docs                 |
+| Track                    | Owner         | Focus                                                                                   |
+| ------------------------ | ------------- | --------------------------------------------------------------------------------------- |
+| **A: WebXR & rendering** | Omar          | WebGPU renderer, scene, layers, picking, slicing, performance, optional WebXR AR        |
+| **B: Data & content**    | Adam          | Datasets, conversion pipeline, organ metadata, educational content, quiz bank, licences |
+| **C: Platform & UX**     | Mohamed Amine | App shell, UI, learn/quiz modes, shareable links, PWA, CI/CD, tests, docs               |
 
 ## Tech
 
-WebXR Device API · Three.js (`WebGPURenderer`, WebGPU only: no WebGL 2 fallback) ·
-glTF/GLB · HTML/CSS/JavaScript (ES modules) · Service Worker + Web App Manifest · GitHub Actions.
+WebGPU · Three.js r187 (`WebGPURenderer`, WebGPU backend only: no WebGL 2 fallback) · WebXR Device
+API (optional AR) · glTF/GLB · HTML/CSS/JavaScript (ES modules) · Service Worker + Web App Manifest ·
+GitHub Actions.
 
 ## Repository layout
 
 ```
-src/render/            Track A: WebXR AR, renderer, scene, controls, layers, picking
+src/render/            Track A: WebGPU renderer, scene, controls, layers, picking, slicing, optional AR
 src/dev/               Developer panel (backend, raw ids, test controls), only with ?dev in the URL
-src/ui/                Track C: toolbar, layers, About and credits window
+src/ui/                Track C: toolbar, layers, About and credits window, "WebGPU is required" message
 src/learn/             Track C: learn mode, quiz mode, progress, shareable links
 src/pwa/               Track C: manifest helpers, service worker
 scripts/data-pipeline/ Track B: conversion, decimation, validation scripts
@@ -84,6 +101,7 @@ Full instructions are in `docs/SETUP.md` (install, dev server, deployment, testi
 - `docs/ROADMAP.md`: 7-week plan per track
 - `docs/STATUS.md`: what is done, what is left, decisions needed
 - `docs/SETUP.md`: how to install and run the project
+- `docs/TEST_PLAN.md`: real-device checklist and how to measure the frame rate
 - `docs/RENDERING_API.md`: the viewer and AR API, and how to test AR
 - `docs/DATA_SOURCES.md`: datasets, licences, caveats
 - `docs/DATA_CONTRACT.md`: how Track B's data plugs into Tracks A and C

@@ -21,7 +21,7 @@ are shared files.
 ## Developer panel
 
 Add `?dev` to the address (for example `http://localhost:5173/?dev`) to show the developer panel:
-active renderer (WebGPU or WebGL 2), raw layer ids, and test controls. Users never see it.
+active renderer (always WebGPU), raw layer ids, and test controls. Users never see it.
 
 ## Deployment (GitHub Pages)
 

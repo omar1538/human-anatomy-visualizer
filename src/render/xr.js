@@ -167,7 +167,8 @@ export function createAR({ renderer, scene, camera, model, picker, onChange }) {
     /** Must be called from a user gesture such as a click: browsers require it. */
     async enter({ overlay, size: requestedSize = DEFAULT_SIZE_M } = {}) {
       if (session) return;
-      const init = { optionalFeatures: ['hit-test'] };
+      // The renderer is WebGPU only, so the session needs the WebXR/WebGPU binding.
+      const init = { requiredFeatures: ['webgpu'], optionalFeatures: ['hit-test'] };
       if (overlay) {
         init.optionalFeatures.push('dom-overlay');
         init.domOverlay = { root: overlay };

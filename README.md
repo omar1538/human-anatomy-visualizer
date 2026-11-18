@@ -51,7 +51,7 @@ Each member owns one track and its issues (labels `track-a`, `track-b`, `track-c
 
 ## Tech
 
-WebXR Device API · Three.js (`WebGPURenderer`, with WebGPU on desktop and WebGL 2 for AR and as the fallback) ·
+WebXR Device API · Three.js (`WebGPURenderer`, WebGPU only: no WebGL 2 fallback) ·
 glTF/GLB · HTML/CSS/JavaScript (ES modules) · Service Worker + Web App Manifest · GitHub Actions.
 
 ## Repository layout

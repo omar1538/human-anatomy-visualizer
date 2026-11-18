@@ -7,20 +7,20 @@ otherwise, and write the results in the tables. Add a row per device; keep faile
 
 Useful facts before starting:
 
-- Add `?dev` to the address to show the developer panel: its first line says **`Renderer: WebGPU`**
-  or **`Renderer: WebGL 2`**. In a console, `viewer.backend` gives the same answer.
+- Add `?dev` to the address to show the developer panel: its first line says **`Renderer: WebGPU`**.
+  The app is WebGPU only: there is no WebGL 2 fallback. Without WebGPU it shows a "WebGPU is
+  required" message instead of the viewer.
 - On a phone, the console is reached from a computer: Android with Chrome's `chrome://inspect`
   (USB debugging on), iPhone with Safari's Develop menu on a Mac.
 - The app only draws when something changes, to save battery. Measure frame rates **while
   rotating the model continuously**, never while it is still.
-- Phones that support AR currently always start on WebGL 2 (see `docs/STATUS.md`, decision 1).
-  Write down the backend you see; it is not a failure in itself.
+- AR runs through WebGPU, so the "View in AR" button only appears where the browser has the
+  WebXR/WebGPU binding. On most phones today it does not appear; write that down, it is expected.
 
 ## 1. Laptop: Chrome or Edge (WebGPU)
 
 1. Open the site with `?dev`. The panel shows `Renderer: WebGPU`.
-2. Open DevTools (F12) > Console. Reload. There are no red errors (the yellow "WebGPU is not
-   available" warning must not appear here).
+2. Open DevTools (F12) > Console. Reload. There are no red errors.
 3. Rotate, zoom (wheel) and pan (right-click drag) for 30 seconds: no stutter, no flicker.
 4. Measure the frame rate with the method in section 6 while rotating.
 5. Select a structure: the Learn panel shows its sheet. Switch EN/FR. Open "Slice", try the three
@@ -30,20 +30,20 @@ Useful facts before starting:
 | ---- | ------ | -------------- | --- | ------------------- | ------------- | ------------------ | -------------- | ------ | ----- |
 |      |        |                |     |                     |               |                    |                |        |       |
 
-## 2. WebGL 2 fallback: Firefox, or WebGPU switched off
+## 2. Browser without WebGPU: Firefox, or WebGPU switched off
 
-Use Firefox. If your Firefox version already has WebGPU, switch it off: open `about:config`, set
-`dom.webgpu.enabled` to `false`, restart Firefox.
+The app has no WebGL 2 fallback. This section checks that a browser without WebGPU gets a clear
+message instead of a blank page. Use Firefox; if your Firefox version already has WebGPU, switch it
+off: open `about:config`, set `dom.webgpu.enabled` to `false`, restart Firefox.
 
-1. Open the site with `?dev`. The panel shows `Renderer: WebGL 2`.
-2. On the same computer, put this window next to the Chrome one from section 1, both the same
-   size, both after "Reset view". Compare: the heart, the colours, the lighting, the layers and a
-   cut ("Slice") should look the same. Take two screenshots for the design notebook.
-3. Repeat steps 2 to 5 of section 1.
+1. Open the site. Instead of the heart, a "WebGPU is required" message appears (in French if the
+   browser is in French), with the reason under "Details".
+2. The message is readable on a phone-sized window too (F12 > responsive mode, 390 × 844).
+3. Console: only the `WebGPUUnavailableError` error, nothing else red.
 
-| Date | Tester | Computer | Browser and version | WebGPU switched off how | Backend shown | Looks identical to WebGPU? | FPS while rotating | Console errors | Result | Notes |
-| ---- | ------ | -------- | ------------------- | ----------------------- | ------------- | -------------------------- | ------------------ | -------------- | ------ | ----- |
-|      |        |          |                     |                         |               |                            |                    |                |        |       |
+| Date | Tester | Computer | Browser and version | WebGPU switched off how | Message shown | Language | Other console errors | Result | Notes |
+| ---- | ------ | -------- | ------------------- | ----------------------- | ------------- | -------- | -------------------- | ------ | ----- |
+|      |        |          |                     |                         |               |          |                      |        |       |
 
 ## 3. Mid-range Android phone (Chrome)
 
@@ -78,7 +78,9 @@ Use Firefox. If your Firefox version already has WebGPU, switch it off: open `ab
    heart and the Learn panel work.
 4. Try Learn mode, EN/FR, layers and slicing as in section 3.
 5. The "View in AR" button must **not** appear (WebXR AR is not available in Safari on iPhone).
-6. With `?dev` in Safari (before installing), note the backend shown.
+6. With `?dev` in Safari (before installing), check the panel says `Renderer: WebGPU`. Safari
+   before version 26 has no WebGPU and must show the "WebGPU is required" message: note the iOS
+   version either way.
 
 | Date | Tester | iPhone model | iOS version | Backend shown | Add to Home Screen | Offline reopen | Learn mode, layers, slicing | No AR button | Notes |
 | ---- | ------ | ------------ | ----------- | ------------- | ------------------ | -------------- | --------------------------- | ------------ | ----- |

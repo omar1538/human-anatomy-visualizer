@@ -1,37 +1,72 @@
-// Track A: renderer creation with automatic WebGPU -> WebGL 2 fallback.
+// Track A: renderer creation, WebGPU only (no WebGL 2 fallback).
 import * as THREE from 'three/webgpu';
 import { isARSupported } from './xr.js';
 
+/** Thrown when this browser or device cannot run WebGPU. main.js shows a message for it. */
+export class WebGPUUnavailableError extends Error {
+  constructor(reason) {
+    super(`WebGPU is not available: ${reason}`);
+    this.name = 'WebGPUUnavailableError';
+  }
+}
+
 /**
- * Creates the renderer inside `container`.
- * Three.js WebGPURenderer uses WebGPU when the browser supports it and
- * switches to its WebGL 2 backend otherwise. We read back which one is active.
- * On AR-capable devices WebGL 2 is forced, because AR through WebGPU needs a WebXR
- * binding that fewer browsers support, and the backend cannot change after start-up.
+ * Whether WebGPU can actually be used here: the API exists and the browser gives an adapter
+ * (it may not, for example on a blocklisted GPU driver).
+ * @returns {Promise<string | null>} null when WebGPU is usable, otherwise the reason it is not
+ */
+export async function checkWebGPU() {
+  if (typeof navigator === 'undefined' || !navigator.gpu) return 'this browser has no WebGPU';
+  try {
+    const adapter = await navigator.gpu.requestAdapter();
+    return adapter ? null : 'no compatible GPU adapter';
+  } catch {
+    return 'the GPU adapter request failed';
+  }
+}
+
+/**
+ * AR runs through WebGPU only where the browser provides the WebXR/WebGPU binding
+ * (`XRGPUBinding`) and can start an immersive-ar session.
+ * @returns {Promise<boolean>}
+ */
+async function isWebGPUARSupported() {
+  if (typeof globalThis.XRGPUBinding === 'undefined') return false;
+  return isARSupported();
+}
+
+/**
+ * Creates the WebGPU renderer inside `container`.
+ * There is no WebGL 2 fallback: without WebGPU this throws `WebGPUUnavailableError`.
  * @param {HTMLElement} container
- * @returns {Promise<{ renderer: THREE.WebGPURenderer, backend: 'WebGPU' | 'WebGL 2', arSupported: boolean }>}
+ * @returns {Promise<{ renderer: THREE.WebGPURenderer, backend: 'WebGPU', arSupported: boolean }>}
  */
 export async function createRenderer(container) {
-  const arSupported = await isARSupported();
-  const renderer = new THREE.WebGPURenderer({ antialias: true, forceWebGL: arSupported });
+  const reason = await checkWebGPU();
+  if (reason) throw new WebGPUUnavailableError(reason);
+
+  const arSupported = await isWebGPUARSupported();
+  const renderer = new THREE.WebGPURenderer({ antialias: true });
+  // WebGPURenderer always installs a WebGL 2 fallback backend. Remove it so a WebGPU start-up
+  // failure is reported instead of silently running on WebGL 2. This is a private field in
+  // Three.js r187; the isWebGPUBackend check below still catches it if a future version renames it.
+  renderer._getFallback = null;
   renderer.xr.enabled = arSupported;
   // Cap the pixel ratio: rendering more pixels than needed wastes battery on phones.
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(container.clientWidth, container.clientHeight, false);
-  container.appendChild(renderer.domElement);
 
-  await renderer.init();
-
-  const backend = renderer.backend?.isWebGPUBackend === true ? 'WebGPU' : 'WebGL 2';
-  if (arSupported && backend === 'WebGL 2') {
-    // WebXR emulators report a null XR framebuffer, meaning "draw to the canvas", but Three.js
-    // r187 uses that value as a WeakMap key and throws on every frame. Real devices never pass
-    // null, so this changes nothing on them. Remove it once Three.js handles null itself.
-    const { state } = renderer.backend;
-    const noFramebuffer = {};
-    const drawBuffers = state.drawBuffers.bind(state);
-    state.drawBuffers = (context, framebuffer) =>
-      drawBuffers(context, framebuffer ?? noFramebuffer);
+  try {
+    await renderer.init();
+  } catch (error) {
+    renderer.dispose();
+    throw new WebGPUUnavailableError(error?.message ?? 'the WebGPU device could not start');
   }
-  return { renderer, backend, arSupported };
+  if (renderer.backend?.isWebGPUBackend !== true) {
+    renderer.dispose();
+    throw new WebGPUUnavailableError('Three.js did not start its WebGPU backend');
+  }
+
+  container.appendChild(renderer.domElement);
+  return { renderer, backend: 'WebGPU', arSupported };
 }

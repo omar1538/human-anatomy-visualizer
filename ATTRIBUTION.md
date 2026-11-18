@@ -337,6 +337,16 @@ le code, les tests et les textes ; l'étudiant a défini les tâches et doit rel
         - Chaque affirmation vérifiée dans `main` : historique Git, fichiers, `tests/slicing.test.mjs` (liste des 4 maillages non fermés), `.github/workflows/ci-cd.yml`
         - Auteur des icônes : commit `08250a5` (Mohamed Amine Msaddak, co-écrit avec Claude)
         - `npm run lint`, `npm test`, `npm run validate`, `npm run build`
+*   **Composant ou Shader concerné :** passage du rendu en WebGPU seul, sans repli WebGL 2 (`src/render/renderer.js`, `src/render/xr.js`, `src/main.js`, nouveau `src/ui/unsupported.js`), et mise à jour de la documentation (`README.md`, `docs/RENDERING_API.md`, `docs/SETUP.md`, `docs/TEST_PLAN.md`)
+    *   **Prompt ou usage principal :** (extrait recopié tel quel)
+
+        > remove the webgl fallback, i want it all on webgpu
+    *   **Axe de vérification appliqué :**
+        - Code de Three.js r187 lu : `WebGPURenderer` installe toujours un repli WebGL 2 (`getFallback`), retiré ici ; la RA passe par `XRGPUBinding` et exige la fonctionnalité de session `webgpu`
+        - Edge sans tête, vrai GPU avec WebGPU : `Renderer: WebGPU`, 111 505 triangles, 29 appels de dessin, sélection d'une structure, aucune erreur
+        - Edge sans tête, WebGPU désactivé : message « WebGPU is required » affiché, pas de canevas, seule erreur `WebGPUUnavailableError`
+        - `npm run lint`, `npm test`, `npm run validate`, `npm run build`
+        - [ ] Non testé : vrais téléphones, Firefox, Safari ; la RA en WebGPU (aucun appareil disponible avec `XRGPUBinding`)
 
 ---
 

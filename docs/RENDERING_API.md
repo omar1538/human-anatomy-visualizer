@@ -16,18 +16,18 @@ const viewer = await createViewer({ container, model, meta });
 
 ## Viewer methods
 
-| Member                                     | Description                                                                                        |
-| ------------------------------------------ | -------------------------------------------------------------------------------------------------- |
-| `viewer.backend`                           | `'WebGPU'` or `'WebGL 2'`                                                                          |
-| `viewer.systems()`                         | Array of system ids found in the model                                                             |
-| `viewer.setSystemVisible(system, visible)` | Show or hide a whole system                                                                        |
-| `viewer.isSystemVisible(system)`           | Current visibility                                                                                 |
-| `viewer.select(id)`                        | Select an organ or a group (e.g. `'valves'`) by id (`null` clears). For search and quiz            |
-| `viewer.onSelect((id, object) => ...)`     | Called when the selection changes. `object` is a mesh, or a group. Returns an unsubscribe function |
-| `viewer.organ(id)`                         | The `organs.json` record for an organ or group id, or `null`. For Learn mode                       |
-| `viewer.resetView()`                       | Back to the default camera                                                                         |
-| `viewer.stats()`                           | `{ triangles, drawCalls }` of what is visible                                                      |
-| `viewer.dispose()`                         | Release GPU resources                                                                              |
+| Member                                     | Description                                                                                                        |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `viewer.backend`                           | Always `'WebGPU'`: the app has no WebGL 2 fallback (without WebGPU `createViewer` throws `WebGPUUnavailableError`) |
+| `viewer.systems()`                         | Array of system ids found in the model                                                                             |
+| `viewer.setSystemVisible(system, visible)` | Show or hide a whole system                                                                                        |
+| `viewer.isSystemVisible(system)`           | Current visibility                                                                                                 |
+| `viewer.select(id)`                        | Select an organ or a group (e.g. `'valves'`) by id (`null` clears). For search and quiz                            |
+| `viewer.onSelect((id, object) => ...)`     | Called when the selection changes. `object` is a mesh, or a group. Returns an unsubscribe function                 |
+| `viewer.organ(id)`                         | The `organs.json` record for an organ or group id, or `null`. For Learn mode                                       |
+| `viewer.resetView()`                       | Back to the default camera                                                                                         |
+| `viewer.stats()`                           | `{ triangles, drawCalls }` of what is visible                                                                      |
+| `viewer.dispose()`                         | Release GPU resources                                                                                              |
 
 ## Augmented reality (WebXR)
 
@@ -47,7 +47,7 @@ AR is the core of the product. Select an organ on the phone, enter AR, then tap 
 - A tap places the selection (an organ, or a whole group such as all valves), or the whole model if
   nothing is selected. It keeps its real colours, without the selection highlight. Another tap moves it.
   With no surface detected, it floats 0.8 m in front of the phone.
-- On AR-capable devices `viewer.backend` is always `'WebGL 2'`, by design.
+- AR runs through WebGPU, so it is only offered where the browser provides the WebXR/WebGPU binding (`XRGPUBinding`) and the session gets the `webgpu` feature. Most phones do not have it yet; there `viewer.arSupported` is `false`.
 
 ### Testing AR in a desktop browser
 

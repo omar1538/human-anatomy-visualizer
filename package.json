@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Interactive 3D anatomy learning platform (WebGPU with WebGL 2 fallback)",
+  "description": "Interactive 3D anatomy learning platform (WebGPU only)",
   "engines": {
     "node": ">=20"
   },

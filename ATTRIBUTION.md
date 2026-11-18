@@ -347,6 +347,14 @@ le code, les tests et les textes ; l'étudiant a défini les tâches et doit rel
         - Edge sans tête, WebGPU désactivé : message « WebGPU is required » affiché, pas de canevas, seule erreur `WebGPUUnavailableError`
         - `npm run lint`, `npm test`, `npm run validate`, `npm run build`
         - [ ] Non testé : vrais téléphones, Firefox, Safari ; la RA en WebGPU (aucun appareil disponible avec `XRGPUBinding`)
+*   **Composant ou Shader concerné :** nettoyage du dépôt : suppression des `.gitkeep` devenus inutiles et de `scripts/setup-github.sh` (jamais exécuté, obsolète), mise à jour de `docs/STATUS.md`, `docs/SETUP.md` et de la description de `package.json` pour le rendu WebGPU seul ; suppression des branches fusionnées
+    *   **Prompt ou usage principal :** (extrait recopié tel quel)
+
+        > now can you clean the repo ? and remove all the unecessary ?
+    *   **Axe de vérification appliqué :**
+        - Chaque fichier supprimé vérifié : aucune référence dans le dépôt ; `setup-github.sh` jamais exécuté (0 issue, aucune de ses étiquettes sur GitHub)
+        - Données brutes (`data/raw/hra/`) et pipeline non touchés : décision d'équipe en attente
+        - `npm run lint`, `npm test`, `npm run validate`, `npm run build`
 
 ---
 

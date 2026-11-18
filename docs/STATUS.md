@@ -1,151 +1,127 @@
 # Project status
 
-**Last updated: 11 November 2026 (Week 2).** Update this file at the end of each week.
+**Last updated: 18 November 2026 (start of Week 3 of 6).** Update this file at the end of each week.
 
-The plan itself is in [`ROADMAP.md`](ROADMAP.md). This file says where we actually are.
+The plan is in [`ROADMAP.md`](ROADMAP.md); this file says where we actually are. The reference for
+what must ship is the project's _cahier des charges_.
 
-## Week 3: cahier des charges gaps (17 November)
+## Summary
 
-| Requirement (cahier des charges)                             | Owner | State                                                                                                                                                                                              |
-| ------------------------------------------------------------ | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| §3.1 Simple interface on laptop and phone                    | C     | Done (`src/ui/`): toolbar with layers (FR/EN names from `organs.json`), reset view, About, language, AR button only where supported; layers start closed on phones. The dev panel now needs `?dev` |
-| §3.2 Legal: authors and licences credited in the application | C     | Done: About window with the exact credit lines of `ATTRIBUTION.md` and links                                                                                                                       |
-| §3.2 Scope: educational use only, not a medical tool         | C     | Done: on the first screen (Learn panel) and in the About window                                                                                                                                    |
-| §3.2 Usability without a manual                              | C     | Started: how-to section in the About window; to confirm in the Week 6 usability test                                                                                                               |
+The core of the cahier des charges is built and in `main`: the 3D heart with WebGPU and the WebGL 2
+fallback, mouse and touch controls, layers, Learn mode (FR/EN), the main interface with the credits
+and the not-a-medical-tool notice, and the offline PWA, deployed on GitHub Pages. Slicing is merged
+too. **Nothing has been tested on a real phone or on real WebGPU hardware yet**, and three of the
+five final deliverables have not started.
 
-## Week 2 milestones (11 November)
+## Cahier des charges check
 
-| Milestone                                       | Owner | State                                                                                                                                                                                    |
-| ----------------------------------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| WebXR surface detection and organ placement     | A     | Code done (`src/render/xr.js`: hit test, reticle, tap to place, floating fallback), tested in a WebXR emulator. **Still to do: test on a real Android phone** before calling it closed   |
-| Model loading follows `DATA_CONTRACT.md`        | A, B  | Checked on `heart.glb` + `organs.json`: tree `heart` > 5 groups > 29 structures, ids = `organs.json` ids, metres, +Y up, materials, provenance. `validate_content.py --strict`: 0 errors |
-| Learn mode: 3D selection shows the FR/EN record | C     | Done (`src/learn/`): name, function, location, key facts, organ <-> group links, EN/FR switch remembered on the device, draft notice; side panel on desktop, bottom sheet on phones      |
-| PWA installable, offline mode                   | C     | Done: Chrome's installability check passes; with the server stopped, the app opens with the real heart and Learn mode content after one visit                                            |
+| Requirement                                                     | State                                                                                                                                 |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| §3.1 Show one or two organs in 3D in the browser                | Done: the heart, 29 structures in 5 groups                                                                                            |
+| §3.1 Rotate, zoom, move with a mouse or touch                   | Done. On portrait phones the heart is cut off left and right: fix in an open PR (see below)                                           |
+| §3.1 Identify the organ and its parts (name, short explanation) | Done: Learn mode, FR/EN, texts still drafts                                                                                           |
+| §3.1 Simple interface on a laptop and a phone                   | Done (`src/ui/`): toolbar, layers, slicing, reset, About, language                                                                    |
+| §3.1 Installable and usable offline                             | Done in a desktop browser (installability check passes, works with the server stopped). **Not tested on a phone**                     |
+| §3.2 Smooth on a standard laptop and a mid-range phone          | **Not measured**                                                                                                                      |
+| §3.2 WebGPU, with the WebGL 2 fallback                          | Fallback tested (headless browser). **WebGPU not confirmed on real hardware.** AR-capable phones always start on WebGL 2 (decision 1) |
+| §3.2 Usable without a manual                                    | How-to in the About window; to confirm in the Week 5 usability test                                                                   |
+| §3.2 No personal data collected                                 | Done: no account, no analytics, no external requests; only the language choice is stored on the device                                |
+| §3.2 Authors and licences credited in the application           | Done: About window with the credit lines of `ATTRIBUTION.md`                                                                          |
+| §3.2 Educational use only, not a medical tool                   | Done: first screen and About window                                                                                                   |
+| §5 App deployed with HTTPS                                      | Done: GitHub Pages, deployed by CI/CD after every merge into `main`                                                                   |
+| §5 Source code on GitHub with the PWA files and 3D assets       | Done                                                                                                                                  |
+| §5 Attribution file                                             | Done for assets, libraries and Tracks A and B. **Track C's AI declaration is incomplete**                                             |
+| §5 Design notebook                                              | Started in an open PR                                                                                                                 |
+| §5 Technical documentation (installation and deployment)        | Done: [`SETUP.md`](SETUP.md)                                                                                                          |
+| §5 Short user manual                                            | Started in an open PR                                                                                                                 |
+| §5 Demo video (max. 5 minutes, voice-over)                      | Not started (Week 6)                                                                                                                  |
 
-Not yet tested on a real phone: installing the PWA, offline use, WebGPU, AR.
+## In `main` (by track)
 
-## Week 1 summary
+**Track A: Rendering & 3D.** `createViewer()` API ([`RENDERING_API.md`](RENDERING_API.md)):
+`WebGPURenderer` with automatic WebGL 2 fallback; orbit, zoom and pan; on-demand rendering; layers;
+picking with highlight and group selection; `viewer.organ(id)`; **slicing** with a filled cut
+(`src/render/slicing.js`, controls in the toolbar's "Slice" menu); WebXR AR (hit test, tap to place,
+floating fallback), tested in a WebXR emulator only. Automated tests in `tests/` (25), run by CI.
 
-All three Week 1 deliverables are **in `main`** (5 November). They were merged directly,
-**without the pull-request review CONTRIBUTING asks for**, so each track should review the other
-two tracks' changes in `main` now and open fixes as normal PRs. The merged code builds and lints
-cleanly. Conflicts in `README.md` and `ATTRIBUTION.md` were resolved by keeping both sides.
+**Track B: Data & content.** `heart.glb` (2.7 MB, about 110k triangles, 29 structures, 5 groups)
+from BodyParts3D and HuBMAP HRA fused with ICP; conversion pipeline v1; `organs.json` (34 records,
+FR/EN, all `draft`); `quiz.json` (71 questions); `validate_content.py`; **data contract v1.0, final**
+([`DATA_CONTRACT.md`](DATA_CONTRACT.md)); the CI/CD workflow.
 
-| Track             | Week 1 goal                                        | Merged from              | State                         |
-| ----------------- | -------------------------------------------------- | ------------------------ | ----------------------------- |
-| A: Rendering & 3D | Renderer with fallback, load a GLB, orbit controls | `track-a/webxr-ar`       | In `main`, review outstanding |
-| B: Data & content | Dataset spike, one organ end to end, data contract | `track-b/dataset-spike`  | In `main`, review outstanding |
-| C: Platform & UX  | Deploy with Actions, PWA skeleton, `SETUP.md`      | `track-c/week1-platform` | In `main`, review outstanding |
+**Track C: Platform & UX.** Service worker (`public/sw.js`, cache `v2`): network-first for pages,
+cache-first for Vite's hashed build files, stale-while-revalidate for the model, `organs.json`,
+`quiz.json`, icons and manifest, all precached at install. Manifest, icons, production-only
+registration. Learn mode (`src/learn/`), main interface and About window with the credits
+(`src/ui/`), dev panel only with `?dev`. [`SETUP.md`](SETUP.md).
 
-## What has been done
+**CI/CD** (`.github/workflows/ci-cd.yml`, replaces `deploy.yml`): on every push and pull request to
+`main`: install, lint, `npm test`, data validation, a 5 MB limit on `.glb` files, build. A push to
+`main` whose CI passed is deployed to GitHub Pages. The CI job is required by the branch protection
+of `main`.
 
-### Track A: Rendering & 3D
+Process note: the main interface and credits (17 November) went into `main` without a pull request.
+Tracks A and B should still review them.
 
-Viewer (`src/render/`):
+## Open pull requests (18 November)
 
-- `createViewer()` public API ([`RENDERING_API.md`](RENDERING_API.md)): Three.js `WebGPURenderer`
-  with automatic WebGL 2 fallback, and the active backend shown in the dev panel.
-- Orbit, zoom and pan with mouse or touch. On-demand rendering, which saves battery.
-- Show and hide layers, plus click-to-select with a highlight (both planned for Week 2, done early).
-- `loadGLB()` with Meshopt support, a placeholder body until real models exist, and a temporary dev panel.
+| Branch                               | What                                                                        | Needs                         |
+| ------------------------------------ | --------------------------------------------------------------------------- | ----------------------------- |
+| `track-a/fix-portrait-framing`       | Fit the heart to portrait screens, re-frame on rotation, unit tests         | Review by Track A             |
+| `track-c/docs-align-with-spec`       | **Draft.** README and ROADMAP realigned on the cahier des charges, 6 weeks  | Agreement of all three tracks |
+| `track-c/status-week3`               | This update                                                                 | Review                        |
+| `track-c/test-plan`                  | `docs/TEST_PLAN.md`: real-device checklist and FPS method                   | Review, then run it           |
+| `track-c/design-notebook-and-manual` | `docs/DESIGN_NOTEBOOK.md` and `docs/USER_MANUAL.md` (EN/FR), first versions | Review                        |
 
-AR (from `track-a/webxr-ar`):
-
-- WebXR AR: start an `immersive-ar` session, detect surfaces, tap to place the selected organ in the room.
-- AR API: `arSupported`, `enterAR()`, `exitAR()`, `isInAR()`, `onARChange()`. On AR-capable
-  phones WebGL 2 is forced.
-- Support for testing AR with a WebXR emulator in a desktop browser.
-- `README.md` and `ROADMAP.md` rewritten around AR as the core of the product (see "Decisions needed").
-
-### Track B: Data & content
-
-- First real model: `public/assets/models/heart.glb` (2.7 MB, about 110k triangles), in five layers:
-  `chambers`, `valves`, `coronary_arteries`, `cardiac_veins`, `great_vessels`.
-- Conversion pipeline v1 in Python (`scripts/data-pipeline/`). It combines BodyParts3D (vessels) and
-  HuBMAP HRA (chambers, valves), fitted together with ICP, then cleaned, decimated and exported as GLB.
-  A check script verifies the output.
-- Data contract v1.0, final ([`DATA_CONTRACT.md`](DATA_CONTRACT.md)): the mesh name is the organ id, the
-  parent group is the layer, units are metres with +Y up, and the `organs.json` and `quiz.json` formats.
-- Data sources and licences (CC BY 4.0), download instructions with SHA-256 checksums, and credits
-  in `ATTRIBUTION.md`.
-
-### Track C: Platform & UX
-
-- CI/CD (`.github/workflows/ci-cd.yml`, replaces `deploy.yml`): every push and pull request to `main`
-  runs `npm ci`, lint, data validation, a 5 MB limit on `.glb` files and build; a push to `main`
-  whose CI passed is then published to GitHub Pages.
-- PWA skeleton: `manifest.webmanifest`, placeholder icons, and a service worker (`public/sw.js`)
-  with a versioned app-shell cache. HTML is network-first, other files are cache-first. The app
-  works offline after the first visit.
-- The service worker is registered in production only (`src/pwa/register.js`).
-- Phone-friendly `index.html`: viewport, theme colour, iOS home-screen tags.
-- No analytics or external requests.
-- [`SETUP.md`](SETUP.md): deployment, and testing the PWA locally.
-
-### Tested so far
-
-- `npm run lint` and `npm run build` pass on the merged `main`.
-- The built site serves the service worker, the manifest, the icons and `heart.glb`.
-- In a headless desktop browser (Edge, WebGL 2): `heart.glb` loads with its five layers, selection
-  works, there are no page errors, the service worker takes control, and the app shell is cached.
-- The raw data downloads match the checksums in `DATA_SOURCES.md`.
-- **Not tested yet:** the PWA installed on a real phone, offline mode, the WebGPU backend, and AR on
-  a real Android phone.
+Each of them adds an entry to the Track C AI section of `ATTRIBUTION.md`, so the second and later
+ones to be merged will have a small conflict there: keep the shared introduction once and every entry.
 
 ## Decisions needed (whole team)
 
-1. **Is AR the core of the product?** The AR roadmap is now in `main`, but the team has not
-   agreed on it yet. It turns WebXR AR, which was a stretch goal, into the core. This changes Track A's Weeks 3 to 6: slicing moves to Week 5, and
-   isolate and x-ray become "if time allows". WebXR AR does not work in Safari on iPhone or iPad.
-   If iPhone users matter, AR Quick Look (USDZ) would be extra work for Tracks A and B.
-2. **Raw data in Git.** `main` now contains `data/raw/hra/` (5.8 MB), committed through a
-   `.gitignore` exception, but CONTRIBUTING rule 6 says no raw datasets in Git. The female heart
-   in it is not used by the pipeline. Keep it (and update rule 6) or remove it.
-3. ~~**Data contract sections marked "proposed"**~~: done, `DATA_CONTRACT.md` is final (v1.0, 2026-11-17).
+1. **AR: core or optional, and WebGPU on AR phones.** The cahier des charges (§7) makes WebXR AR an
+   optional extension. `README.md` and `ROADMAP.md` in `main` still present the product as an AR
+   app; the draft PR `track-c/docs-align-with-spec` realigns them and is waiting for the team.
+   Related: `src/render/renderer.js` forces WebGL 2 on every AR-capable device, so Android Chrome
+   on an ARCore phone never uses WebGPU. The draft PR lists the options and their trade-offs.
+2. **Raw data in Git.** `data/raw/hra/` (5.8 MB, both HRA hearts) is committed through a
+   `.gitignore` exception, but CONTRIBUTING rule 6 says no raw datasets in Git. The female heart is
+   not used by the pipeline. Keep it (and update rule 6) or remove it.
+3. **6 or 7 weeks.** The cahier des charges says 6 weeks; `ROADMAP.md` in `main` plans 7. The draft
+   PR replans on 6.
+4. ~~Data contract sections marked "proposed"~~: done, `DATA_CONTRACT.md` v1.0 (17 November).
 
-## Before Week 2 starts
+## Not tested yet
 
-- [x] Merge the three Week 1 branches into `main` (done directly, without PRs).
-- [ ] Review the other tracks' Week 1 changes in `main`; open fixes as PRs.
-- [ ] Back to the normal rule from now on: every change through a reviewed PR.
-- [ ] Repo owner: Settings > Pages > Source: **GitHub Actions**, then check the live site.
-- [ ] Test the live site on a phone: install it, use it offline, try AR on Android.
-- [ ] Avoid force-pushing branches others have pulled (`track-b/dataset-spike` was rewritten on 5 Nov).
+Planned in the real-device test plan (open PR `track-c/test-plan`):
+
+- the WebGPU backend on real hardware (laptop Chrome or Edge), and the fallback in Firefox;
+- installing the PWA and using it offline on an Android phone and an iPhone;
+- the frame rate on a mid-range phone;
+- AR on a real Android phone (no ARCore phone available in the team so far).
 
 ## Known issues
 
-| Issue                                                                                              | Where                   | Owner | State                                                           |
-| -------------------------------------------------------------------------------------------------- | ----------------------- | ----- | --------------------------------------------------------------- |
-| Holes in the right atrium, aortic valve and papillary muscles, which will break slicing caps there | `heart.glb`             | B     | Open                                                            |
-| Placeholder app icons                                                                              | `public/icons/`         | C     | Open (needs a real design)                                      |
-| On portrait phones the heart is cut off left and right (camera framing fits the height only)       | `src/render/scene.js`   | A     | Open                                                            |
-| The temporary dev panel covered about a third of a phone screen                                    | `src/dev/devPanel.js`   | C     | Fixed: real interface in `src/ui/`, dev panel only with `?dev`  |
-| Each selection cloned a material and never freed the old one, a slow memory leak                   | `src/render/picking.js` | A     | Fixed: one clone per mesh at most                               |
-| The build warned about a 940 kB chunk                                                              | `vite.config.js`        | C     | Fixed: three.js in its own cached file, limit raised to 1000 kB |
-| `public/sw.js` was not covered by `npm run lint`                                                   | `eslint.config.js`      | C     | Fixed                                                           |
-| Workflow actions ran on deprecated Node 20                                                         | `deploy.yml`            | C     | Fixed: latest major versions                                    |
+| Issue                                                                                                                                         | Where                     | Owner | State                                                          |
+| --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ----- | -------------------------------------------------------------- |
+| On portrait phones the heart is cut off left and right (camera framing fits the height only)                                                  | `src/render/scene.js`     | A     | Fix in open PR `track-a/fix-portrait-framing`                  |
+| AR-capable phones always start on WebGL 2, so Android Chrome never uses WebGPU                                                                | `src/render/renderer.js`  | A     | Open: decision 1                                               |
+| 4 of the 29 structures are not closed meshes (`aortic_valve`, `inferior_vena_cava`, `papillary_muscles`, `right_atrium`): no filled cut there | `heart.glb`               | B     | Open (listed by `tests/slicing.test.mjs`)                      |
+| `README.md` and `ROADMAP.md` are out of date (AR as the core, slicing "planned", 7 weeks)                                                     | `README.md`, `ROADMAP.md` | C     | Fix in draft PR `track-c/docs-align-with-spec`                 |
+| Track C's AI use is not fully declared in `ATTRIBUTION.md` (Weeks 1 and 2 missing)                                                            | `ATTRIBUTION.md`          | C     | Open                                                           |
+| All 34 `organs.json` records are `draft` (not reviewed)                                                                                       | `organs.json`             | B     | Open: content review in Week 5                                 |
+| Placeholder app icons                                                                                                                         | `public/icons/`           | C     | Open (needs a real design)                                     |
+| The temporary dev panel covered about a third of a phone screen                                                                               | `src/dev/devPanel.js`     | C     | Fixed: real interface in `src/ui/`, dev panel only with `?dev` |
+| Each selection cloned a material and never freed the old one                                                                                  | `src/render/picking.js`   | A     | Fixed, covered by a test                                       |
+| The build warned about a 940 kB chunk                                                                                                         | `vite.config.js`          | C     | Fixed: three.js in its own cached file                         |
+| `public/sw.js` was not covered by `npm run lint`                                                                                              | `eslint.config.js`        | C     | Fixed                                                          |
 
-## What still has to be done
+## History
 
-From the original roadmap. [`ROADMAP.md`](ROADMAP.md) in `main` now has the AR version, which changes
-Track A's Weeks 3 to 6 (see decision 1); Tracks B and C are the same in both.
-
-| Week  | Track A                                                           | Track B                                                                       | Track C                                                                            |
-| ----- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| **2** | ~~Layers, picking~~ (done in `main`)                              | ~~Pipeline v1~~ (done on branch); **first `organs.json`** for the heart's ids | UI panels: layer toggles, info panel wired to `organs.json`; replace the dev panel |
-| **3** | `viewer.flyTo(id)` early in the week; slicing plane               | Content for the first 5 organs; validation script                             | Search with fly-to; Learn mode                                                     |
-| **4** | Isolate, x-ray; lazy loading; `getViewState()` / `setViewState()` | Content for all organs; quiz bank v1                                          | Quiz mode, progress saved on the device                                            |
-| **5** | Mobile performance pass; light asset tier                         | Light asset pack; complete `ATTRIBUTION.md`; EN/FR review                     | Shareable lesson links; EN/FR interface                                            |
-| **6** | Bug fixes; performance measurement                                | Content accuracy review                                                       | Usability test with 5 students; automated tests                                    |
-| **7** | Freeze; stretch only if stable                                    | Final attribution check                                                       | Offline hardening; user manual; demo video; defence rehearsal                      |
-
-### Dependencies between tracks
-
-- **Track C's Week 2 info panel needs `organs.json` from Track B.** It is not planned until Week 3,
-  so a first version with ids, names and a short text is needed in Week 2. Until then Track C uses a
-  mock file that follows `DATA_CONTRACT.md`.
-- Track C's Week 3 search needs `viewer.flyTo(id)` from Track A at the start of Week 3.
-- Track C's Week 5 shareable links need `getViewState()` / `setViewState()` from Track A by the end of Week 4.
-- Track B's mesh compression (meshopt or Draco) needs `gltf-transform`, a new npm dependency, which
-  goes through a dedicated PR reviewed by all three.
-- Track B wants the Khronos glTF-Validator in CI: Track C adds it to the workflow.
+- **Week 1 (4 to 5 November):** renderer with fallback, dataset spike, deploy and PWA skeleton. The
+  three tracks' work was merged into `main` directly on 5 November, without the review CONTRIBUTING
+  asks for.
+- **Week 2 (6 to 11 November):** layers, picking, `heart.glb`, `organs.json`, quiz bank, Learn mode,
+  offline caching of the model and content. Merged into `main` on 11 November, also without review.
+- **Week 3 (from 12 November):** slicing and automated tests (Track A), data contract v1.0 and CI/CD
+  (Track B), main interface and in-app credits (Track C). From 18 November, changes go through pull
+  requests and the CI required by the branch protection.

@@ -29,8 +29,8 @@ Les champs marqués *[À compléter — Track X]* sont à remplir par le membre 
     *   **Modifications apportées par l'équipe :** aucune (copies exactes, sommes SHA-256 dans `docs/DATA_SOURCES.md`)
 
 *   **Asset :** icônes de l'application (`public/icons/icon-192.png`, `icon-512.png`)
-    *   **Source originale :** générées par l'équipe (provisoires)
-    *   **Auteur / Créateur :** *[À compléter — Track C]*
+    *   **Source originale :** générées par l'équipe (provisoires) avec un petit script Node (disque bleu sur fond sombre), sans image externe
+    *   **Auteur / Créateur :** Mohamed Amine Msaddak (Track C), avec l'assistant Claude ; commit `08250a5` du 5 novembre 2026
     *   **Licence :** même licence que ce dépôt
     *   **Modifications apportées par l'équipe :** aucune ; à remplacer par les icônes finales
 
@@ -302,9 +302,25 @@ découpage en commits), relu le résultat et validé chaque étape avant commit.
 
 ### Track C (Mohamed Amine Msaddak)
 
-*   **Composant ou Shader concerné :** *[À compléter — Track C]*
-    *   **Prompt ou usage principal :**
-    *   **Axe de vérification appliqué par l'étudiant :**
+Assistant : **Claude Opus 5.5 (Anthropic), via Claude Code dans VS Code.** Pour chaque pull request,
+le prompt est un extrait recopié tel quel (en anglais) de la demande faite à l'assistant. Claude a écrit
+le code, les tests et les textes ; l'étudiant a défini les tâches et doit relire chaque PR avant sa fusion
+(règle 8 de `CONTRIBUTING.md`).
+
+- [ ] *[À compléter — Track C]* : déclarer aussi le travail des semaines 1 et 2 fait avec le même assistant
+  (déploiement et PWA, Learn mode, interface `src/ui/`, crédits), qui n'est pas encore décrit ici.
+
+*   **Composant ou Shader concerné :** mise à jour de `docs/STATUS.md` au 18 novembre, et auteur des icônes dans ce fichier (retrouvé dans l'historique Git)
+    *   **Prompt ou usage principal :** (extrait recopié tel quel)
+
+        > Update docs/STATUS.md to today's state: slicing is merged (toolbar controls), the README
+        > feature table is out of date, the known issues are current, and the open decisions are
+        > still listed. Fix the "[À compléter — Track C]" icon author in ATTRIBUTION.md only if the
+        > answer is in the git history. Otherwise leave a clear TODO.
+    *   **Axe de vérification appliqué :**
+        - Chaque affirmation vérifiée dans `main` : historique Git, fichiers, `tests/slicing.test.mjs` (liste des 4 maillages non fermés), `.github/workflows/ci-cd.yml`
+        - Auteur des icônes : commit `08250a5` (Mohamed Amine Msaddak, co-écrit avec Claude)
+        - `npm run lint`, `npm test`, `npm run validate`, `npm run build`
 
 ---
 

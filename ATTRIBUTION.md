@@ -29,8 +29,8 @@ Les champs marqués *[À compléter — Track X]* sont à remplir par le membre 
     *   **Modifications apportées par l'équipe :** aucune (copies exactes, sommes SHA-256 dans `docs/DATA_SOURCES.md`)
 
 *   **Asset :** icônes de l'application (`public/icons/icon-192.png`, `icon-512.png`)
-    *   **Source originale :** générées par l'équipe (provisoires)
-    *   **Auteur / Créateur :** *[À compléter — Track C]*
+    *   **Source originale :** générées par l'équipe (provisoires) avec un petit script Node (disque bleu sur fond sombre), sans image externe
+    *   **Auteur / Créateur :** Mohamed Amine Msaddak (Track C), avec l'assistant Claude ; commit `08250a5` du 5 novembre 2026
     *   **Licence :** même licence que ce dépôt
     *   **Modifications apportées par l'équipe :** aucune ; à remplacer par les icônes finales
 
@@ -326,6 +326,17 @@ le code, les tests et les textes ; l'étudiant a défini les tâches et doit rel
         - Le seuil de fluidité (30 FPS sur téléphone, 55 sur ordinateur) est une proposition à valider par l'équipe : le cahier des charges ne donne pas de chiffre
         - `npm run lint`, `npm test`, `npm run validate`, `npm run build`
         - [ ] Exécution du plan sur de vrais appareils (aucun résultat n'est encore saisi)
+*   **Composant ou Shader concerné :** mise à jour de `docs/STATUS.md` au 18 novembre, et auteur des icônes dans ce fichier (retrouvé dans l'historique Git)
+    *   **Prompt ou usage principal :** (extrait recopié tel quel)
+
+        > Update docs/STATUS.md to today's state: slicing is merged (toolbar controls), the README
+        > feature table is out of date, the known issues are current, and the open decisions are
+        > still listed. Fix the "[À compléter — Track C]" icon author in ATTRIBUTION.md only if the
+        > answer is in the git history. Otherwise leave a clear TODO.
+    *   **Axe de vérification appliqué :**
+        - Chaque affirmation vérifiée dans `main` : historique Git, fichiers, `tests/slicing.test.mjs` (liste des 4 maillages non fermés), `.github/workflows/ci-cd.yml`
+        - Auteur des icônes : commit `08250a5` (Mohamed Amine Msaddak, co-écrit avec Claude)
+        - `npm run lint`, `npm test`, `npm run validate`, `npm run build`
 
 ---
 

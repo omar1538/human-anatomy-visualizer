@@ -15,7 +15,7 @@ If a licence is unclear, replace the model.
 
 ## Decision
 
-1. **Heart muscle from HRA, vessels from BodyParts3D**, in one GLB (`scripts/public/assets/models/heart.glb`).
+1. **Heart muscle from HRA, vessels from BodyParts3D**, in one GLB (`public/assets/models/heart.glb`).
    BodyParts3D alone cannot show the chambers (no ventricular walls, see below); HRA alone has no
    coronary or great vessels.
 2. The HRA heart is **fitted onto the BodyParts3D heart** by the pipeline, so the vessels from BodyParts3D
@@ -68,7 +68,7 @@ If a licence is unclear, replace the model.
 
 ## Result: `heart.glb` (pipeline v1)
 
-Built by `data_pipeline/config/heart.json` → `scripts/public/assets/models/heart.glb`.
+Built by `data_pipeline/config/heart.json` → `public/assets/models/heart.glb`.
 
 |               |                                                                                                                                                             |
 | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |

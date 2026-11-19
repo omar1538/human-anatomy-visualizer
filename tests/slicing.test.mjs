@@ -121,7 +121,7 @@ describe('slicer', () => {
 describe('the real heart model', () => {
   // Reads heart.glb directly, so the test needs no browser: which structures can be filled.
   test('25 of its 29 structures are closed and can show a filled cut', () => {
-    const glb = readFileSync(new URL('../scripts/public/assets/models/heart.glb', import.meta.url));
+    const glb = readFileSync(new URL('../public/assets/models/heart.glb', import.meta.url));
     const jsonLength = glb.readUInt32LE(12);
     const json = JSON.parse(glb.subarray(20, 20 + jsonLength).toString());
     const bin = glb.subarray(20 + jsonLength + 8);

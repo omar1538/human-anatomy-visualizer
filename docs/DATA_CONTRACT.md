@@ -8,7 +8,7 @@ Defined in Week 1, changed only through a PR reviewed by all three.
 
 ## Mesh file (GLB)
 
-- One file: `scripts/public/assets/models/heart.glb` (a light version for phones comes in Week 5).
+- One file: `public/assets/models/heart.glb` (a light version for phones comes in Week 5).
 - Every selectable structure is a named node whose name equals the `id` in `organs.json`.
 - Units: metres. Axes: **+Y up, +Z anterior (the heart's front faces +Z, i.e. towards a default
   Three.js camera), +X = the subject's left** (glTF convention). The heart sits as in the body: apex pointing
@@ -63,7 +63,7 @@ heart                                   (root, extras.kind = "system")
   `nodes` for HRA, plus `registered_to_fma` and `registration_mean_error_mm` for the fitted HRA parts,
   `clipped_y_m` for cut vessels).
 
-## `scripts/public/assets/data/organs.json`
+## `public/assets/data/organs.json`
 
 Array of records, one per mesh node **and** one per group (34 for `heart.glb`; the root `heart` has none).
 Every text the user reads is `{ "en": "...", "fr": "..." }`, both filled in.
@@ -115,7 +115,7 @@ every group and structure node has a record and vice versa, ids, required fields
 `system`, `source`, `licence` and `fma` agree with the GLB. Missing content is a warning; with `--strict`
 (from Week 4, when all content is due) it is an error.
 
-## `scripts/public/assets/data/quiz.json`
+## `public/assets/data/quiz.json`
 
 Array of questions (bank v1: 71 questions). Fields:
 

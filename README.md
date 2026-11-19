@@ -31,20 +31,20 @@ Add `?dev` to the address to see the active renderer (`Renderer: WebGPU`).
 
 ## Features
 
-| Feature                                                                                                              | Status                                                                                                                                      |
-| -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **3D viewer on WebGPU** (no WebGL 2 fallback), mouse and touch controls                                              | Done: runs on WebGPU in Edge on a laptop GPU; phones pending                                                                                |
-| **Place an organ, a group or the whole heart in your room** with WebXR, on a detected surface or floating in the air | Written; now needs WebXR through WebGPU (`XRGPUBinding`), which most phone browsers do not have yet                                         |
-| **Move, rotate and scale** the placed organ with gestures                                                            | Planned                                                                                                                                     |
-| **Choose organs and see labels inside AR**                                                                           | Planned                                                                                                                                     |
-| **Explore the heart by layer** (chambers, valves, coronary arteries, cardiac veins, great vessels)                   | Done                                                                                                                                        |
-| **Learn mode**: select a structure to get its function, location and key facts (EN/FR)                               | Working: the Learn panel (`src/learn/`) shows the FR/EN record of the selected structure or group; texts are drafts until the Week 6 review |
-| **Quiz mode**: "find this organ", "name this organ", with progress saved on the device                               | Planned                                                                                                                                     |
-| **Slicing**: cut through an organ with an adjustable plane to see the inside                                         | Done: "Slice" menu in the toolbar (three axes, position, keep the other half)                                                               |
-| **Shareable lesson links**: a teacher sends one link, the class sees the same view                                   | Planned                                                                                                                                     |
-| **Offline PWA**: revise anywhere, no connection needed                                                               | Working: installable, and the heart, `organs.json` and the quiz bank work offline after the first visit                                     |
-| _Stretch:_ **flow visualisation** along vessels and airways with WebGPU compute shaders                              | Stretch                                                                                                                                     |
-| _Stretch:_ **real CT slices** linked to the model                                                                    | Stretch                                                                                                                                     |
+| Feature                                                                                                              | Status                                                                                                                                         |
+| -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **3D viewer on WebGPU** (no WebGL 2 fallback), mouse and touch controls                                              | Done: runs on WebGPU in Edge on a laptop GPU; phones pending                                                                                   |
+| **Place an organ, a group or the whole heart in your room** with WebXR, on a detected surface or floating in the air | Written; now needs WebXR through WebGPU (`XRGPUBinding`), which most phone browsers do not have yet                                            |
+| **Move, rotate and scale** the placed organ with gestures                                                            | Planned                                                                                                                                        |
+| **Choose organs and see labels inside AR**                                                                           | Planned                                                                                                                                        |
+| **Explore the heart by layer** (chambers, valves, coronary arteries, cardiac veins, great vessels)                   | Done                                                                                                                                           |
+| **Learn mode**: select a structure to get its function, location and key facts (EN/FR)                               | Working: the Learn panel (`scripts/learn/`) shows the FR/EN record of the selected structure or group; texts are drafts until the Week 6 review |
+| **Quiz mode**: "find this organ", "name this organ", with progress saved on the device                               | Planned                                                                                                                                        |
+| **Slicing**: cut through an organ with an adjustable plane to see the inside                                         | Done: "Slice" menu in the toolbar (three axes, position, keep the other half)                                                                  |
+| **Shareable lesson links**: a teacher sends one link, the class sees the same view                                   | Planned                                                                                                                                        |
+| **Offline PWA**: revise anywhere, no connection needed                                                               | Working: installable, and the heart, `organs.json` and the quiz bank work offline after the first visit                                        |
+| _Stretch:_ **flow visualisation** along vessels and airways with WebGPU compute shaders                              | Stretch                                                                                                                                        |
+| _Stretch:_ **real CT slices** linked to the model                                                                    | Stretch                                                                                                                                        |
 
 Scope is split into **core** (must ship) and **stretch** (only if the core is solid). See `docs/ROADMAP.md`.
 
@@ -74,17 +74,25 @@ GitHub Actions.
 ## Repository layout
 
 ```
-src/render/            Track A: WebGPU renderer, scene, controls, layers, picking, slicing, optional AR
-src/dev/               Developer panel (backend, raw ids, test controls), only with ?dev in the URL
-src/ui/                Track C: toolbar, layers, About and credits window, "WebGPU is required" message
-src/learn/             Track C: learn mode, quiz mode, progress, shareable links
-src/pwa/               Track C: manifest helpers, service worker
-scripts/data-pipeline/ Track B: conversion, decimation, validation scripts
-public/assets/models/  Final optimised GLB files
-public/assets/data/    organs.json, quiz bank
-data/raw/              Raw datasets (ignored by Git except hra/)
-tests/                 Automated tests
-docs/                  Roadmap, setup, rendering API, data sources, data contract
+scripts/                      The web app (Vite root). All code is ES modules (.mjs)
+  index.html                  Page shell, loads main.mjs
+  main.mjs                    Entry point
+  render/                     Track A: WebGPU renderer, scene, controls, layers, picking, slicing, optional AR
+  ui/                         Track C: toolbar, About and credits window, "WebGPU is required" message
+  learn/                      Track C: learn mode, language
+  pwa/                        Track C: service worker registration
+  dev/                        Developer panel (backend, raw ids, test controls), only with ?dev in the URL
+  public/                     Copied as is to the site root:
+    sw.mjs                    Service worker (offline cache)
+    manifest.webmanifest      PWA manifest
+    icons/                    App icons
+    assets/models/            Final optimised GLB files
+    assets/data/              organs.json, quiz bank
+data_pipeline/                Track B: conversion, decimation, validation scripts (Python)
+data/raw/                     Raw datasets (ignored by Git except hra/)
+tests/                        Automated tests (.mjs)
+docs/                         Roadmap, setup, rendering API, data sources, data contract
+vite.config.mjs, eslint.config.mjs   Build and lint configuration
 ```
 
 ## Getting started

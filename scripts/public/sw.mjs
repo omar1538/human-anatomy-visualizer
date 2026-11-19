@@ -1,7 +1,7 @@
 // Track C: service worker (PWA skeleton).
 // Bump CACHE_VERSION whenever the caching strategy or the shell list changes:
 // activate then deletes every cache from older versions.
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3'; // v3: the worker moved from sw.js to sw.mjs
 const CACHE_NAME = `hav-shell-${CACHE_VERSION}`;
 const CACHE_PREFIX = 'hav-shell-';
 

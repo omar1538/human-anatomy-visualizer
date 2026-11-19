@@ -16,6 +16,8 @@
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
     <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <!-- Module scripts are deferred: main.mjs runs after the page is parsed, so #viewer exists. -->
+    <script type="module" src="./main.mjs"></script>
     <style>
       html,
       body {
@@ -39,6 +41,5 @@
   </head>
   <body>
     <div id="viewer"></div>
-    <script type="module" src="/src/main.js"></script>
   </body>
 </html>

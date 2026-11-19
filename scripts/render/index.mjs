@@ -1,11 +1,11 @@
 // Track A: public API of the rendering layer. Tracks B and C only use this file.
-import { createRenderer } from './renderer.js';
-import { createScene, frameObject } from './scene.js';
-import { createControls } from './controls.js';
-import { createLayers } from './layers.js';
-import { createPicker } from './picking.js';
-import { createAR } from './xr.js';
-import { createSlicer } from './slicing.js';
+import { createRenderer } from './renderer.mjs';
+import { createScene, frameObject } from './scene.mjs';
+import { createControls } from './controls.mjs';
+import { createLayers } from './layers.mjs';
+import { createPicker } from './picking.mjs';
+import { createAR } from './xr.mjs';
+import { createSlicer } from './slicing.mjs';
 
 /**
  * @param {object} options

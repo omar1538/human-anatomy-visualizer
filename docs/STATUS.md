@@ -20,7 +20,7 @@ five final deliverables have not started.
 | §3.1 Show one or two organs in 3D in the browser                | Done: the heart, 29 structures in 5 groups                                                                                                      |
 | §3.1 Rotate, zoom, move with a mouse or touch                   | Done. On portrait phones the heart is cut off left and right: fix in an open PR (see below)                                                     |
 | §3.1 Identify the organ and its parts (name, short explanation) | Done: Learn mode, FR/EN, texts still drafts                                                                                                     |
-| §3.1 Simple interface on a laptop and a phone                   | Done (`src/ui/`): toolbar, layers, slicing, reset, About, language                                                                              |
+| §3.1 Simple interface on a laptop and a phone                   | Done (`scripts/ui/`): toolbar, layers, slicing, reset, About, language                                                                           |
 | §3.1 Installable and usable offline                             | Done in a desktop browser (installability check passes, works with the server stopped). **Not tested on a phone**                               |
 | §3.2 Smooth on a standard laptop and a mid-range phone          | **Not measured**                                                                                                                                |
 | §3.2 WebGPU, with the WebGL 2 fallback                          | **Fallback removed on 18 November (WebGPU only), against this requirement: decision 1.** WebGPU runs in Edge on a laptop GPU; phones not tested |
@@ -42,7 +42,7 @@ five final deliverables have not started.
 `WebGPURenderer` on WebGPU only (no WebGL 2 fallback; without WebGPU an EN/FR "WebGPU is required"
 message replaces the viewer); orbit, zoom and pan; on-demand rendering; layers;
 picking with highlight and group selection; `viewer.organ(id)`; **slicing** with a filled cut
-(`src/render/slicing.js`, controls in the toolbar's "Slice" menu); WebXR AR (hit test, tap to place,
+(`scripts/render/slicing.mjs`, controls in the toolbar's "Slice" menu); WebXR AR (hit test, tap to place,
 floating fallback), tested in a WebXR emulator only, and now only offered where the browser has the
 WebXR/WebGPU binding (`XRGPUBinding`). Automated tests in `tests/` (30), run by CI.
 
@@ -51,11 +51,11 @@ from BodyParts3D and HuBMAP HRA fused with ICP; conversion pipeline v1; `organs.
 FR/EN, all `draft`); `quiz.json` (71 questions); `validate_content.py`; **data contract v1.0, final**
 ([`DATA_CONTRACT.md`](DATA_CONTRACT.md)); the CI/CD workflow.
 
-**Track C: Platform & UX.** Service worker (`public/sw.js`, cache `v2`): network-first for pages,
+**Track C: Platform & UX.** Service worker (`scripts/public/sw.mjs`, cache `v3`): network-first for pages,
 cache-first for Vite's hashed build files, stale-while-revalidate for the model, `organs.json`,
 `quiz.json`, icons and manifest, all precached at install. Manifest, icons, production-only
-registration. Learn mode (`src/learn/`), main interface and About window with the credits
-(`src/ui/`), dev panel only with `?dev`. [`SETUP.md`](SETUP.md).
+registration. Learn mode (`scripts/learn/`), main interface and About window with the credits
+(`scripts/ui/`), dev panel only with `?dev`. [`SETUP.md`](SETUP.md).
 
 **CI/CD** (`.github/workflows/ci-cd.yml`, replaces `deploy.yml`): on every push and pull request to
 `main`: install, lint, `npm test`, data validation, a 5 MB limit on `.glb` files, build. A push to
@@ -64,7 +64,7 @@ of `main`.
 
 Process note: the main interface and credits (17 November) and the WebGPU-only change (18 November,
 `6fa7bd4`) went into `main` without a pull request. Tracks A and B should still review them; the
-second one changes Track A's `src/render/renderer.js` and `src/render/xr.js`.
+second one changes Track A's `scripts/render/renderer.mjs` and `scripts/render/xr.mjs`.
 
 ## Open pull requests (18 November)
 
@@ -109,19 +109,19 @@ Planned in the real-device test plan ([`TEST_PLAN.md`](TEST_PLAN.md)):
 
 ## Known issues
 
-| Issue                                                                                                                                         | Where                    | Owner | State                                                          |
-| --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ | ----- | -------------------------------------------------------------- |
-| On portrait phones the heart is cut off left and right (camera framing fits the height only)                                                  | `src/render/scene.js`    | A     | Fix in open PR `track-a/fix-portrait-framing`                  |
-| No WebGL 2 fallback any more: browsers without WebGPU cannot use the app (§3.2); AR needs `XRGPUBinding`                                      | `src/render/renderer.js` | A, C  | Open: decision 1                                               |
-| 4 of the 29 structures are not closed meshes (`aortic_valve`, `inferior_vena_cava`, `papillary_muscles`, `right_atrium`): no filled cut there | `heart.glb`              | B     | Open (listed by `tests/slicing.test.mjs`)                      |
-| `ROADMAP.md` is out of date (AR as the core, 7 weeks); `README.md` was rewritten for WebGPU only on 18 November                               | `ROADMAP.md`             | C     | Fix in draft PR `track-c/docs-align-with-spec`                 |
-| Track C's AI use is not fully declared in `ATTRIBUTION.md` (Weeks 1 and 2 missing)                                                            | `ATTRIBUTION.md`         | C     | Open                                                           |
-| All 34 `organs.json` records are `draft` (not reviewed)                                                                                       | `organs.json`            | B     | Open: content review in Week 5                                 |
-| Placeholder app icons                                                                                                                         | `public/icons/`          | C     | Open (needs a real design)                                     |
-| The temporary dev panel covered about a third of a phone screen                                                                               | `src/dev/devPanel.js`    | C     | Fixed: real interface in `src/ui/`, dev panel only with `?dev` |
-| Each selection cloned a material and never freed the old one                                                                                  | `src/render/picking.js`  | A     | Fixed, covered by a test                                       |
-| The build warned about a 940 kB chunk                                                                                                         | `vite.config.js`         | C     | Fixed: three.js in its own cached file                         |
-| `public/sw.js` was not covered by `npm run lint`                                                                                              | `eslint.config.js`       | C     | Fixed                                                          |
+| Issue                                                                                                                                         | Where                        | Owner | State                                                             |
+| --------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----- | ----------------------------------------------------------------- |
+| On portrait phones the heart is cut off left and right (camera framing fits the height only)                                                  | `scripts/render/scene.mjs`    | A     | Fix in open PR `track-a/fix-portrait-framing`                     |
+| No WebGL 2 fallback any more: browsers without WebGPU cannot use the app (§3.2); AR needs `XRGPUBinding`                                      | `scripts/render/renderer.mjs` | A, C  | Open: decision 1                                                  |
+| 4 of the 29 structures are not closed meshes (`aortic_valve`, `inferior_vena_cava`, `papillary_muscles`, `right_atrium`): no filled cut there | `heart.glb`                  | B     | Open (listed by `tests/slicing.test.mjs`)                         |
+| `ROADMAP.md` is out of date (AR as the core, 7 weeks); `README.md` was rewritten for WebGPU only on 18 November                               | `ROADMAP.md`                 | C     | Fix in draft PR `track-c/docs-align-with-spec`                    |
+| Track C's AI use is not fully declared in `ATTRIBUTION.md` (Weeks 1 and 2 missing)                                                            | `ATTRIBUTION.md`             | C     | Open                                                              |
+| All 34 `organs.json` records are `draft` (not reviewed)                                                                                       | `organs.json`                | B     | Open: content review in Week 5                                    |
+| Placeholder app icons                                                                                                                         | `scripts/public/icons/`       | C     | Open (needs a real design)                                        |
+| The temporary dev panel covered about a third of a phone screen                                                                               | `scripts/dev/devPanel.mjs`    | C     | Fixed: real interface in `scripts/ui/`, dev panel only with `?dev` |
+| Each selection cloned a material and never freed the old one                                                                                  | `scripts/render/picking.mjs`  | A     | Fixed, covered by a test                                          |
+| The build warned about a 940 kB chunk                                                                                                         | `vite.config.mjs`            | C     | Fixed: three.js in its own cached file                            |
+| `scripts/public/sw.mjs` was not covered by `npm run lint`                                                                                      | `eslint.config.mjs`          | C     | Fixed                                                             |
 
 ## History
 
@@ -135,3 +135,6 @@ Planned in the real-device test plan ([`TEST_PLAN.md`](TEST_PLAN.md)):
   requests and the CI required by the branch protection. Same day: status and test plan merged
   (#6, #7); WebGPU-only renderer merged directly; merged and unused branches deleted, leftover files
   removed.
+- **19 November:** repository restructured: the web app moved to `scripts/` (`index.html`, code,
+  and `scripts/public/` with the service worker, manifest, icons and assets), the pipeline to
+  `data_pipeline/`, and every JavaScript file renamed to `.mjs`.

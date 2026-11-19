@@ -1,8 +1,8 @@
 // Track A: renderer creation, WebGPU only (no WebGL 2 fallback).
 import * as THREE from 'three/webgpu';
-import { isARSupported } from './xr.js';
+import { isARSupported } from './xr.mjs';
 
-/** Thrown when this browser or device cannot run WebGPU. main.js shows a message for it. */
+/** Thrown when this browser or device cannot run WebGPU. main.mjs shows a message for it. */
 export class WebGPUUnavailableError extends Error {
   constructor(reason) {
     super(`WebGPU is not available: ${reason}`);

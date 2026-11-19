@@ -1,6 +1,6 @@
 // Track C: message shown instead of the viewer when the browser cannot run WebGPU.
 // The app is WebGPU only (no WebGL 2 fallback), so this is the only thing such a browser shows.
-import { getLanguage } from '../learn/language.js';
+import { getLanguage } from '../learn/language.mjs';
 
 const TEXT = {
   en: {

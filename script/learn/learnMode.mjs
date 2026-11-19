@@ -1,7 +1,7 @@
 // Track C: Learn mode. Selecting a structure in 3D shows its organs.json record
 // (name, function, location, key facts) in English or French.
 import './learnMode.css';
-import { LANGUAGES, getLanguage, setLanguage, onLanguageChange, localized } from './language.js';
+import { LANGUAGES, getLanguage, setLanguage, onLanguageChange, localized } from './language.mjs';
 
 const TEXT = {
   en: {
@@ -42,7 +42,7 @@ const el = (tag, className, text) => {
 };
 
 /**
- * @param {Awaited<ReturnType<typeof import('../render/index.js').createViewer>>} viewer
+ * @param {Awaited<ReturnType<typeof import('../render/index.mjs').createViewer>>} viewer
  * @param {Record<string, object>} meta organs.json indexed by id (from loadOrganIndex)
  */
 export function mountLearnMode(viewer, meta = {}) {

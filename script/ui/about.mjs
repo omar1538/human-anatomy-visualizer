@@ -1,7 +1,7 @@
 // Track C: "About and credits" window. The cahier des charges requires every 3D model's author
 // and licence to be credited in the application, and the app to say it is not a medical tool.
 // Keep the credits in sync with ATTRIBUTION.md ("Mentions à afficher dans les crédits").
-import { getLanguage, onLanguageChange } from '../learn/language.js';
+import { getLanguage, onLanguageChange } from '../learn/language.mjs';
 
 const REPO_URL = 'https://github.com/omar1538/human-anatomy-visualizer';
 

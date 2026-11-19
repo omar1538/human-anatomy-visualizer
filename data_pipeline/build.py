@@ -1,13 +1,13 @@
 """Conversion pipeline: raw datasets -> one GLB per body system.
 
-    python scripts/data-pipeline/build.py --config scripts/data-pipeline/config/heart.json
+    python data_pipeline/build.py --config data_pipeline/config/heart.json
 
 For every structure in the config: load (BodyParts3D concepts or HRA nodes),
 place in the app frame, clean, decimate, finish, then group under its parent and
 export one GLB per system. Writes `build-report.json` next to the GLBs with the
 provenance of every node (feeds organs.json stubs and ATTRIBUTION.md).
 
-See scripts/data-pipeline/README.md for the config format.
+See data_pipeline/README.md for the config format.
 """
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ from sources import (
     BodyParts3D,
 )
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path(__file__).resolve().parents[1]
 ID_OK = set("abcdefghijklmnopqrstuvwxyz0123456789_")
 
 

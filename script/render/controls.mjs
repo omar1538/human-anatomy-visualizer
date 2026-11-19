@@ -6,5 +6,5 @@ export function createControls(camera, domElement) {
   controls.enableDamping = true;
   controls.dampingFactor = 0.08;
   controls.screenSpacePanning = true;
-  return controls; // zoom limits are set from the model's size in index.js
+  return controls; // zoom limits are set from the model's size in index.mjs
 }

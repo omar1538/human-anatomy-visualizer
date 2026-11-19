@@ -3,7 +3,7 @@
 Defined in Week 1, changed only through a PR reviewed by all three.
 
 > **Status: final, version 1.0 (2026-11-17), heart-only scope.** Checked against the code in `main`:
-> `src/render/` (Track A) and `src/learn/` (Track C) load `heart.glb` and `organs.json` as described here.
+> `scripts/render/` (Track A) and `scripts/learn/` (Track C) load `heart.glb` and `organs.json` as described here.
 > Any change (new id, renamed id, new field, new axis convention) needs a new version and a PR reviewed by all three tracks.
 
 ## Mesh file (GLB)
@@ -95,7 +95,7 @@ Example:
 }
 ```
 
-`scripts/data-pipeline/validate_content.py` (standard library only) checks `organs.json` against the GLB:
+`model-builder/validate_content.py` (standard library only) checks `organs.json` against the GLB:
 every group and structure node has a record and vice versa, ids, required fields, both languages, and that
 `system`, `source`, `licence` and `fma` agree with the GLB. Missing content is a warning; with `--strict`
 (from Week 4, when all content is due) it is an error.

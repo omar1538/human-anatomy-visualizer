@@ -64,7 +64,7 @@ If a licence is unclear, replace the model.
   **non-commercial**. Nothing in it is needed for the heart.
 
 ## Result: `heart.glb` (pipeline v1)
-Built by `scripts/data-pipeline/config/heart.json` → `public/assets/models/heart.glb`.
+Built by `model-builder/config/heart.json` → `public/assets/models/heart.glb`.
 
 | | |
 |---|---|

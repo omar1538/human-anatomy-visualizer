@@ -51,7 +51,7 @@ from BodyParts3D and HuBMAP HRA fused with ICP; conversion pipeline v1; `organs.
 FR/EN, all `draft`); `quiz.json` (71 questions); `validate_content.py`; **data contract v1.0, final**
 ([`DATA_CONTRACT.md`](DATA_CONTRACT.md)); the CI/CD workflow.
 
-**Track C: Platform & UX.** Service worker (`scripts/public/sw.mjs`, cache `v3`): network-first for pages,
+**Track C: Platform & UX.** Service worker (`scripts/pwa/sw.mjs`, cache `v3`): network-first for pages,
 cache-first for Vite's hashed build files, stale-while-revalidate for the model, `organs.json`,
 `quiz.json`, icons and manifest, all precached at install. Manifest, icons, production-only
 registration. Learn mode (`scripts/learn/`), main interface and About window with the credits
@@ -121,7 +121,7 @@ Planned in the real-device test plan ([`TEST_PLAN.md`](TEST_PLAN.md)):
 | The temporary dev panel covered about a third of a phone screen                                                                               | `scripts/dev/devPanel.mjs`    | C     | Fixed: real interface in `scripts/ui/`, dev panel only with `?dev` |
 | Each selection cloned a material and never freed the old one                                                                                  | `scripts/render/picking.mjs`  | A     | Fixed, covered by a test                                          |
 | The build warned about a 940 kB chunk                                                                                                         | `vite.config.mjs`            | C     | Fixed: three.js in its own cached file                            |
-| `scripts/public/sw.mjs` was not covered by `npm run lint`                                                                                      | `eslint.config.mjs`          | C     | Fixed                                                             |
+| `scripts/pwa/sw.mjs` was not covered by `npm run lint`                                                                                      | `eslint.config.mjs`          | C     | Fixed                                                             |
 
 ## History
 

@@ -1,6 +1,6 @@
 """Structural checks on pipeline GLBs (no dependencies beyond numpy).
 
-    python model-builder/check_glb.py data/out/*.glb
+    python scripts/data-pipeline/check_glb.py data/out/*.glb
 
 Not a replacement for the Khronos glTF-Validator (run that in CI too); this checks
 the things the app relies on:

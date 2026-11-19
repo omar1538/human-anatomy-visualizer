@@ -3,7 +3,7 @@ import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import * as THREE from 'three/webgpu';
-import { createSlicer, isClosedMesh } from '../scripts/render/slicing.js';
+import { createSlicer, isClosedMesh } from '../src/render/slicing.js';
 
 function openBox() {
   // A box with its top face removed: four edges belong to only one triangle.

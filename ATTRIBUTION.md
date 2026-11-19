@@ -14,7 +14,7 @@ Les champs marqués *[À compléter — Track X]* sont à remplir par le membre 
     *   **Source originale :** BodyParts3D 4.0, arbre PART-OF, réduction 99 % (`partof_BP3D_4.0_obj_99.zip`) : https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html
     *   **Auteur / Créateur :** The Database Center for Life Science (DBCLS)
     *   **Licence :** CC BY 4.0 (depuis le 2025-02-25, voir https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html). Mention : « BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International »
-    *   **Modifications apportées par l'équipe :** fusion des fichiers OBJ élémentaires par structure (ids FMA dans `model-builder/config/heart.json`), conversion mm → m et Z-up → Y-up, centrage sur le cœur, aorte descendante et veine cave inférieure coupées 75 mm sous le centre du cœur et refermées, nettoyage, décimation, renommage en snake_case, export GLB par le pipeline `model-builder/build.py`
+    *   **Modifications apportées par l'équipe :** fusion des fichiers OBJ élémentaires par structure (ids FMA dans `scripts/data-pipeline/config/heart.json`), conversion mm → m et Z-up → Y-up, centrage sur le cœur, aorte descendante et veine cave inférieure coupées 75 mm sous le centre du cœur et refermées, nettoyage, décimation, renommage en snake_case, export GLB par le pipeline `scripts/data-pipeline/build.py`
 
 *   **Asset :** `public/assets/models/heart.glb`, structures des groupes `chambers`, `valves` (cavités, septum, muscles papillaires, valves)
     *   **Source originale :** HuBMAP Human Reference Atlas, « 3D Reference Organ for Heart, Male v1.3 » : https://doi.org/10.48539/HBM564.WKNG.249 (fichier https://cdn.humanatlas.io/digital-objects/ref-organ/heart-male/latest/assets/3d-vh-m-heart.glb)
@@ -34,7 +34,7 @@ Les champs marqués *[À compléter — Track X]* sont à remplir par le membre 
     *   **Licence :** même licence que ce dépôt
     *   **Modifications apportées par l'équipe :** aucune ; à remplacer par les icônes finales
 
-*   **Asset :** corps provisoire (`scripts/render/placeholder.js`)
+*   **Asset :** corps provisoire (`src/render/placeholder.js`)
     *   **Source originale :** formes géométriques générées par le code (sphères, cylindres de Three.js)
     *   **Auteur / Créateur :** équipe du projet
     *   **Licence :** même licence que ce dépôt
@@ -90,7 +90,7 @@ L'application installe ses dépendances par npm, avec des versions exactes figé
 
 ### Pipeline de données (Track B, Python 3.13, hors application)
 
-Versions figées dans `model-builder/requirements.txt`, installées par pip depuis PyPI (pas de CDN).
+Versions figées dans `scripts/data-pipeline/requirements.txt`, installées par pip depuis PyPI (pas de CDN).
 
 *   **Bibliothèque :** trimesh
     *   **Version fixée :** 5.2.0
@@ -122,25 +122,25 @@ Versions figées dans `model-builder/requirements.txt`, installées par pip depu
     *   **Lien de référence :** https://pypi.org/project/shapely/2.2.0/, https://pypi.org/project/mapbox-earcut/2.1.0/
     *   **Rôle dans le projet :** fermeture (capping) des vaisseaux coupés (`clip_y`)
 
-`model-builder/validate_content.py` et `check_glb.py` n'utilisent que la bibliothèque standard Python (et NumPy pour `check_glb.py`).
+`scripts/data-pipeline/validate_content.py` et `check_glb.py` n'utilisent que la bibliothèque standard Python (et NumPy pour `check_glb.py`).
 
 ---
 
 ## 3. Extraits de code copiés ou adaptés (StackOverflow, Tutoriels, Dépôts tiers)
 
-*   **Track A, `scripts/render/xr.js` :** `createReticle`, `place`, `update`, et la demande de session `immersive-ar` dans `enter`
+*   **Track A, `src/render/xr.js` :** `createReticle`, `place`, `update`, et la demande de session `immersive-ar` dans `enter`
     *   **Source du code original :** exemple officiel Three.js « webxr_ar_hittest » (https://github.com/mrdoob/three.js/blob/r187/examples/webxr_ar_hittest.html, licence MIT) et spécification W3C WebXR Hit Test Module (https://www.w3.org/TR/webxr-hit-test-1/)
     *   **Auteur :** auteurs de Three.js ; W3C Immersive Web Working Group
     *   **Adaptation effectuée :** reprise du principe (source de hit test dans l'espace `viewer`, réticule placé à partir de la pose, placement au signal `select`). Réécrit pour le projet : copie de la sélection (organe ou groupe) sans modifier l'original, mise à l'échelle, orientation vers l'utilisateur, placement flottant sans surface détectée, restauration de la scène à la fin de la session
 
-*   **Track A, `scripts/render/renderer.js` :** contournement du framebuffer XR `null`
+*   **Track A, `src/render/renderer.js` :** contournement du framebuffer XR `null`
     *   **Source du code original :** aucune ; écrit après lecture du code source de Three.js r187 (`WebGLState.drawBuffers`, `WebGLBackend._setFramebuffer`)
     *   **Auteur :** équipe du projet (Track A)
     *   **Adaptation effectuée :** sans objet
 
-*   **Track B (`model-builder/`) :** aucun extrait copié identifié. Le code a été écrit avec un assistant IA (voir section 4) et s'appuie sur la documentation officielle de trimesh, fast-simplification et du format glTF 2.0 (https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html).
+*   **Track B (`scripts/data-pipeline/`) :** aucun extrait copié identifié. Le code a été écrit avec un assistant IA (voir section 4) et s'appuie sur la documentation officielle de trimesh, fast-simplification et du format glTF 2.0 (https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html).
 
-*   **Track C (`scripts/pwa/`, `scripts/pwa/sw.js`, `.github/workflows/`) :** *[À compléter — Track C]*
+*   **Track C (`src/pwa/`, `public/sw.js`, `.github/workflows/`) :** *[À compléter — Track C]*
     *   **Source du code original :**
     *   **Auteur :**
     *   **Adaptation effectuée :**
@@ -165,10 +165,10 @@ Travail fait **sans assistant IA** :
         - Téléchargement des données par l'étudiant depuis les sites officiels
         - Visualisation et contrôle des données brutes dans Blender (BodyParts3D, HRA)
 
-*   **Composant ou Shader concerné :** pipeline de conversion v1 (`model-builder/build.py`, `sources.py`, `mesh_ops.py`, `check_glb.py`, `config/heart.json`) et `public/assets/models/heart.glb`
+*   **Composant ou Shader concerné :** pipeline de conversion v1 (`scripts/data-pipeline/build.py`, `sources.py`, `mesh_ops.py`, `check_glb.py`, `config/heart.json`) et `public/assets/models/heart.glb`
     *   **Prompt ou usage principal :** « Écris un pipeline Python qui prend les cavités et les valves du cœur HRA et les vaisseaux de BodyParts3D, les met dans le même repère (mètres, Y vers le haut), les nettoie, les décime, les renomme en snake_case, les range en groupes et exporte un seul heart.glb avec la source et la licence de chaque maillage. »
     *   **Axe de vérification appliqué par l'étudiant :**
-        - Relance du pipeline (`python model-builder/build.py --config model-builder/config/heart.json`) et contrôle `python model-builder/check_glb.py data/out/heart.glb` sans erreur
+        - Relance du pipeline (`python scripts/data-pipeline/build.py --config scripts/data-pipeline/config/heart.json`) et contrôle `python scripts/data-pipeline/check_glb.py data/out/heart.glb` sans erreur
         - Import de `heart.glb` dans Blender : orientation (+Y haut, +Z avant), échelle en mètres, 29 structures dans 5 groupes, noms des nœuds
         - Superposition dans Blender du `heart.glb` et des données brutes : les vaisseaux BodyParts3D rejoignent les cavités HRA
         - Vérification de quelques ids FMA de `config/heart.json` dans `partof_parts_list_e.txt`
@@ -178,7 +178,7 @@ Travail fait **sans assistant IA** :
     *   **Prompt ou usage principal :** « Écris le contrat de données entre ma piste et les pistes A et C : comment est fait heart.glb (axes, noms des nœuds, groupes) et le format de organs.json et de quiz.json. » Puis : « On passe le contrat en version finale. »
     *   **Axe de vérification appliqué par l'étudiant :**
         - Comparaison du contrat avec le contenu réel de `heart.glb` (axes, noms, groupes) dans Blender
-        - Relecture et accord des Tracks A et C (format lu par `scripts/render/loader.js` et le mode Quiz)
+        - Relecture et accord des Tracks A et C (format lu par `src/render/loader.js` et le mode Quiz)
 
 *   **Composant ou Shader concerné :** contenu pédagogique (`public/assets/data/organs.json`, 34 fiches)
     *   **Prompt ou usage principal :** « Crée organs.json avec une fiche pour chaque structure de heart.glb : nom, fonction, localisation et quelques faits, en anglais et en français. Commence par les 4 cavités et le septum, puis fais toutes les autres. » Toutes les fiches restent en statut `draft` jusqu'à leur relecture.
@@ -192,10 +192,10 @@ Travail fait **sans assistant IA** :
         - Résolution de toutes les questions par l'étudiant : une seule bonne réponse, distracteurs plausibles mais faux
         - Contrôle des réponses avec la même référence que `organs.json`
 
-*   **Composant ou Shader concerné :** script de validation (`model-builder/validate_content.py`)
+*   **Composant ou Shader concerné :** script de validation (`scripts/data-pipeline/validate_content.py`)
     *   **Prompt ou usage principal :** « Écris un script de validation qui vérifie que chaque maillage de heart.glb a sa fiche dans organs.json, avec les textes en anglais et en français et une licence. » Puis : « Ajoute la vérification de quiz.json. »
     *   **Axe de vérification appliqué par l'étudiant :**
-        - Exécution de `python model-builder/validate_content.py --strict` : 0 erreur
+        - Exécution de `python scripts/data-pipeline/validate_content.py --strict` : 0 erreur
 
 *   **Composant ou Shader concerné :** pipeline CI/CD (`.github/workflows/ci-cd.yml`, script `validate` de `package.json`, `docs/SETUP.md`)
     *   **Prompt ou usage principal :** (recopié tel quel)
@@ -229,19 +229,19 @@ reformulations structurées des demandes faites à l'assistant : chacun regroupe
 tâche et n'est pas recopié mot pour mot. L'étudiant a défini les tâches et les choix (AR plutôt que VR,
 découpage en commits), relu le résultat et validé chaque étape avant commit.
 
-*   **Composant ou Shader concerné :** socle du viewer 3D (`scripts/render/renderer.js`, `scene.js`, `controls.js`, `index.js`)
+*   **Composant ou Shader concerné :** socle du viewer 3D (`src/render/renderer.js`, `scene.js`, `controls.js`, `index.js`)
     *   **Prompt ou usage principal :**
         > Contexte : application d'anatomie dans le navigateur, Three.js r187 (versions figées), Vite.
         > Tâche : crée un viewer 3D avec `WebGPURenderer` et repli automatique sur WebGL 2, une caméra
         > cadrée sur le modèle, des contrôles orbite / zoom / déplacement à la souris et au doigt, et un
         > rendu à la demande pour économiser la batterie.
-        > Contraintes : les autres pistes n'utilisent que `scripts/render/index.js` ; documente cette API.
+        > Contraintes : les autres pistes n'utilisent que `src/render/index.js` ; documente cette API.
         > Livrable : code commenté, `docs/RENDERING_API.md`, lint et build sans erreur.
     *   **Axe de vérification appliqué par l'étudiant :**
         - `npm run lint` et `npm run build`
         - Essai dans Chrome : le panneau indique le moteur actif (`WebGPU` ou `WebGL 2`), le modèle est cadré et manipulable
 
-*   **Composant ou Shader concerné :** calques et sélection (`scripts/render/layers.js`, `picking.js`)
+*   **Composant ou Shader concerné :** calques et sélection (`src/render/layers.js`, `picking.js`)
     *   **Prompt ou usage principal :**
         > Tâche : regroupe les maillages par calque (afficher / masquer) et permets de sélectionner une
         > structure au clic, avec une surbrillance. Ensuite, applique `docs/DATA_CONTRACT.md` : un id de
@@ -252,7 +252,7 @@ découpage en commits), relu le résultat et validé chaque étape avant commit.
         - Sélection au clic et par id dans le navigateur avec le vrai `heart.glb`
         - Tests automatisés (`tests/render.test.mjs`) : sélection de groupe, restauration de la surbrillance, un seul clonage de matériau par maillage
 
-*   **Composant ou Shader concerné :** réalité augmentée WebXR (`scripts/render/xr.js`, contournement dans `renderer.js`)
+*   **Composant ou Shader concerné :** réalité augmentée WebXR (`src/render/xr.js`, contournement dans `renderer.js`)
     *   **Prompt ou usage principal :**
         > Contexte : le cœur du projet est l'expérience AR (WebXR Device API), cible Chrome sur Android.
         > Tâche : ajoute une session `immersive-ar` avec détection de surface (hit test) et un réticule ;
@@ -268,7 +268,7 @@ découpage en commits), relu le résultat et validé chaque étape avant commit.
         - Essais dans l'émulateur WebXR `iwer` avec le vrai `heart.glb` (organe, groupe, détection de surface), captures d'écran
         - Lecture du code source de Three.js r187 pour confirmer la cause du plantage de l'émulateur
 
-*   **Composant ou Shader concerné :** chargement selon le contrat de données (`scripts/render/loader.js`, `scripts/main.js`)
+*   **Composant ou Shader concerné :** chargement selon le contrat de données (`src/render/loader.js`, `src/main.js`)
     *   **Prompt ou usage principal :**
         > Tâche : charge par défaut `heart.glb` et `organs.json` comme décrit dans `docs/DATA_CONTRACT.md`,
         > indexe `organs.json` par id et expose `viewer.organ(id)` pour le mode Learn.
@@ -277,7 +277,7 @@ découpage en commits), relu le résultat et validé chaque étape avant commit.
         - Essai dans Chrome : 29 structures, 5 calques, fiches FR/EN affichées à la sélection
         - Tests automatisés : fichier manquant, invalide ou injoignable
 
-*   **Composant ou Shader concerné :** coupe de l'organe (`scripts/render/slicing.js`)
+*   **Composant ou Shader concerné :** coupe de l'organe (`src/render/slicing.js`)
     *   **Prompt ou usage principal :**
         > Tâche : ajoute un plan de coupe (avant-arrière, gauche-droite, haut-bas) avec une position
         > réglable, pour voir l'intérieur du cœur. La surface coupée doit paraître pleine, pas creuse.
@@ -297,7 +297,7 @@ découpage en commits), relu le résultat et validé chaque étape avant commit.
         - Pull request #3 : étape « Test (npm test) » réussie dans le pipeline GitHub Actions avant la fusion
 
 *   **Vérifications d'ensemble :**
-    - Relecture personnelle des fichiers de la Track A (`scripts/render/`, `scripts/dev/devPanel.js`) avant chaque commit : rôle de chaque fichier, fonctionnement du rendu, de la sélection, de la session AR et de la coupe, en vue de la présentation au superviseur (règle 8 de `CONTRIBUTING.md`)
+    - Relecture personnelle des fichiers de la Track A (`src/render/`, `src/dev/devPanel.js`) avant chaque commit : rôle de chaque fichier, fonctionnement du rendu, de la sélection, de la session AR et de la coupe, en vue de la présentation au superviseur (règle 8 de `CONTRIBUTING.md`)
     - Test de l'AR sur un vrai téléphone Android : pas encore réalisé, faute d'appareil compatible ARCore disponible dans l'équipe ; remplacé pour l'instant par les tests automatisés et l'émulateur WebXR. Prévu dès qu'un téléphone compatible est disponible.
 
 ### Track C (Mohamed Amine Msaddak)
@@ -308,7 +308,7 @@ le code, les tests et les textes ; l'étudiant a défini les tâches et doit rel
 (règle 8 de `CONTRIBUTING.md`).
 
 - [ ] *[À compléter — Track C]* : déclarer aussi le travail des semaines 1 et 2 fait avec le même assistant
-  (déploiement et PWA, Learn mode, interface `scripts/ui/`, crédits), qui n'est pas encore décrit ici.
+  (déploiement et PWA, Learn mode, interface `src/ui/`, crédits), qui n'est pas encore décrit ici.
 
 *   **Composant ou Shader concerné :** plan de test sur appareils réels (`docs/TEST_PLAN.md`)
     *   **Prompt ou usage principal :** (extrait recopié tel quel)
@@ -322,7 +322,7 @@ le code, les tests et les textes ; l'étudiant a défini les tâches et doit rel
         > - iPhone Safari: install to home screen, offline
         > - an FPS measurement method for the "smooth on a mid-range phone" requirement
     *   **Axe de vérification appliqué :**
-        - Libellés de l'interface et comportement vérifiés dans le code (`scripts/ui/toolbar.js`, `scripts/dev/devPanel.js`, rendu à la demande dans `scripts/render/index.js`)
+        - Libellés de l'interface et comportement vérifiés dans le code (`src/ui/toolbar.js`, `src/dev/devPanel.js`, rendu à la demande dans `src/render/index.js`)
         - Le seuil de fluidité (30 FPS sur téléphone, 55 sur ordinateur) est une proposition à valider par l'équipe : le cahier des charges ne donne pas de chiffre
         - `npm run lint`, `npm test`, `npm run validate`, `npm run build`
         - [ ] Exécution du plan sur de vrais appareils (aucun résultat n'est encore saisi)
@@ -337,7 +337,7 @@ le code, les tests et les textes ; l'étudiant a défini les tâches et doit rel
         - Chaque affirmation vérifiée dans `main` : historique Git, fichiers, `tests/slicing.test.mjs` (liste des 4 maillages non fermés), `.github/workflows/ci-cd.yml`
         - Auteur des icônes : commit `08250a5` (Mohamed Amine Msaddak, co-écrit avec Claude)
         - `npm run lint`, `npm test`, `npm run validate`, `npm run build`
-*   **Composant ou Shader concerné :** passage du rendu en WebGPU seul, sans repli WebGL 2 (`scripts/render/renderer.js`, `scripts/render/xr.js`, `scripts/main.js`, nouveau `scripts/ui/unsupported.js`), et mise à jour de la documentation (`README.md`, `docs/RENDERING_API.md`, `docs/SETUP.md`, `docs/TEST_PLAN.md`)
+*   **Composant ou Shader concerné :** passage du rendu en WebGPU seul, sans repli WebGL 2 (`src/render/renderer.js`, `src/render/xr.js`, `src/main.js`, nouveau `src/ui/unsupported.js`), et mise à jour de la documentation (`README.md`, `docs/RENDERING_API.md`, `docs/SETUP.md`, `docs/TEST_PLAN.md`)
     *   **Prompt ou usage principal :** (extrait recopié tel quel)
 
         > remove the webgl fallback, i want it all on webgpu

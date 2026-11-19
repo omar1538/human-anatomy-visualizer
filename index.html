@@ -16,9 +16,6 @@
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
     <link rel="apple-touch-icon" href="./icons/icon-192.png" />
-    <!-- Application entry point. A module script is deferred: it runs once the page is parsed,
-         so it can stay in the head and still find #viewer. -->
-    <script type="module" src="/scripts/main.js"></script>
     <style>
       html,
       body {
@@ -42,5 +39,6 @@
   </head>
   <body>
     <div id="viewer"></div>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>

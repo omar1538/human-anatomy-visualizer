@@ -1,7 +1,7 @@
 // The app is WebGPU only: checkWebGPU decides between the viewer and the "WebGPU is required" message.
 import { test, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { checkWebGPU, WebGPUUnavailableError } from '../scripts/render/renderer.js';
+import { checkWebGPU, WebGPUUnavailableError } from '../src/render/renderer.js';
 
 const original = Object.getOwnPropertyDescriptor(globalThis, 'navigator');
 const setNavigator = (value) =>

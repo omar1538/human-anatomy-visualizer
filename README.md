@@ -80,11 +80,12 @@ scripts/                      The web app (Vite root). All code is ES modules (.
   render/                     Track A: WebGPU renderer, scene, controls, layers, picking, slicing, optional AR
   ui/                         Track C: toolbar, About and credits window, "WebGPU is required" message
   learn/                      Track C: learn mode, language
-  pwa/                        Track C: service worker registration
+  pwa/                        Track C: the PWA files
+    register.mjs              Registers the service worker
+    sw.mjs                    Service worker (offline cache), published at the site root
+    manifest.webmanifest      PWA manifest, published at the site root
   dev/                        Developer panel (backend, raw ids, test controls), only with ?dev in the URL
   public/                     Copied as is to the site root:
-    sw.mjs                    Service worker (offline cache)
-    manifest.webmanifest      PWA manifest
     icons/                    App icons
     assets/models/            Final optimised GLB files
     assets/data/              organs.json, quiz bank

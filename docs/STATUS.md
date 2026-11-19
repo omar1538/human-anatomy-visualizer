@@ -117,7 +117,7 @@ Planned in the real-device test plan ([`TEST_PLAN.md`](TEST_PLAN.md)):
 | `ROADMAP.md` is out of date (AR as the core, 7 weeks); `README.md` was rewritten for WebGPU only on 18 November                               | `ROADMAP.md`                 | C     | Fix in draft PR `track-c/docs-align-with-spec`                    |
 | Track C's AI use is not fully declared in `ATTRIBUTION.md` (Weeks 1 and 2 missing)                                                            | `ATTRIBUTION.md`             | C     | Open                                                              |
 | All 34 `organs.json` records are `draft` (not reviewed)                                                                                       | `organs.json`                | B     | Open: content review in Week 5                                    |
-| Placeholder app icons                                                                                                                         | `scripts/public/icons/`       | C     | Open (needs a real design)                                        |
+| Placeholder app icons                                                                                                                         | `public/icons/`       | C     | Open (needs a real design)                                        |
 | The temporary dev panel covered about a third of a phone screen                                                                               | `scripts/dev/devPanel.mjs`    | C     | Fixed: real interface in `scripts/ui/`, dev panel only with `?dev` |
 | Each selection cloned a material and never freed the old one                                                                                  | `scripts/render/picking.mjs`  | A     | Fixed, covered by a test                                          |
 | The build warned about a 940 kB chunk                                                                                                         | `vite.config.mjs`            | C     | Fixed: three.js in its own cached file                            |
@@ -135,6 +135,7 @@ Planned in the real-device test plan ([`TEST_PLAN.md`](TEST_PLAN.md)):
   requests and the CI required by the branch protection. Same day: status and test plan merged
   (#6, #7); WebGPU-only renderer merged directly; merged and unused branches deleted, leftover files
   removed.
-- **19 November:** repository restructured: the web app moved to `scripts/` (`index.html`, code,
-  and `scripts/public/` with the service worker, manifest, icons and assets), the pipeline to
-  `data_pipeline/`, and every JavaScript file renamed to `.mjs`.
+- **19 November:** repository restructured: the web app's code moved to `scripts/` (`index.html`,
+  the modules, and `scripts/pwa/` with the service worker and manifest), static files (icons, model,
+  data) stay in `public/` at the root, the pipeline moved to `data_pipeline/`, and every JavaScript
+  file was renamed to `.mjs`.

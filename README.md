@@ -74,7 +74,7 @@ GitHub Actions.
 ## Repository layout
 
 ```
-scripts/                      The web app (Vite root). All code is ES modules (.mjs)
+scripts/                      The web app's code (Vite root). All code is ES modules (.mjs)
   index.html                  Page shell, loads main.mjs
   main.mjs                    Entry point
   render/                     Track A: WebGPU renderer, scene, controls, layers, picking, slicing, optional AR
@@ -85,10 +85,10 @@ scripts/                      The web app (Vite root). All code is ES modules (.
     sw.mjs                    Service worker (offline cache), published at the site root
     manifest.webmanifest      PWA manifest, published at the site root
   dev/                        Developer panel (backend, raw ids, test controls), only with ?dev in the URL
-  public/                     Copied as is to the site root:
-    icons/                    App icons
-    assets/models/            Final optimised GLB files
-    assets/data/              organs.json, quiz bank
+public/                       Static files, copied as is to the site root:
+  icons/                      App icons
+  assets/models/              Final optimised GLB files
+  assets/data/                organs.json, quiz bank
 data_pipeline/                Track B: conversion, decimation, validation scripts (Python)
 data/raw/                     Raw datasets (ignored by Git except hra/)
 tests/                        Automated tests (.mjs)

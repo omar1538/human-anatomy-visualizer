@@ -367,6 +367,7 @@ le code, les tests et les textes ; l'étudiant a défini les tâches et doit rel
         - `npm run lint`, `npm test` (30), `npm run validate`, `npm run build`
         - [ ] Non vérifié : `build.py` et `check_glb.py` (dépendances Python du pipeline non installées ici)
         - Ensuite, à la demande (« make sw and manifest in pwa/ ») : `sw.mjs` et `manifest.webmanifest` déplacés dans `scripts/pwa/` ; un petit plugin dans `vite.config.mjs` les publie à la racine du site (le service worker doit y être pour contrôler toute l'application ; sinon Vite renommerait le manifeste dans `assets/`)
+        - Puis, à la demande (« move it to root ») : `scripts/public/` ramené à la racine (`public/` : icônes, modèle, données ; `publicDir: '../public'` dans `vite.config.mjs`), pour que `scripts/` ne contienne que du code
 
 ---
 

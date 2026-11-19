@@ -1,4 +1,4 @@
 dist
 node_modules
-scripts/public/assets
+public/assets
 package-lock.json

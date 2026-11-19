@@ -40,10 +40,11 @@ function pwaFiles() {
 // base './' lets the built site work from any path (GitHub Pages project URL).
 export default defineConfig({
   base: './',
-  // The web app lives in scripts/: index.html, the code, scripts/pwa/ (service worker and
-  // manifest, published at the site root by pwaFiles) and scripts/public/ (icons, model and data,
-  // copied as is). The build still goes to dist/ at the repo root.
+  // The web app's code lives in scripts/: index.html, the modules, and scripts/pwa/ (service worker
+  // and manifest, published at the site root by pwaFiles). Static files that are not code (icons,
+  // model and data) are in public/ at the repo root, copied as is. The build goes to dist/.
   root: 'scripts',
+  publicDir: '../public',
   plugins: [pwaFiles()],
   build: {
     outDir: '../dist',

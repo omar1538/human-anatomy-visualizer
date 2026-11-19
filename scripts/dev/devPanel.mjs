@@ -1,5 +1,5 @@
 // Developer panel to exercise the viewer API: backend, raw ids, test controls.
-// Shown only with ?dev in the URL; users get the real interface in script/ui/.
+// Shown only with ?dev in the URL; users get the real interface in scripts/ui/.
 
 /** @param {Awaited<ReturnType<typeof import('../render/index.mjs').createViewer>>} viewer */
 export function mountDevPanel(viewer) {

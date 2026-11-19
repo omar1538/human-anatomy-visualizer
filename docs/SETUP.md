@@ -55,7 +55,7 @@ Offline test: after the page has loaded once, stop `npm run preview` (Ctrl+C) an
 must still open with the real heart (five layers in the panel, not the placeholder body), and
 selecting a structure must still show its details in Learn mode.
 
-What the service worker caches (`script/public/sw.mjs`):
+What the service worker caches (`scripts/public/sw.mjs`):
 
 | Files                                                    | Strategy                          | Why                                                                                            |
 | -------------------------------------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------- |
@@ -66,5 +66,5 @@ What the service worker caches (`script/public/sw.mjs`):
 The shell, the default model and its content are cached at install, so the whole app works offline
 right after the first visit.
 
-After changing `script/public/sw.mjs`, bump `CACHE_VERSION` in it so old caches are deleted. If the browser
+After changing `scripts/public/sw.mjs`, bump `CACHE_VERSION` in it so old caches are deleted. If the browser
 keeps an old version, use _Unregister_ in DevTools > Application > Service workers, or _Clear site data_.

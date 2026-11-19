@@ -355,7 +355,7 @@ le code, les tests et les textes ; l'étudiant a défini les tâches et doit rel
         - Chaque fichier supprimé vérifié : aucune référence dans le dépôt ; `setup-github.sh` jamais exécuté (0 issue, aucune de ses étiquettes sur GitHub)
         - Données brutes (`data/raw/hra/`) et pipeline non touchés : décision d'équipe en attente
         - `npm run lint`, `npm test`, `npm run validate`, `npm run build`
-*   **Composant ou Shader concerné :** restructuration du dépôt : `src/` → `script/` (avec `index.html` et `script/public/` : service worker, manifeste, icônes, modèle et données), `scripts/data-pipeline/` → `data_pipeline/`, tous les fichiers JavaScript renommés en `.mjs` ; configuration Vite (`root: 'script'`) et ESLint, imports, chemins Python et documentation mis à jour
+*   **Composant ou Shader concerné :** restructuration du dépôt : `src/` → `scripts/` (avec `index.html` et `scripts/public/` : service worker, manifeste, icônes, modèle et données), `scripts/data-pipeline/` → `data_pipeline/`, tous les fichiers JavaScript renommés en `.mjs` ; configuration Vite (`root: 'scripts'`) et ESLint, imports, chemins Python et documentation mis à jour
     *   **Prompt ou usage principal :** (extrait recopié tel quel)
 
         > i want to fix overall structure of the repo, first of all, src to script and put all the necessary files in it, sw.js, index.html etc..., then change the scripts name, instead name it data_pipeline, also turn everything into mjs instead

@@ -1,4 +1,4 @@
-// Track C: registers the service worker (script/public/sw.mjs).
+// Track C: registers the service worker (scripts/public/sw.mjs).
 // Production only: in `npm run dev` a service worker would serve stale files and fight Vite's hot reload.
 
 export function registerServiceWorker() {

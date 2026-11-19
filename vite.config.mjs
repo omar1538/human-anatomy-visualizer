@@ -3,9 +3,9 @@ import { defineConfig } from 'vite';
 // base './' lets the built site work from any path (GitHub Pages project URL).
 export default defineConfig({
   base: './',
-  // The web app lives in script/ (index.html, code, and script/public/ copied as is: service
+  // The web app lives in scripts/ (index.html, code, and scripts/public/ copied as is: service
   // worker, manifest, icons, model and data). The build still goes to dist/ at the repo root.
-  root: 'script',
+  root: 'scripts',
   build: {
     outDir: '../dist',
     emptyOutDir: true,

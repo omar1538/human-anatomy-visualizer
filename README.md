@@ -38,7 +38,7 @@ Add `?dev` to the address to see the active renderer (`Renderer: WebGPU`).
 | **Move, rotate and scale** the placed organ with gestures                                                            | Planned                                                                                                                                        |
 | **Choose organs and see labels inside AR**                                                                           | Planned                                                                                                                                        |
 | **Explore the heart by layer** (chambers, valves, coronary arteries, cardiac veins, great vessels)                   | Done                                                                                                                                           |
-| **Learn mode**: select a structure to get its function, location and key facts (EN/FR)                               | Working: the Learn panel (`script/learn/`) shows the FR/EN record of the selected structure or group; texts are drafts until the Week 6 review |
+| **Learn mode**: select a structure to get its function, location and key facts (EN/FR)                               | Working: the Learn panel (`scripts/learn/`) shows the FR/EN record of the selected structure or group; texts are drafts until the Week 6 review |
 | **Quiz mode**: "find this organ", "name this organ", with progress saved on the device                               | Planned                                                                                                                                        |
 | **Slicing**: cut through an organ with an adjustable plane to see the inside                                         | Done: "Slice" menu in the toolbar (three axes, position, keep the other half)                                                                  |
 | **Shareable lesson links**: a teacher sends one link, the class sees the same view                                   | Planned                                                                                                                                        |
@@ -74,7 +74,7 @@ GitHub Actions.
 ## Repository layout
 
 ```
-script/                       The web app (Vite root). All code is ES modules (.mjs)
+scripts/                      The web app (Vite root). All code is ES modules (.mjs)
   index.html                  Page shell, loads main.mjs
   main.mjs                    Entry point
   render/                     Track A: WebGPU renderer, scene, controls, layers, picking, slicing, optional AR

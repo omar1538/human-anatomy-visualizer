@@ -11,5 +11,5 @@ data/raw/*
 # Python pipeline
 .venv/
 __pycache__/
-# pipeline build output (copy accepted GLBs to script/public/assets/models)
+# pipeline build output (copy accepted GLBs to scripts/public/assets/models)
 data/out/

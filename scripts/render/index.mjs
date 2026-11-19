@@ -6,6 +6,7 @@ import { createLayers } from './layers.mjs';
 import { createPicker } from './picking.mjs';
 import { createAR } from './xr.mjs';
 import { createSlicer } from './slicing.mjs';
+import { createXRay } from './xray.mjs';
 
 /**
  * @param {object} options
@@ -29,6 +30,7 @@ export async function createViewer({ container, model, meta = {} }) {
 
   const layers = createLayers(model, meta);
   const slicer = createSlicer({ scene, model });
+  const xray = createXRay({ model });
   const listeners = new Set();
   let needsRender = true;
 
@@ -51,6 +53,8 @@ export async function createViewer({ container, model, meta = {} }) {
     camera,
     model,
     picker,
+    // The copy placed in AR always uses the normal materials: no highlight, no x-ray.
+    prepareCopy: (fn) => picker.withoutHighlight(() => xray.withoutXRay(fn)),
     onChange(active) {
       controls.enabled = !active; // in AR the camera follows the phone
       needsRender = true;
@@ -128,6 +132,19 @@ export async function createViewer({ container, model, meta = {} }) {
     },
     /** @returns {{ axis: string, position: number, flip: boolean } | null} the current cut */
     getSlice: () => slicer.get(),
+    /**
+     * X-ray mode: every structure becomes see-through with a bright outline (shaders.mjs).
+     * Selection, layers and slicing keep working; organs placed in AR keep their normal look.
+     * @param {boolean} enabled
+     */
+    setXRay(enabled) {
+      // The highlight is moved from the old materials to the new ones.
+      picker.withoutHighlight(() => xray.set(enabled));
+      slicer.refresh(); // open meshes: give the normal materials their slicing side again
+      needsRender = true;
+    },
+    /** @returns {boolean} whether x-ray mode is on */
+    isXRay: () => xray.isEnabled(),
     /** Selects an organ or a group (for example 'valves') by id; pass null to clear. */
     select: (id) => picker.selectById(id),
     /**
@@ -163,6 +180,7 @@ export async function createViewer({ container, model, meta = {} }) {
     },
     dispose() {
       ar.dispose();
+      xray.dispose();
       slicer.dispose();
       resize.disconnect();
       picker.dispose();

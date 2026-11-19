@@ -1,13 +1,14 @@
 // Track A: slicing plane with a filled cross-section.
 //
 // A clipping plane (ClippingGroup) cuts the model. On its own the cut would look hollow, so each
-// closed mesh gets an "inside" copy: the same geometry drawn with its back faces only, in a flat,
-// slightly darker colour. While the model is whole, those back faces are hidden behind the front
+// closed mesh gets an "inside" copy: the same geometry drawn with its back faces only, with the
+// hatched cut-surface shader (shaders.mjs). While the model is whole, those back faces are hidden behind the front
 // faces. Once the front is cut away, looking through the cut shows exactly those back faces where
 // the plane crosses solid tissue, which reads as a filled cross-section; hollow spaces (such as
 // the inside of the chambers) still show their real inner walls.
 // Meshes with holes cannot be filled reliably, so they are drawn double-sided instead.
 import * as THREE from 'three/webgpu';
+import { createCutMaterial } from './shaders.mjs';
 
 const AXES = {
   x: new THREE.Vector3(1, 0, 0), // left-right cut (sagittal)
@@ -78,13 +79,8 @@ export function createSlicer({ scene, model }) {
       continue;
     }
     const color = mesh.material.color?.clone() ?? new THREE.Color(0xcccccc);
-    const fill = new THREE.Mesh(
-      mesh.geometry,
-      new THREE.MeshBasicMaterial({
-        color: color.multiplyScalar(FILL_SHADE),
-        side: THREE.BackSide,
-      }),
-    );
+    // Hatched cross-section shader (shaders.mjs), drawn on the mesh's back faces.
+    const fill = new THREE.Mesh(mesh.geometry, createCutMaterial(color.multiplyScalar(FILL_SHADE)));
     fill.raycast = noRaycast; // clicks go to the real mesh
     fill.visible = false;
     fill.userData.sliceHelper = true;
@@ -108,6 +104,9 @@ export function createSlicer({ scene, model }) {
   function setVisible(on) {
     fills.forEach((f) => (f.visible = on));
     for (const mesh of open) {
+      // X-ray materials are always double-sided; the side of the normal material is handled when
+      // x-ray is switched off and refresh() runs again.
+      if (mesh.material.userData?.xray) continue;
       // Open meshes cannot be filled: show both sides so their inside walls stay visible.
       if (on && !sides.has(mesh)) {
         sides.set(mesh, mesh.material.side);
@@ -143,6 +142,8 @@ export function createSlicer({ scene, model }) {
     keeps: (point) => !state || plane.distanceToPoint(point) >= 0,
     /** Ids of meshes that cannot get a filled cut because they have holes. */
     openMeshes: () => open.map((m) => m.name),
+    /** Re-applies the slicing state to the meshes' current materials (after x-ray switches them). */
+    refresh: () => setVisible(Boolean(state)),
     dispose() {
       this.clear();
       for (const fill of fills) {

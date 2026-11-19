@@ -29,6 +29,41 @@ const viewer = await createViewer({ container, model, meta });
 | `viewer.stats()`                           | `{ triangles, drawCalls }` of what is visible                                                                      |
 | `viewer.dispose()`                         | Release GPU resources                                                                                              |
 
+## Slicing
+
+Cuts the model with a plane to show the inside, for example the chambers of the heart.
+
+| Member                                      | Description                                           |
+| ------------------------------------------- | ----------------------------------------------------- |
+| `viewer.setSlice({ axis, position, flip })` | Cut the model. Calling it again moves the cut         |
+| `viewer.clearSlice()`                       | Remove the cut                                        |
+| `viewer.getSlice()`                         | The current cut `{ axis, position, flip }`, or `null` |
+
+- `axis`: `'z'` front-back (default), `'x'` left-right, `'y'` top-bottom.
+- `position`: from `0` to `1` across the model along that axis (default `0.5`, the middle).
+- By default the part towards +axis is removed (for `'z'`, the front half). `flip: true` removes the
+  other part instead.
+- The cut surface of each closed structure is drawn with the hatched cut-surface shader
+  ([`SHADERS.md`](SHADERS.md)). Four structures of `heart.glb` have holes (`right_atrium`,
+  `papillary_muscles`, `aortic_valve`, `inferior_vena_cava`), so they show their inner walls instead.
+- Clicks go through the removed part: you can select a structure inside the cut.
+- The toolbar's **Slice** menu (`scripts/ui/toolbar.mjs`) uses these three methods.
+
+## X-ray
+
+Makes every structure see-through with a bright outline, to show how the structures sit inside
+each other. The shader is explained in [`SHADERS.md`](SHADERS.md).
+
+| Member                    | Description                 |
+| ------------------------- | --------------------------- |
+| `viewer.setXRay(enabled)` | Switch x-ray mode on or off |
+| `viewer.isXRay()`         | Whether x-ray mode is on    |
+
+- Selection, the selection highlight, layer toggles and slicing keep working in x-ray mode.
+- Organs placed in AR always use their normal materials, even if x-ray mode is on.
+- There is no button yet: Track C adds it to the toolbar. Until then, with `?dev`, type
+  `viewer.setXRay(true)` in the browser console.
+
 ## Augmented reality (WebXR)
 
 AR is the core of the product. Select an organ on the phone, enter AR, then tap to place it in the room.
@@ -96,4 +131,4 @@ The app follows `docs/DATA_CONTRACT.md`:
 
 ## Coming in later weeks
 
-Fly-to for search with `viewer.flyTo(id)` (week 3, requested by Track C), AR gestures to move, rotate and scale (week 4), choosing an organ inside AR (week 4), lazy loading per system (week 4), `viewer.getViewState()` and `setViewState()` for shareable links (week 4, needed by Track C in week 5), labels in AR and slicing plane (week 5), isolate and x-ray (week 6). These method names are proposals until they ship.
+Fly-to for search with `viewer.flyTo(id)` (week 3, requested by Track C), AR gestures to move, rotate and scale (week 4), choosing an organ inside AR (week 4), lazy loading per system (week 4), `viewer.getViewState()` and `setViewState()` for shareable links (week 4, needed by Track C in week 5), labels in AR (week 5), isolate (week 6). These method names are proposals until they ship.

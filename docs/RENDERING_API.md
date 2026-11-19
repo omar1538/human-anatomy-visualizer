@@ -1,9 +1,9 @@
 # Rendering API (Track A)
 
-Tracks B and C only use `src/render/index.js`. Internal files can change without notice.
+Tracks B and C only use `scripts/render/index.mjs`. Internal files can change without notice.
 
 ```js
-import { createViewer } from './render/index.js';
+import { createViewer } from './render/index.mjs';
 
 const viewer = await createViewer({ container, model, meta });
 ```
@@ -88,7 +88,7 @@ The app follows `docs/DATA_CONTRACT.md`:
 - Every selectable structure is a node whose **name equals its id** in `organs.json`.
   Group nodes (`chambers`, `valves`, ...) are selectable too.
 - A mesh's layer is read from `userData.system`, else `meta[id].system`, else its parent group name.
-- `loadGLB(url, onProgress)` and `loadOrganIndex(url)` are in `src/render/loader.js`.
+- `loadGLB(url, onProgress)` and `loadOrganIndex(url)` are in `scripts/render/loader.mjs`.
   `loadOrganIndex` turns the `organs.json` array into an index by id. A missing or invalid file
   gives an empty index, so the viewer works before the metadata exists.
 - Fields such as `name` and `function` are `{ "en": "...", "fr": "..." }`. Learn mode shows the

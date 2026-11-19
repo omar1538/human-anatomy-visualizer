@@ -1,8 +1,8 @@
 """Checks organs.json against the GLB, and quiz.json against organs.json (standard library only).
 
-    python scripts/data-pipeline/validate_content.py
-    python scripts/data-pipeline/validate_content.py --strict      # missing content is an error too
-    python scripts/data-pipeline/validate_content.py --glb public/assets/models/heart.glb \
+    python data_pipeline/validate_content.py
+    python data_pipeline/validate_content.py --strict      # missing content is an error too
+    python data_pipeline/validate_content.py --glb public/assets/models/heart.glb \
         --organs public/assets/data/organs.json
 
 Errors (exit code 1):
@@ -29,7 +29,7 @@ import struct
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 ID_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+)*$")
 LANGS = ("en", "fr")
 CONTENT_FIELDS = ("function", "location", "facts")

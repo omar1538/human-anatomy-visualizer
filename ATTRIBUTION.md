@@ -355,6 +355,19 @@ le code, les tests et les textes ; l'étudiant a défini les tâches et doit rel
         - Chaque fichier supprimé vérifié : aucune référence dans le dépôt ; `setup-github.sh` jamais exécuté (0 issue, aucune de ses étiquettes sur GitHub)
         - Données brutes (`data/raw/hra/`) et pipeline non touchés : décision d'équipe en attente
         - `npm run lint`, `npm test`, `npm run validate`, `npm run build`
+*   **Composant ou Shader concerné :** restructuration du dépôt : `src/` → `scripts/` (avec `index.html` et `scripts/public/` : service worker, manifeste, icônes, modèle et données), `scripts/data-pipeline/` → `data_pipeline/`, tous les fichiers JavaScript renommés en `.mjs` ; configuration Vite (`root: 'scripts'`) et ESLint, imports, chemins Python et documentation mis à jour
+    *   **Prompt ou usage principal :** (extrait recopié tel quel)
+
+        > i want to fix overall structure of the repo, first of all, src to script and put all the necessary files in it, sw.js, index.html etc..., then change the scripts name, instead name it data_pipeline, also turn everything into mjs instead
+    *   **Axe de vérification appliqué :**
+        - Fichiers déplacés avec `git mv` (historique conservé) ; `heart.glb` et les données déplacés sans modification
+        - Les scripts Python restent en `.py` (le pipeline est en Python) ; seuls leurs chemins changent (`parents[1]`)
+        - Le service worker devient `sw.mjs`, toujours enregistré comme worker classique ; `CACHE_VERSION` passé à `v3`
+        - Edge sans tête, build de production : WebGPU, 111 505 triangles, sélection, `sw.mjs` servi en `text/javascript` et contrôlant la page, aucune erreur ; serveur de développement : `main.mjs`, modules, GLB et `sw.mjs` servis
+        - `npm run lint`, `npm test` (30), `npm run validate`, `npm run build`
+        - [ ] Non vérifié : `build.py` et `check_glb.py` (dépendances Python du pipeline non installées ici)
+        - Ensuite, à la demande (« make sw and manifest in pwa/ ») : `sw.mjs` et `manifest.webmanifest` déplacés dans `scripts/pwa/` ; un petit plugin dans `vite.config.mjs` les publie à la racine du site (le service worker doit y être pour contrôler toute l'application ; sinon Vite renommerait le manifeste dans `assets/`)
+        - Puis, à la demande (« move it to root ») : `scripts/public/` ramené à la racine (`public/` : icônes, modèle, données ; `publicDir: '../public'` dans `vite.config.mjs`), pour que `scripts/` ne contienne que du code
 
 ---
 

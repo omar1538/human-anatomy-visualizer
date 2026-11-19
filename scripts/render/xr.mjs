@@ -89,7 +89,7 @@ function createReticle() {
  * @param {THREE.Scene} options.scene
  * @param {THREE.PerspectiveCamera} options.camera
  * @param {THREE.Object3D} options.model placed when no organ is selected
- * @param {ReturnType<typeof import('./picking.js').createPicker>} options.picker
+ * @param {ReturnType<typeof import('./picking.mjs').createPicker>} options.picker
  * @param {(active: boolean) => void} options.onChange called when a session starts or ends
  */
 export function createAR({ renderer, scene, camera, model, picker, onChange }) {

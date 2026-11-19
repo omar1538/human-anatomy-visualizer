@@ -1,12 +1,12 @@
 // Application entry point.
-import { createViewer } from './render/index.js';
-import { loadGLB, loadOrganIndex } from './render/loader.js';
-import { createPlaceholderBody } from './render/placeholder.js';
-import { mountDevPanel } from './dev/devPanel.js';
-import { registerServiceWorker } from './pwa/register.js';
-import { mountLearnMode } from './learn/learnMode.js';
-import { mountUI } from './ui/toolbar.js';
-import { showWebGPUUnavailable } from './ui/unsupported.js';
+import { createViewer } from './render/index.mjs';
+import { loadGLB, loadOrganIndex } from './render/loader.mjs';
+import { createPlaceholderBody } from './render/placeholder.mjs';
+import { mountDevPanel } from './dev/devPanel.mjs';
+import { registerServiceWorker } from './pwa/register.mjs';
+import { mountLearnMode } from './learn/learnMode.mjs';
+import { mountUI } from './ui/toolbar.mjs';
+import { showWebGPUUnavailable } from './ui/unsupported.mjs';
 
 // Registered first, so the app shell is cached even if the viewer fails to start.
 registerServiceWorker();

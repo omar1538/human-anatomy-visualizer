@@ -24,8 +24,8 @@ Python 3.11+.
 
 ```sh
 python -m venv .venv
-.venv/Scripts/python -m pip install -r scripts/data-pipeline/requirements.txt   # Windows
-# .venv/bin/python -m pip install -r scripts/data-pipeline/requirements.txt    # macOS/Linux
+.venv/Scripts/python -m pip install -r data_pipeline/requirements.txt   # Windows
+# .venv/bin/python -m pip install -r data_pipeline/requirements.txt    # macOS/Linux
 ```
 
 Raw data goes in `data/raw/` (ignored by Git, see `docs/DATA_SOURCES.md` for licences):
@@ -41,14 +41,14 @@ data/raw/hra/           https://humanatlas.io/3d-reference-library
 ## Run
 
 ```sh
-.venv/Scripts/python scripts/data-pipeline/build.py --config scripts/data-pipeline/config/heart.json
-.venv/Scripts/python scripts/data-pipeline/check_glb.py data/out/*.glb
+.venv/Scripts/python data_pipeline/build.py --config data_pipeline/config/heart.json
+.venv/Scripts/python data_pipeline/check_glb.py data/out/*.glb
 ```
 
 After copying a GLB to `public/assets/models/` or editing `public/assets/data/organs.json`:
 
 ```sh
-python scripts/data-pipeline/validate_content.py --strict   # organs.json + quiz.json
+python data_pipeline/validate_content.py --strict   # organs.json + quiz.json
 ```
 
 Output goes to `data/out/` (ignored). Copy accepted GLBs to `public/assets/models/`

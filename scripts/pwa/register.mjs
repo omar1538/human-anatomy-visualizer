@@ -1,4 +1,4 @@
-// Track C: registers the service worker (public/sw.js).
+// Track C: registers the service worker (scripts/pwa/sw.mjs, published as ./sw.mjs at the site root).
 // Production only: in `npm run dev` a service worker would serve stale files and fight Vite's hot reload.
 
 export function registerServiceWorker() {
@@ -7,7 +7,7 @@ export function registerServiceWorker() {
   // Relative URL: resolves next to index.html, so it works under any base path (vite base './').
   // Its scope is that same folder.
   const register = () =>
-    navigator.serviceWorker.register('./sw.js').catch((err) => {
+    navigator.serviceWorker.register('./sw.mjs').catch((err) => {
       console.warn('Service worker registration failed:', err);
     });
 

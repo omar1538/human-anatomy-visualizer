@@ -3,10 +3,11 @@
 Defined in Week 1, changed only through a PR reviewed by all three.
 
 > **Status: final, version 1.0 (2026-11-17), heart-only scope.** Checked against the code in `main`:
-> `src/render/` (Track A) and `src/learn/` (Track C) load `heart.glb` and `organs.json` as described here.
+> `scripts/render/` (Track A) and `scripts/learn/` (Track C) load `heart.glb` and `organs.json` as described here.
 > Any change (new id, renamed id, new field, new axis convention) needs a new version and a PR reviewed by all three tracks.
 
 ## Mesh file (GLB)
+
 - One file: `public/assets/models/heart.glb` (a light version for phones comes in Week 5).
 - Every selectable structure is a named node whose name equals the `id` in `organs.json`.
 - Units: metres. Axes: **+Y up, +Z anterior (the heart's front faces +Z, i.e. towards a default
@@ -17,6 +18,7 @@ Defined in Week 1, changed only through a PR reviewed by all three.
 - Each mesh has `POSITION`, `NORMAL` (unit length) and indices. No textures, no UVs, no vertex colours.
 
 ### Node tree
+
 ```
 heart                                   (root, extras.kind = "system")
 ├── chambers                            (group, extras.kind = "group")
@@ -33,17 +35,20 @@ heart                                   (root, extras.kind = "system")
         right_pulmonary_artery, left_pulmonary_artery, right_pulmonary_veins, left_pulmonary_veins,
         superior_vena_cava, inferior_vena_cava
 ```
+
 - The five groups are the **layers** the UI shows and hides (they replace "systems" in the whole-body plan).
 - Nodes carry no transform (identity); geometry is already in the heart frame.
 - Group nodes are selectable too: a click selects one structure; a group is selected by its id
   (`selectById('valves')`, Learn mode links), which highlights all its structures.
 
 ### Ids
+
 - Lower snake_case, `[a-z0-9_]`, unique: `left_ventricle`, `mitral_valve`.
   (Three.js renames nodes containing spaces, dots, colons or brackets; snake_case survives unchanged and is safe in URLs.)
 - Ids are stable: lesson links and quiz progress store them. Renaming an id is a contract change.
 
 ### Materials
+
 - One PBR material per mesh, named like the node, with a base colour per structure
   (metallic 0, roughness 0.6). Usual teaching colours: arteries and oxygenated blood red, veins and the
   pulmonary arteries blue, valves pale. Track A may replace materials at runtime (highlight, x-ray).
@@ -52,12 +57,14 @@ heart                                   (root, extras.kind = "system")
   to be repaired). `build-report.json` lists `watertight` per structure; slicing caps (stencil) need closed meshes.
 
 ### Provenance in the GLB
+
 - `asset.copyright`: attribution lines of every source used in the file.
 - Each mesh node's `extras`: `dataset`, `licence`, `attribution`, and source ids (`fma` for BodyParts3D,
   `nodes` for HRA, plus `registered_to_fma` and `registration_mean_error_mm` for the fitted HRA parts,
   `clipped_y_m` for cut vessels).
 
 ## `public/assets/data/organs.json`
+
 Array of records, one per mesh node **and** one per group (34 for `heart.glb`; the root `heart` has none).
 Every text the user reads is `{ "en": "...", "fr": "..." }`, both filled in.
 
@@ -77,30 +84,39 @@ Content fields, written by the team in its own words (required once the content 
 - `facts`: array of `{ "en", "fr" }`, short
 
 Optional fields:
+
 - `fma`: Foundational Model of Anatomy ids from the GLB extras, e.g. `["FMA50872"]` (BodyParts3D structures only)
 - `status`: `"draft"` (written, not checked) or `"reviewed"` (checked in the accuracy review)
 
 Example:
+
 ```json
 {
   "id": "left_ventricle",
   "name": { "en": "Left ventricle", "fr": "Ventricule gauche" },
   "system": "chambers",
-  "function": { "en": "Receives oxygen-rich blood ...", "fr": "Reçoit le sang riche en oxygène ..." },
-  "location": { "en": "Lower left and back part of the heart ...", "fr": "Partie inférieure gauche ..." },
-  "facts": [ { "en": "Its wall is the thickest ...", "fr": "Sa paroi est la plus épaisse ..." } ],
+  "function": {
+    "en": "Receives oxygen-rich blood ...",
+    "fr": "Reçoit le sang riche en oxygène ..."
+  },
+  "location": {
+    "en": "Lower left and back part of the heart ...",
+    "fr": "Partie inférieure gauche ..."
+  },
+  "facts": [{ "en": "Its wall is the thickest ...", "fr": "Sa paroi est la plus épaisse ..." }],
   "source": "HRA",
   "licence": "CC BY 4.0",
   "status": "draft"
 }
 ```
 
-`scripts/data-pipeline/validate_content.py` (standard library only) checks `organs.json` against the GLB:
+`data_pipeline/validate_content.py` (standard library only) checks `organs.json` against the GLB:
 every group and structure node has a record and vice versa, ids, required fields, both languages, and that
 `system`, `source`, `licence` and `fma` agree with the GLB. Missing content is a warning; with `--strict`
 (from Week 4, when all content is due) it is an error.
 
 ## `public/assets/data/quiz.json`
+
 Array of questions (bank v1: 71 questions). Fields:
 
 - `id`: unique, lower snake_case (quiz progress stores it)
@@ -111,31 +127,63 @@ Array of questions (bank v1: 71 questions). Fields:
 - `choices`, `answer`: depend on the type
 - `status` (optional): `"draft"` or `"reviewed"`, as in `organs.json`
 
-| `type` | The user… | `choices` | `answer` |
-|---|---|---|---|
-| `find-it` | clicks a structure in the 3D view ("Click the mitral valve") | `[]` | the id of the structure to click |
-| `name-it` | sees a structure highlighted (`organId`) and picks its name | 4 organ ids; show their `name` from `organs.json` | the right id (one of `choices`) |
-| `mcq` | answers a question on function or circulation | 4 texts `{ "en", "fr" }` | index of the right choice (`0` to `3`) |
+| `type`    | The user…                                                    | `choices`                                         | `answer`                               |
+| --------- | ------------------------------------------------------------ | ------------------------------------------------- | -------------------------------------- |
+| `find-it` | clicks a structure in the 3D view ("Click the mitral valve") | `[]`                                              | the id of the structure to click       |
+| `name-it` | sees a structure highlighted (`organId`) and picks its name  | 4 organ ids; show their `name` from `organs.json` | the right id (one of `choices`)        |
+| `mcq`     | answers a question on function or circulation                | 4 texts `{ "en", "fr" }`                          | index of the right choice (`0` to `3`) |
 
 Choices are already in random order; the app may shuffle them again.
 
 ```json
 [
-  { "id": "find_mitral", "type": "find-it", "organId": "mitral_valve", "difficulty": 2,
+  {
+    "id": "find_mitral",
+    "type": "find-it",
+    "organId": "mitral_valve",
+    "difficulty": 2,
     "prompt": { "en": "Click the mitral valve.", "fr": "Cliquez sur la valve mitrale." },
-    "choices": [], "answer": "mitral_valve",
-    "explanation": { "en": "The mitral valve lies between ...", "fr": "La valve mitrale se situe entre ..." },
-    "status": "draft" },
-  { "id": "name_mitral", "type": "name-it", "organId": "mitral_valve", "difficulty": 2,
-    "prompt": { "en": "Which structure is highlighted?", "fr": "Quelle est la structure en surbrillance ?" },
-    "choices": ["aortic_valve", "mitral_valve", "pulmonary_valve", "tricuspid_valve"], "answer": "mitral_valve",
-    "explanation": { "en": "...", "fr": "..." }, "status": "draft" },
-  { "id": "mcq_mitral_leaflets", "type": "mcq", "organId": "mitral_valve", "difficulty": 1,
-    "prompt": { "en": "How many leaflets does the mitral valve have?", "fr": "Combien de valvules possède la valve mitrale ?" },
-    "choices": [ { "en": "Three", "fr": "Trois" }, { "en": "Two", "fr": "Deux" },
-                 { "en": "Four", "fr": "Quatre" }, { "en": "One", "fr": "Une" } ],
+    "choices": [],
+    "answer": "mitral_valve",
+    "explanation": {
+      "en": "The mitral valve lies between ...",
+      "fr": "La valve mitrale se situe entre ..."
+    },
+    "status": "draft"
+  },
+  {
+    "id": "name_mitral",
+    "type": "name-it",
+    "organId": "mitral_valve",
+    "difficulty": 2,
+    "prompt": {
+      "en": "Which structure is highlighted?",
+      "fr": "Quelle est la structure en surbrillance ?"
+    },
+    "choices": ["aortic_valve", "mitral_valve", "pulmonary_valve", "tricuspid_valve"],
+    "answer": "mitral_valve",
+    "explanation": { "en": "...", "fr": "..." },
+    "status": "draft"
+  },
+  {
+    "id": "mcq_mitral_leaflets",
+    "type": "mcq",
+    "organId": "mitral_valve",
+    "difficulty": 1,
+    "prompt": {
+      "en": "How many leaflets does the mitral valve have?",
+      "fr": "Combien de valvules possède la valve mitrale ?"
+    },
+    "choices": [
+      { "en": "Three", "fr": "Trois" },
+      { "en": "Two", "fr": "Deux" },
+      { "en": "Four", "fr": "Quatre" },
+      { "en": "One", "fr": "Une" }
+    ],
     "answer": 1,
-    "explanation": { "en": "...", "fr": "..." }, "status": "draft" }
+    "explanation": { "en": "...", "fr": "..." },
+    "status": "draft"
+  }
 ]
 ```
 
@@ -145,6 +193,6 @@ about every structure.
 
 ## Versions
 
-| Version | Date | Change |
-|---|---|---|
-| 1.0 | 2026-11-17 | Final. GLB frame, node tree, ids and materials (draft since Week 1) are confirmed by the code of Tracks A and C; `organs.json` (Week 3) and `quiz.json` with the `mcq` type and bilingual texts (Week 4) |
+| Version | Date       | Change                                                                                                                                                                                                   |
+| ------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0     | 2026-11-17 | Final. GLB frame, node tree, ids and materials (draft since Week 1) are confirmed by the code of Tracks A and C; `organs.json` (Week 3) and `quiz.json` with the `mcq` type and bilingual texts (Week 4) |

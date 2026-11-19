@@ -1,7 +1,7 @@
 // The app is WebGPU only: checkWebGPU decides between the viewer and the "WebGPU is required" message.
 import { test, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { checkWebGPU, WebGPUUnavailableError } from '../src/render/renderer.js';
+import { checkWebGPU, WebGPUUnavailableError } from '../scripts/render/renderer.mjs';
 
 const original = Object.getOwnPropertyDescriptor(globalThis, 'navigator');
 const setNavigator = (value) =>
@@ -38,7 +38,7 @@ test('an adapter is available: WebGPU is usable', async () => {
   assert.equal(await checkWebGPU(), null);
 });
 
-test('the error has a name main.js can recognise', () => {
+test('the error has a name main.mjs can recognise', () => {
   const error = new WebGPUUnavailableError('test');
   assert.equal(error.name, 'WebGPUUnavailableError');
   assert.match(error.message, /WebGPU is not available: test/);

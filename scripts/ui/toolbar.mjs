@@ -8,8 +8,8 @@ import {
   setLanguage,
   onLanguageChange,
   localized,
-} from '../learn/language.js';
-import { createAboutDialog } from './about.js';
+} from '../learn/language.mjs';
+import { createAboutDialog } from './about.mjs';
 
 const TEXT = {
   en: {
@@ -71,7 +71,7 @@ const button = (className, text) => {
 const isNarrow = () => window.matchMedia('(max-width: 640px)').matches;
 
 /**
- * @param {Awaited<ReturnType<typeof import('../render/index.js').createViewer>>} viewer
+ * @param {Awaited<ReturnType<typeof import('../render/index.mjs').createViewer>>} viewer
  * @param {Record<string, object>} meta organs.json indexed by id
  */
 export function mountUI(viewer, meta = {}) {

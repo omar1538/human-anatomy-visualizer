@@ -7,6 +7,12 @@ import { createPicker } from './picking.mjs';
 import { createAR } from './xr.mjs';
 import { createSlicer } from './slicing.mjs';
 import { createXRay } from './xray.mjs';
+import { createFlight, framingFor } from './camera.mjs';
+import { captureViewState, parseViewState } from './viewstate.mjs';
+
+const FLY_DURATION_MS = 700;
+const prefersReducedMotion = () =>
+  typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /**
  * @param {object} options
@@ -62,6 +68,24 @@ export async function createViewer({ container, model, meta = {} }) {
     },
   });
 
+  // Camera flight in progress (flyTo), advanced by the render loop below.
+  let flight = null; // { path, resolve }
+  function endFlight(reachedEnd) {
+    if (!flight) return;
+    const { resolve } = flight;
+    flight = null;
+    resolve(reachedEnd);
+  }
+  // The user grabbing the view stops the flight where it is.
+  controls.addEventListener('start', () => endFlight(false));
+
+  function setXRay(enabled) {
+    // The highlight is moved from the old materials to the new ones.
+    picker.withoutHighlight(() => xray.set(enabled));
+    slicer.refresh(); // open meshes: give the normal materials their slicing side again
+    needsRender = true;
+  }
+
   // Render on demand: draw only when the camera moved or the state changed (saves battery).
   renderer.setAnimationLoop((time, frame) => {
     if (ar.isActive()) {
@@ -69,6 +93,13 @@ export async function createViewer({ container, model, meta = {} }) {
       ar.update(frame);
       renderer.render(scene, camera);
       return;
+    }
+    if (flight) {
+      const step = flight.path.at(performance.now());
+      camera.position.copy(step.position);
+      controls.target.copy(step.target);
+      needsRender = true;
+      if (step.done) endFlight(true);
     }
     const moved = controls.update();
     if (moved || needsRender) {
@@ -137,12 +168,7 @@ export async function createViewer({ container, model, meta = {} }) {
      * Selection, layers and slicing keep working; organs placed in AR keep their normal look.
      * @param {boolean} enabled
      */
-    setXRay(enabled) {
-      // The highlight is moved from the old materials to the new ones.
-      picker.withoutHighlight(() => xray.set(enabled));
-      slicer.refresh(); // open meshes: give the normal materials their slicing side again
-      needsRender = true;
-    },
+    setXRay,
     /** @returns {boolean} whether x-ray mode is on */
     isXRay: () => xray.isEnabled(),
     /** Selects an organ or a group (for example 'valves') by id; pass null to clear. */
@@ -160,7 +186,75 @@ export async function createViewer({ container, model, meta = {} }) {
       listeners.add(cb);
       return () => listeners.delete(cb);
     },
+    /**
+     * Moves the camera smoothly to frame an organ or a group, keeping the current viewing angle.
+     * Used by Track C's search. It does not select: call `select(id)` too if needed.
+     * The flight stops if the user grabs the view. Instant when the user prefers reduced motion.
+     * @param {string} id organ or group id
+     * @param {{ duration?: number }} [options] flight time in milliseconds (default 700, 0 = jump)
+     * @returns {Promise<boolean>} true once the camera arrived; false for an unknown id, a structure
+     * with nothing visible, or a flight that was interrupted
+     */
+    flyTo(id, { duration = FLY_DURATION_MS } = {}) {
+      const object = id ? model.getObjectByName(id) : null;
+      const direction = camera.position.clone().sub(controls.target);
+      const goal = object && framingFor(object, camera.fov, direction);
+      if (!goal || ar.isActive()) return Promise.resolve(false);
+      endFlight(false);
+      const ms = prefersReducedMotion() ? 0 : Math.max(0, duration);
+      return new Promise((resolve) => {
+        flight = {
+          path: createFlight(
+            { position: camera.position, target: controls.target },
+            goal,
+            ms,
+            performance.now(),
+          ),
+          resolve,
+        };
+        needsRender = true;
+      });
+    },
+    /**
+     * The current view as plain data (camera, selection, hidden layers, slice, x-ray), small
+     * enough to put in a link. See docs/RENDERING_API.md#view-state.
+     */
+    getViewState: () =>
+      captureViewState({
+        camera: { position: camera.position, target: controls.target },
+        selection: picker.selected()?.name ?? null,
+        systems: layers.systems(),
+        isSystemVisible: (s) => layers.isSystemVisible(s),
+        slice: slicer.get(),
+        xray: xray.isEnabled(),
+      }),
+    /**
+     * Restores a view from `getViewState()`, for example from a lesson link. Accepts the object
+     * or its JSON text. Invalid parts are ignored, missing parts are left as they are.
+     * @returns {boolean} false if the state could not be used at all
+     */
+    setViewState(input) {
+      const state = parseViewState(input);
+      if (!state) return false;
+      endFlight(false);
+      if (state.camera) {
+        camera.position.fromArray(state.camera.position);
+        controls.target.fromArray(state.camera.target);
+        controls.update();
+      }
+      if (state.hidden) {
+        const hidden = new Set(state.hidden);
+        for (const system of layers.systems()) layers.setSystemVisible(system, !hidden.has(system));
+      }
+      if (state.slice === null) slicer.clear();
+      else if (state.slice) slicer.set(state.slice);
+      if (state.xray !== undefined) setXRay(state.xray);
+      if (state.selection !== undefined) picker.selectById(state.selection);
+      needsRender = true;
+      return true;
+    },
     resetView() {
+      endFlight(false);
       camera.position.copy(home.position);
       controls.target.copy(home.target);
       controls.update();

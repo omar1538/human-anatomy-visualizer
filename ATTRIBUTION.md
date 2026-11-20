@@ -368,6 +368,17 @@ le code, les tests et les textes ; l'étudiant a défini les tâches et doit rel
         - [ ] Non vérifié : `build.py` et `check_glb.py` (dépendances Python du pipeline non installées ici)
         - Ensuite, à la demande (« make sw and manifest in pwa/ ») : `sw.mjs` et `manifest.webmanifest` déplacés dans `scripts/pwa/` ; un petit plugin dans `vite.config.mjs` les publie à la racine du site (le service worker doit y être pour contrôler toute l'application ; sinon Vite renommerait le manifeste dans `assets/`)
         - Puis, à la demande (« move it to root ») : `scripts/public/` ramené à la racine (`public/` : icônes, modèle, données ; `publicDir: '../public'` dans `vite.config.mjs`), pour que `scripts/` ne contienne que du code
+*   **Composant ou Shader concerné :** cadrage de la caméra sur les écrans en portrait (`scripts/render/scene.mjs`, `scripts/render/index.mjs`), tests `tests/scene.test.mjs`, `docs/RENDERING_API.md`
+    *   **Prompt ou usage principal :** (extrait recopié tel quel)
+
+        > fix 2
+    *   (« 2 » = « Fix the portrait-phone bug again » dans la liste des étapes proposée juste avant ; refait sur la nouvelle arborescence après la suppression de l'ancienne branche)
+    *   **Axe de vérification appliqué :**
+        - Le cadrage tient compte des deux champs de vision (vertical et horizontal, `camera.aspect`) et de la profondeur du modèle ; recalculé à la rotation de l'écran tant que l'utilisateur n'a pas bougé la vue
+        - 6 tests : les 8 coins du modèle à l'écran en portrait 9/19,5 et en paysage 16/9, l'ancienne formule débordait en portrait, `computeFraming` ne déplace pas la caméra, objet vide
+        - Edge sans tête avec WebGPU, 390 × 844 : pixels du cœur sur les bords gauche et droit 2032 (`main`) → 0 ; 0 après passage paysage → portrait ; vue de l'utilisateur conservée après redimensionnement ; « Reset view » → 0
+        - `npm run lint`, `npm test` (36), `npm run validate`, `npm run build`
+        - [ ] Non testé sur un vrai téléphone ; revue par Track A (Omar)
 
 ---
 

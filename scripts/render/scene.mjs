@@ -21,19 +21,47 @@ export function createScene(aspect) {
 }
 
 /**
- * Places the camera so that `object` fits in view.
+ * Computes a camera view in which `object` fits on screen, without moving the camera.
+ * The model must fit in both directions: the vertical field of view (`camera.fov`) and the
+ * horizontal one, which depends on the screen shape (`camera.aspect`). On a portrait phone the
+ * horizontal field is the narrow one, so fitting only the height cut the model off left and right.
+ * The camera looks along -Z, so the box's front face (at +half.z) is the closest to it.
+ * @param {THREE.PerspectiveCamera} camera
+ * @param {THREE.Object3D} object
+ * @param {{ margin?: number }} [options] `margin` > 1 leaves space around the model
+ * @returns {{ position: THREE.Vector3, target: THREE.Vector3, near: number, far: number }}
+ */
+export function computeFraming(camera, object, { margin = 1.08 } = {}) {
+  const box = new THREE.Box3().setFromObject(object);
+  const empty = box.isEmpty();
+  const center = empty ? new THREE.Vector3() : box.getCenter(new THREE.Vector3());
+  const half = empty
+    ? new THREE.Vector3(0.5, 0.5, 0.5)
+    : box.getSize(new THREE.Vector3()).multiplyScalar(0.5);
+
+  const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
+  const tanH = tanV * camera.aspect;
+  // Distance from the box centre so that the front face fits in both fields of view.
+  const distance = half.z + margin * Math.max(half.x / tanH, half.y / tanV) || 1;
+  const lift = Math.max(half.x, half.y, half.z) * 0.1; // look slightly from above
+
+  return {
+    position: center.clone().add(new THREE.Vector3(0, lift, distance)),
+    target: center,
+    near: Math.max(distance / 100, 0.01),
+    far: distance * 20,
+  };
+}
+
+/**
+ * Places the camera so that `object` fits on the current screen shape.
  * @returns {{ position: THREE.Vector3, target: THREE.Vector3 }} the default view (used by reset)
  */
 export function frameObject(camera, object) {
-  const box = new THREE.Box3().setFromObject(object);
-  const size = box.getSize(new THREE.Vector3());
-  const center = box.getCenter(new THREE.Vector3());
-  const radius = Math.max(size.x, size.y, size.z) * 0.5 || 1;
-  const distance = (radius / Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2)) * 1.2;
-  const position = center.clone().add(new THREE.Vector3(0, radius * 0.1, distance));
+  const { position, target, near, far } = computeFraming(camera, object);
   camera.position.copy(position);
-  camera.near = Math.max(distance / 100, 0.01);
-  camera.far = distance * 20;
+  camera.near = near;
+  camera.far = far;
   camera.updateProjectionMatrix();
-  return { position, target: center };
+  return { position, target };
 }

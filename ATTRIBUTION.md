@@ -308,6 +308,15 @@ découpage en commits), relu le résultat et validé chaque étape avant commit.
         - `npm run lint` et `npm run build` sans erreur
         - Rendu non encore vérifié à l'écran : dans Chrome sans interface avec WebGPU logiciel, le processus GPU s'arrête avant d'afficher le cœur (même sans les nouveaux shaders). Vérification à faire dans Chrome sur un vrai GPU (mode normal, rayons X, coupe sur les trois axes, sélection et coupe en mode rayons X).
 
+*   **Composant ou Shader concerné :** déplacement de la caméra vers une structure et état de la vue pour les liens partageables (`scripts/render/camera.mjs`, `scripts/render/viewstate.mjs`, `viewer.flyTo`, `getViewState`, `setViewState` dans `index.mjs`)
+    *   **Prompt ou usage principal :**
+        > Tâche : ajoute `viewer.flyTo(id)`, qui déplace la caméra en douceur pour cadrer un organe ou un groupe en gardant l'angle de vue (pour la recherche de la Track C), et `getViewState()` / `setViewState()`, qui décrivent la vue en données simples (caméra, sélection, calques masqués, coupe, rayons X) pour les liens partageables.
+        > Contraintes : un lien peut contenir n'importe quoi, donc valider chaque champ ; un vol est interrompu si l'utilisateur prend la main ; respecter la préférence « réduire les animations » ; logique dans des fonctions testables, aucune nouvelle dépendance.
+    *   **Axe de vérification appliqué par l'étudiant :**
+        - 17 nouveaux tests automatisés (`tests/camera.test.mjs`, `tests/viewstate.test.mjs`) : cadrage, vol de bout en bout, aller-retour JSON, rejet des états invalides ; 65 tests au total réussis. Un test a révélé un `-0` dans les coordonnées arrondies, corrigé
+        - `npm run lint` et `npm run build` sans erreur
+        - Pas encore vérifié à l'écran dans un navigateur (même limite que pour les shaders : vérification à faire dans Chrome sur un vrai GPU)
+
 *   **Vérifications d'ensemble :**
     - Relecture personnelle des fichiers de la Track A (`scripts/render/`, `scripts/dev/devPanel.mjs`) avant chaque commit : rôle de chaque fichier, fonctionnement du rendu, de la sélection, de la session AR et de la coupe, en vue de la présentation au superviseur (règle 8 de `CONTRIBUTING.md`)
     - Test de l'AR sur un vrai téléphone Android : pas encore réalisé, faute d'appareil compatible ARCore disponible dans l'équipe ; remplacé pour l'instant par les tests automatisés et l'émulateur WebXR. Prévu dès qu'un téléphone compatible est disponible.

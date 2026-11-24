@@ -1,6 +1,6 @@
 // Track A: public API of the rendering layer. Tracks B and C only use this file.
 import { createRenderer } from './renderer.mjs';
-import { createScene, frameObject } from './scene.mjs';
+import { createScene, computeFraming, frameObject } from './scene.mjs';
 import { createControls } from './controls.mjs';
 import { createLayers } from './layers.mjs';
 import { createPicker } from './picking.mjs';
@@ -25,14 +25,22 @@ export async function createViewer({ container, model, meta = {} }) {
   const { scene, camera } = createScene(container.clientWidth / container.clientHeight);
   scene.add(model);
 
-  const home = frameObject(camera, model);
+  // The default view depends on the screen shape, so it is recomputed when the screen changes.
+  let home = frameObject(camera, model);
   const controls = createControls(camera, renderer.domElement);
   controls.target.copy(home.target);
   // Zoom limits follow the model's size: a 15 cm heart needs a much closer camera than a body.
-  const homeDistance = home.position.distanceTo(home.target);
-  controls.minDistance = homeDistance * 0.15;
-  controls.maxDistance = homeDistance * 6;
+  const applyZoomLimits = () => {
+    const homeDistance = home.position.distanceTo(home.target);
+    controls.minDistance = homeDistance * 0.15;
+    controls.maxDistance = homeDistance * 6;
+  };
+  applyZoomLimits();
   controls.update();
+  // Until the user rotates, zooms or pans, a resize or rotation re-fits the model. After that,
+  // their view is kept and only the default view used by "Reset view" is updated.
+  let userMoved = false;
+  controls.addEventListener('start', () => (userMoved = true));
 
   const layers = createLayers(model, meta);
   const slicer = createSlicer({ scene, model });
@@ -114,6 +122,17 @@ export async function createViewer({ container, model, meta = {} }) {
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
+    // In AR the phone drives the camera: leave the 3D view alone until AR ends.
+    if (!ar.isActive()) {
+      if (userMoved) {
+        home = computeFraming(camera, model);
+      } else {
+        home = frameObject(camera, model);
+        controls.target.copy(home.target);
+        applyZoomLimits();
+        controls.update();
+      }
+    }
     needsRender = true;
   });
   resize.observe(container);
@@ -201,6 +220,7 @@ export async function createViewer({ container, model, meta = {} }) {
       const goal = object && framingFor(object, camera.fov, direction);
       if (!goal || ar.isActive()) return Promise.resolve(false);
       endFlight(false);
+      userMoved = true; // a deliberate view: a resize must not re-fit the whole model over it
       const ms = prefersReducedMotion() ? 0 : Math.max(0, duration);
       return new Promise((resolve) => {
         flight = {
@@ -241,6 +261,7 @@ export async function createViewer({ container, model, meta = {} }) {
         camera.position.fromArray(state.camera.position);
         controls.target.fromArray(state.camera.target);
         controls.update();
+        userMoved = true; // the link's view must survive a resize or a phone rotation
       }
       if (state.hidden) {
         const hidden = new Set(state.hidden);
@@ -253,11 +274,14 @@ export async function createViewer({ container, model, meta = {} }) {
       needsRender = true;
       return true;
     },
+    /** Fits the whole model to the current screen shape and forgets the user's view. */
     resetView() {
       endFlight(false);
-      camera.position.copy(home.position);
+      home = frameObject(camera, model);
       controls.target.copy(home.target);
+      applyZoomLimits();
       controls.update();
+      userMoved = false;
       needsRender = true;
     },
     /** Visible triangles and meshes (one draw call each), for performance budgets. */

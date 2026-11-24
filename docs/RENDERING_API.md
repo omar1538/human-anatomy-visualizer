@@ -25,7 +25,7 @@ const viewer = await createViewer({ container, model, meta });
 | `viewer.select(id)`                        | Select an organ or a group (e.g. `'valves'`) by id (`null` clears). For search and quiz                            |
 | `viewer.onSelect((id, object) => ...)`     | Called when the selection changes. `object` is a mesh, or a group. Returns an unsubscribe function                 |
 | `viewer.organ(id)`                         | The `organs.json` record for an organ or group id, or `null`. For Learn mode                                       |
-| `viewer.resetView()`                       | Back to the default camera                                                                                         |
+| `viewer.resetView()`                       | Fits the whole model to the current screen shape (portrait or landscape) and forgets the user's view               |
 | `viewer.stats()`                           | `{ triangles, drawCalls }` of what is visible                                                                      |
 | `viewer.dispose()`                         | Release GPU resources                                                                                              |
 

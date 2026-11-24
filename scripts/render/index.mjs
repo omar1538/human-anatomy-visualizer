@@ -43,6 +43,7 @@ export async function createViewer({ container, model, meta = {} }) {
   controls.addEventListener('start', () => (userMoved = true));
 
   const layers = createLayers(model, meta);
+  let isolatedId = null; // id passed to isolate(), or null
   const slicer = createSlicer({ scene, model });
   const xray = createXRay({ model });
   const listeners = new Set();
@@ -166,6 +167,22 @@ export async function createViewer({ container, model, meta = {} }) {
       needsRender = true;
     },
     isSystemVisible: (system) => layers.isSystemVisible(system),
+    /**
+     * Shows only one organ or group and hides everything else; null shows everything again.
+     * Layers still apply on top: a structure whose layer is off stays hidden.
+     * @param {string | null} id organ or group id
+     * @returns {boolean} false for an unknown id (nothing changes)
+     */
+    isolate(id) {
+      const object = id ? model.getObjectByName(id) : null;
+      if (id && !object) return false;
+      isolatedId = object ? id : null;
+      layers.isolate(object);
+      needsRender = true;
+      return true;
+    },
+    /** @returns {string | null} the id of the isolated organ or group, or null */
+    getIsolated: () => isolatedId,
     /**
      * Cuts the model with a plane and fills the cut surface.
      * @param {{ axis?: 'x' | 'y' | 'z', position?: number, flip?: boolean }} [options]

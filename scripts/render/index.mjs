@@ -95,6 +95,17 @@ export async function createViewer({ container, model, meta = {} }) {
     needsRender = true;
   }
 
+  function isolate(id) {
+    const object = id ? model.getObjectByName(id) : null;
+    let hasMesh = false;
+    object?.traverse((o) => (hasMesh ||= o.isMesh));
+    if (id && !hasMesh) return false; // unknown id, or nothing to show: keep the current view
+    isolatedId = id || null;
+    layers.isolate(id ? object : null);
+    needsRender = true;
+    return true;
+  }
+
   // Render on demand: draw only when the camera moved or the state changed (saves battery).
   renderer.setAnimationLoop((time, frame) => {
     if (ar.isActive()) {
@@ -173,14 +184,7 @@ export async function createViewer({ container, model, meta = {} }) {
      * @param {string | null} id organ or group id
      * @returns {boolean} false for an unknown id (nothing changes)
      */
-    isolate(id) {
-      const object = id ? model.getObjectByName(id) : null;
-      if (id && !object) return false;
-      isolatedId = object ? id : null;
-      layers.isolate(object);
-      needsRender = true;
-      return true;
-    },
+    isolate,
     /** @returns {string | null} the id of the isolated organ or group, or null */
     getIsolated: () => isolatedId,
     /**
@@ -264,6 +268,7 @@ export async function createViewer({ container, model, meta = {} }) {
         isSystemVisible: (s) => layers.isSystemVisible(s),
         slice: slicer.get(),
         xray: xray.isEnabled(),
+        isolated: isolatedId,
       }),
     /**
      * Restores a view from `getViewState()`, for example from a lesson link. Accepts the object
@@ -287,6 +292,7 @@ export async function createViewer({ container, model, meta = {} }) {
       if (state.slice === null) slicer.clear();
       else if (state.slice) slicer.set(state.slice);
       if (state.xray !== undefined) setXRay(state.xray);
+      if (state.isolated !== undefined) isolate(state.isolated);
       if (state.selection !== undefined) picker.selectById(state.selection);
       needsRender = true;
       return true;

@@ -18,8 +18,17 @@ const isVector = (v) => Array.isArray(v) && v.length === 3 && v.every(Number.isF
  * @param {(system: string) => boolean} parts.isSystemVisible
  * @param {{ axis: string, position: number, flip: boolean } | null} parts.slice
  * @param {boolean} parts.xray
+ * @param {string | null} [parts.isolated] id of the isolated organ or group
  */
-export function captureViewState({ camera, selection, systems, isSystemVisible, slice, xray }) {
+export function captureViewState({
+  camera,
+  selection,
+  systems,
+  isSystemVisible,
+  slice,
+  xray,
+  isolated = null,
+}) {
   const vector = (v) => [round(v.x), round(v.y), round(v.z)];
   return {
     v: VIEW_STATE_VERSION,
@@ -28,6 +37,7 @@ export function captureViewState({ camera, selection, systems, isSystemVisible, 
     hidden: systems.filter((s) => !isSystemVisible(s)),
     slice: slice ? { axis: slice.axis, position: round(slice.position), flip: slice.flip } : null,
     xray: Boolean(xray),
+    isolated: isolated ?? null,
   };
 }
 
@@ -70,5 +80,9 @@ export function parseViewState(input) {
     };
   }
   if (typeof state.xray === 'boolean') clean.xray = state.xray;
+  if (state.isolated === null) clean.isolated = null;
+  else if (typeof state.isolated === 'string' && ID.test(state.isolated)) {
+    clean.isolated = state.isolated;
+  }
   return clean;
 }

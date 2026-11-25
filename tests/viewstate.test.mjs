@@ -44,6 +44,7 @@ describe('captureViewState', () => {
       hidden: s.hidden,
       slice: s.slice,
       xray: s.xray,
+      isolated: s.isolated,
     });
   });
 });
@@ -76,6 +77,14 @@ describe('parseViewState', () => {
       selection: null,
       slice: null,
     });
+  });
+
+  test('isolation: captured, kept when valid, cleared by null, dropped when invalid', () => {
+    assert.equal(captureViewState({ ...parts, isolated: 'valves' }).isolated, 'valves');
+    assert.equal(captureViewState(parts).isolated, null);
+    assert.deepEqual(parseViewState({ isolated: 'valves' }), { isolated: 'valves' });
+    assert.deepEqual(parseViewState({ isolated: null }), { isolated: null });
+    assert.deepEqual(parseViewState({ isolated: '<img>' }), {});
   });
 
   test('an empty object is valid and changes nothing', () => {

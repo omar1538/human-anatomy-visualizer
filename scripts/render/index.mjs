@@ -7,6 +7,7 @@ import { createPicker } from './picking.mjs';
 import { createAR } from './xr.mjs';
 import { createSlicer } from './slicing.mjs';
 import { createXRay } from './xray.mjs';
+import { createFrameMeter } from './perf.mjs';
 import { createFlight, framingFor } from './camera.mjs';
 import { captureViewState, parseViewState } from './viewstate.mjs';
 
@@ -106,12 +107,24 @@ export async function createViewer({ container, model, meta = {} }) {
     return true;
   }
 
+  let measuring = null; // { meter, promise, resolve } while measureFps() runs
+  function endMeasure(result) {
+    if (!measuring) return;
+    const { resolve } = measuring;
+    measuring = null;
+    resolve(result);
+  }
+  function countFrame() {
+    if (measuring?.meter.add(performance.now())) endMeasure(measuring.meter.result());
+  }
+
   // Render on demand: draw only when the camera moved or the state changed (saves battery).
   renderer.setAnimationLoop((time, frame) => {
     if (ar.isActive()) {
       // The phone is always moving in AR, so every frame must be drawn.
       ar.update(frame);
       renderer.render(scene, camera);
+      countFrame();
       return;
     }
     if (flight) {
@@ -122,8 +135,9 @@ export async function createViewer({ container, model, meta = {} }) {
       if (step.done) endFlight(true);
     }
     const moved = controls.update();
-    if (moved || needsRender) {
+    if (moved || needsRender || measuring) {
       renderer.render(scene, camera);
+      countFrame();
       needsRender = false;
     }
   });
@@ -319,7 +333,28 @@ export async function createViewer({ container, model, meta = {} }) {
       });
       return { triangles, drawCalls };
     },
+    /**
+     * Measures the frame rate (docs/TEST_PLAN.md). Every frame is drawn while it runs, then
+     * drawing on demand resumes. Rotate the model meanwhile, and keep the tab visible: browsers
+     * stop drawing hidden tabs. A second call while measuring returns the same promise.
+     * @param {{ seconds?: number }} [options] default 10
+     * @returns {Promise<{ fps: number, avgFrameMs: number, worstFrameMs: number, frames: number, slowFrames: number } | null>}
+     * null if the viewer was disposed meanwhile; slowFrames counts frames over 50 ms
+     */
+    measureFps({ seconds = 10 } = {}) {
+      if (!(seconds > 0 && seconds <= 120)) {
+        return Promise.reject(new RangeError('seconds must be between 0 and 120'));
+      }
+      if (!measuring) {
+        let resolve;
+        const promise = new Promise((r) => (resolve = r));
+        measuring = { meter: createFrameMeter(seconds * 1000), promise, resolve };
+      }
+      return measuring.promise;
+    },
     dispose() {
+      endFlight(false);
+      endMeasure(null);
       ar.dispose();
       xray.dispose();
       slicer.dispose();

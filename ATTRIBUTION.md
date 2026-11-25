@@ -317,6 +317,14 @@ découpage en commits), relu le résultat et validé chaque étape avant commit.
         - `npm run lint` et `npm run build` sans erreur
         - Pas encore vérifié à l'écran dans un navigateur (même limite que pour les shaders : vérification à faire dans Chrome sur un vrai GPU)
 
+*   **Composant ou Shader concerné :** mode isolement et mesure de la fréquence d'images (`scripts/render/layers.mjs`, `perf.mjs`, `viewstate.mjs`, `viewer.isolate`, `getIsolated`, `measureFps` dans `index.mjs`)
+    *   **Prompt ou usage principal :**
+        > Tâche : ajoute un mode qui n'affiche qu'un organe ou un groupe, inclus dans l'état de la vue des liens partageables, et une mesure des images par seconde pour `docs/TEST_PLAN.md`.
+        > Contraintes : basculer un calque ne doit pas annuler l'isolement ; reprendre le rendu à la demande après la mesure ; aucune nouvelle dépendance.
+    *   **Vérifications exécutées par l'assistant :**
+        - 11 nouveaux tests automatisés (`tests/isolate.test.mjs`, `perf.test.mjs`, `viewstate.test.mjs`) ; 82 tests au total réussis ; `npm run lint` et `npm run build` sans erreur
+        - Pas encore vérifié à l'écran sur un vrai GPU, ni mesuré sur un appareil réel
+
 *   **Vérifications d'ensemble :**
     - Relecture personnelle des fichiers de la Track A (`scripts/render/`, `scripts/dev/devPanel.mjs`) avant chaque commit : rôle de chaque fichier, fonctionnement du rendu, de la sélection, de la session AR et de la coupe, en vue de la présentation au superviseur (règle 8 de `CONTRIBUTING.md`)
     - Test de l'AR sur un vrai téléphone Android : pas encore réalisé, faute d'appareil compatible ARCore disponible dans l'équipe ; remplacé pour l'instant par les tests automatisés et l'émulateur WebXR. Prévu dès qu'un téléphone compatible est disponible.

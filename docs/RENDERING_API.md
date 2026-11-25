@@ -64,6 +64,24 @@ each other. The shader is explained in [`SHADERS.md`](SHADERS.md).
 - There is no button yet: Track C adds it to the toolbar. Until then, with `?dev`, type
   `viewer.setXRay(true)` in the browser console.
 
+## Isolate
+
+| Member                 | Description                                                                                    |
+| ---------------------- | ---------------------------------------------------------------------------------------------- |
+| `viewer.isolate(id)`   | Show only one organ or group; `null` shows everything again. Returns `false` for an unknown id |
+| `viewer.getIsolated()` | The isolated id, or `null`                                                                     |
+
+- A structure is shown when its layer is on **and** it is part of the isolated structure, so toggling
+  a layer never undoes the isolation. `isSystemVisible` reports the layer switch only.
+- There is no button yet: Track C adds it to the toolbar.
+
+## Frame rate
+
+`await viewer.measureFps({ seconds: 10 })` draws every frame for that time and returns
+`{ fps, avgFrameMs, worstFrameMs, frames, slowFrames }` (`slowFrames`: over 50 ms, the limit in
+[`TEST_PLAN.md`](TEST_PLAN.md)). Rotate the model meanwhile and keep the tab visible. With `?dev` or
+not, it can be called from the browser console.
+
 ## Fly-to (for search)
 
 | Member                           | Description                                                              |
@@ -94,7 +112,8 @@ The object looks like this (version 1):
   "selection": "left_ventricle",
   "hidden": ["cardiac_veins"],
   "slice": { "axis": "z", "position": 0.5, "flip": false },
-  "xray": false
+  "xray": false,
+  "isolated": null
 }
 ```
 
@@ -102,7 +121,7 @@ The object looks like this (version 1):
   the URL format, for example `?view=` + `encodeURIComponent(JSON.stringify(state))`).
 - `setViewState` checks everything, because a link can contain anything: invalid parts are
   ignored, and missing parts leave that part of the view as it is. `selection: null` clears the
-  selection, `slice: null` removes the cut. A state from a future version (`v` other than 1) is
+  selection, `slice: null` removes the cut, `isolated: null` shows everything again. A state from a future version (`v` other than 1) is
   refused (`false`).
 
 ## Augmented reality (WebXR)
@@ -173,5 +192,5 @@ The app follows `docs/DATA_CONTRACT.md`:
 ## Coming in later weeks
 
 AR gestures to move, rotate and scale, and choosing an organ inside AR (waiting for the decision on
-AR with WebGPU), labels in AR (week 5), isolate (week 6). These method names are proposals until
+AR with WebGPU), labels in AR (week 5). These method names are proposals until
 they ship. (Lazy loading per system does not apply while the app has a single model, `heart.glb`.)

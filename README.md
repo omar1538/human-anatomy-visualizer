@@ -31,20 +31,20 @@ Add `?dev` to the address to see the active renderer (`Renderer: WebGPU`).
 
 ## Features
 
-| Feature                                                                                                              | Status                                                                                                                                          |
-| -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| **3D viewer on WebGPU** (no WebGL 2 fallback), mouse and touch controls                                              | Done: runs on WebGPU in Edge on a laptop GPU; phones pending                                                                                    |
-| **Place an organ, a group or the whole heart in your room** with WebXR, on a detected surface or floating in the air | Written; now needs WebXR through WebGPU (`XRGPUBinding`), which most phone browsers do not have yet                                             |
-| **Move, rotate and scale** the placed organ with gestures                                                            | Planned                                                                                                                                         |
-| **Choose organs and see labels inside AR**                                                                           | Planned                                                                                                                                         |
-| **Explore the heart by layer** (chambers, valves, coronary arteries, cardiac veins, great vessels)                   | Done                                                                                                                                            |
-| **Learn mode**: select a structure to get its function, location and key facts (EN/FR)                               | Working: the Learn panel (`scripts/learn/`) shows the FR/EN record of the selected structure or group; texts are drafts until the Week 6 review |
-| **Quiz mode**: "find this organ", "name this organ", with progress saved on the device                               | Planned                                                                                                                                         |
-| **Slicing**: cut through an organ with an adjustable plane to see the inside                                         | Done: "Slice" menu in the toolbar (three axes, position, keep the other half)                                                                   |
-| **Shareable lesson links**: a teacher sends one link, the class sees the same view                                   | Planned                                                                                                                                         |
-| **Offline PWA**: revise anywhere, no connection needed                                                               | Working: installable, and the heart, `organs.json` and the quiz bank work offline after the first visit                                         |
-| _Stretch:_ **flow visualisation** along vessels and airways with WebGPU compute shaders                              | Stretch                                                                                                                                         |
-| _Stretch:_ **real CT slices** linked to the model                                                                    | Stretch                                                                                                                                         |
+| Feature                                                                                                              | Status                                                                                                                                              |
+| -------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **3D viewer on WebGPU** (no WebGL 2 fallback), mouse and touch controls                                              | Done: runs on WebGPU in Edge on a laptop GPU; phones pending                                                                                        |
+| **Place an organ, a group or the whole heart in your room** with WebXR, on a detected surface or floating in the air | Written; now needs WebXR through WebGPU (`XRGPUBinding`), which most phone browsers do not have yet                                                 |
+| **Move, rotate and scale** the placed organ with gestures                                                            | Planned                                                                                                                                             |
+| **Choose organs and see labels inside AR**                                                                           | Planned                                                                                                                                             |
+| **Explore the heart by layer** (chambers, valves, coronary arteries, cardiac veins, great vessels)                   | Done                                                                                                                                                |
+| **Learn mode**: select a structure to get its function, location and key facts (EN/FR)                               | Working: the Learn panel (`src/scripts/learn/`) shows the FR/EN record of the selected structure or group; texts are drafts until the Week 6 review |
+| **Quiz mode**: "find this organ", "name this organ", with progress saved on the device                               | Planned                                                                                                                                             |
+| **Slicing**: cut through an organ with an adjustable plane to see the inside                                         | Done: "Slice" menu in the toolbar (three axes, position, keep the other half)                                                                       |
+| **Shareable lesson links**: a teacher sends one link, the class sees the same view                                   | Planned                                                                                                                                             |
+| **Offline PWA**: revise anywhere, no connection needed                                                               | Working: installable, and the heart, `organs.json` and the quiz bank work offline after the first visit                                             |
+| _Stretch:_ **flow visualisation** along vessels and airways with WebGPU compute shaders                              | Stretch                                                                                                                                             |
+| _Stretch:_ **real CT slices** linked to the model                                                                    | Stretch                                                                                                                                             |
 
 Scope is split into **core** (must ship) and **stretch** (only if the core is solid). See `docs/ROADMAP.md`.
 
@@ -73,83 +73,65 @@ GitHub Actions.
 
 ## Folder architecture
 
-The repository has four parts: the **app code** (`scripts/`), the **static files** the app loads
-(`public/`), the **data pipeline** that produces those files (`data_pipeline/`, `data/`), and the
-**project tooling** (tests, docs, configuration, CI/CD).
+The whole web app is in **`src/`**: the page, its scripts, its styles and the files it loads. The
+other folders are the data pipeline that builds the model (`data_pipeline/`, `data/`) and the
+documentation (`docs/`). Configuration stays out of the way: `package.json` (npm scripts,
+dependencies and Prettier settings), `vite.config.mjs` (build), and `.github/` (CI/CD and lint rules).
 
 ```
 human-anatomy-visualizer/
 │
-├── scripts/                     APP CODE: the web app (Vite root). All JavaScript is ES modules (.mjs)
-│   ├── index.html               Page shell: meta tags, manifest link, loads main.mjs in <head>
-│   ├── main.mjs                 Entry point: loads the model and organs.json, starts the viewer,
-│   │                            mounts the interface, or shows "WebGPU is required"
+├── src/                         THE WEB APP (Vite root)
+│   ├── index.html               Page shell: meta tags, manifest link, loads scripts/main.mjs in <head>
+│   ├── sw.mjs                   Service worker: caches the app, model and data for offline use
+│   ├── manifest.webmanifest     App name, icons, colours, standalone display
 │   │
-│   ├── render/                  Track A: everything 3D. Other folders only import render/index.mjs
-│   │   ├── index.mjs            Public API: createViewer() (see docs/RENDERING_API.md)
-│   │   ├── renderer.mjs         WebGPU renderer, WebGPU check (no WebGL 2 fallback)
-│   │   ├── scene.mjs            Scene, camera, lights, framing the model on screen
-│   │   ├── controls.mjs         Orbit, zoom and pan (mouse and touch)
-│   │   ├── loader.mjs           Loads heart.glb and organs.json
-│   │   ├── layers.mjs           Shows and hides the 5 groups (chambers, valves...)
-│   │   ├── picking.mjs          Click or tap to select a structure, highlight
-│   │   ├── slicing.mjs          Cutting plane with a filled cross-section
-│   │   ├── xr.mjs               Optional WebXR AR: place the heart in the room
-│   │   └── placeholder.mjs      Stand-in body shown if the model cannot load
+│   ├── scripts/                 All JavaScript (ES modules, .mjs)
+│   │   ├── main.mjs             Entry point: loads the model and organs.json, starts the viewer,
+│   │   │                        mounts the interface, or shows "WebGPU is required"
+│   │   ├── render/              Track A: everything 3D. Other folders only import render/index.mjs
+│   │   │   ├── index.mjs        Public API: createViewer() (see docs/RENDERING_API.md)
+│   │   │   ├── renderer.mjs     WebGPU renderer and WebGPU check
+│   │   │   ├── scene.mjs        Scene, camera, lights, framing the model on screen
+│   │   │   ├── controls.mjs     Orbit, zoom and pan (mouse and touch)
+│   │   │   ├── camera.mjs       Fly-to: framing a structure and the smooth camera move
+│   │   │   ├── loader.mjs       Loads heart.glb and organs.json
+│   │   │   ├── layers.mjs       Layers (the 5 groups) and isolate mode
+│   │   │   ├── picking.mjs      Click or tap to select a structure, highlight
+│   │   │   ├── slicing.mjs      Cutting plane with a filled cross-section
+│   │   │   ├── shaders.mjs      TSL shaders: x-ray and hatched cut surface (docs/SHADERS.md)
+│   │   │   ├── xray.mjs         X-ray mode: swaps materials and back
+│   │   │   ├── viewstate.mjs    The view as data, for shareable links
+│   │   │   ├── perf.mjs         Frame-rate measurement
+│   │   │   ├── xr.mjs           Optional WebXR AR: place the organ in the room
+│   │   │   └── placeholder.mjs  Stand-in body shown if the model cannot load
+│   │   ├── ui/                  Track C: toolbar, About window, "WebGPU is required" message
+│   │   ├── learn/               Track C: Learn mode, current language (EN/FR)
+│   │   ├── pwa/register.mjs     Track C: registers the service worker (production build only)
+│   │   ├── dev/devPanel.mjs     Developer panel, only with ?dev in the URL
+│   │   └── tests/               Automated tests (Node's test runner): npm test
 │   │
-│   ├── ui/                      Track C: the interface
-│   │   ├── toolbar.mjs          Toolbar: layers, Slice, reset view, language, AR button
-│   │   ├── about.mjs            About window: credits, licences, not-a-medical-tool notice
-│   │   ├── unsupported.mjs      "WebGPU is required" message (EN/FR)
-│   │   └── ui.css
+│   ├── styles/                  All the CSS
+│   │   ├── base.css             Page background and the full-screen 3D viewer
+│   │   ├── ui.css               Toolbar, panels, About window
+│   │   └── learnMode.css        Learn mode panel
 │   │
-│   ├── learn/                   Track C: Learn mode
-│   │   ├── learnMode.mjs        Panel with the selected structure's record (EN/FR)
-│   │   ├── language.mjs         Current language (EN/FR), shared by learn/ and ui/
-│   │   └── learnMode.css
+│   ├── assets/                  Files the app loads at run time
+│   │   ├── models/heart.glb     The 3D heart: 29 structures in 5 groups (built by the pipeline)
+│   │   └── data/
+│   │       ├── organs.json      One EN/FR record per structure and group
+│   │       └── quiz.json        Quiz bank (71 questions)
 │   │
-│   ├── pwa/                     Track C: installable app and offline use
-│   │   ├── register.mjs         Registers the service worker (production build only)
-│   │   ├── sw.mjs               Service worker: caches the app, model and data for offline use
-│   │   └── manifest.webmanifest App name, icons, colours, standalone display
-│   │
-│   └── dev/
-│       └── devPanel.mjs         Developer panel, only with ?dev in the URL
+│   └── icons/                   App icons (192 and 512 px)
 │
-├── public/                      STATIC FILES: copied unchanged to the site root at build time
-│   ├── icons/                   App icons (192 and 512 px)
-│   └── assets/
-│       ├── models/heart.glb     The 3D heart: 29 structures in 5 groups (built by the pipeline)
-│       └── data/
-│           ├── organs.json      One EN/FR record per structure and group
-│           └── quiz.json        Quiz bank (71 questions)
-│
-├── data_pipeline/               Track B: Python scripts that build and check the data
-│   ├── build.py                 Builds heart.glb from the raw datasets (config/heart.json)
-│   ├── sources.py               Readers for the source datasets
-│   ├── mesh_ops.py              Mesh operations (cleaning, decimation, alignment)
-│   ├── check_glb.py             Checks a built GLB
-│   ├── validate_content.py      Checks organs.json and quiz.json against heart.glb (run by CI)
-│   ├── config/heart.json        Which source meshes make up the heart
-│   ├── requirements.txt         Python packages for the pipeline
-│   └── README.md                How to run the pipeline
-│
-├── data/
-│   └── raw/                     Raw datasets: hra/ is committed, the rest is downloaded and ignored
-│
-├── tests/                       Automated tests (Node's test runner): npm test
-│   ├── render.test.mjs          Selection, AR placement, organs.json loading
-│   ├── renderer.test.mjs        WebGPU check
-│   └── slicing.test.mjs         Slicing, and which structures can show a filled cut
-│
+├── data_pipeline/               Track B: Python scripts that build heart.glb and check the content
+├── data/raw/                    Raw datasets: hra/ is committed, the rest is downloaded and ignored
 ├── docs/                        Project documentation (list below)
-├── .github/workflows/ci-cd.yml  CI/CD: lint, tests, data validation, build, deploy to GitHub Pages
-│
-├── vite.config.mjs              Build: scripts/ is the root, public/ the static folder, output dist/;
-│                                publishes pwa/sw.mjs and pwa/manifest.webmanifest at the site root
-├── eslint.config.mjs            Lint rules (npm run lint)
-├── package.json                 Dependencies and npm scripts
-├── .editorconfig, .prettierrc, .prettierignore, .nvmrc, .gitignore
+├── .github/
+│   ├── workflows/ci-cd.yml      CI/CD: lint, tests, data validation, build, deploy to GitHub Pages
+│   └── eslint.config.mjs        Lint rules (npm run lint)
+├── vite.config.mjs              Build: src/ is the root, output dist/
+├── package.json                 npm scripts, dependencies, Node version ("engines"), Prettier settings
 ├── ATTRIBUTION.md               Credits for every asset, library and AI use
 ├── CONTRIBUTING.md              Workflow rules (branches, pull requests)
 ├── LICENSE                      MIT for the code; assets keep their own licences
@@ -157,45 +139,46 @@ human-anatomy-visualizer/
 ```
 
 Not in Git: `node_modules/` (npm packages), `dist/` (the built site), `data/raw/bodyparts3d/`
-(downloaded dataset) and `data/out/` (pipeline output).
+(downloaded dataset), `data/out/` (pipeline output), and personal tool files (`.nvmrc`,
+`.prettierrc`, `.prettierignore`).
 
 ### How the parts fit together
 
 ```
-data/raw/  ──(data_pipeline/build.py)──►  public/assets/models/heart.glb
-                                          public/assets/data/organs.json, quiz.json
+data/raw/  ──(data_pipeline/build.py)──►  src/assets/models/heart.glb
+                                          src/assets/data/organs.json, quiz.json
                                                       │
-scripts/  (index.html + .mjs modules)                 │
+src/  (index.html, scripts/, styles/, ...)            │
           ──────────────(npm run build: Vite)─────────┴──►  dist/  ──(CI/CD)──►  GitHub Pages
 ```
 
 1. **Data:** Track B builds `heart.glb` from the raw datasets with `data_pipeline/`, and writes the
    texts in `organs.json` and `quiz.json`. `validate_content.py` checks that every structure in the
    model has its record.
-2. **App:** `scripts/main.mjs` loads those files by URL (`assets/models/heart.glb`,
+2. **App:** `src/scripts/main.mjs` loads those files by URL (`assets/models/heart.glb`,
    `assets/data/organs.json`), passes the model to `render/` (the 3D viewer), then mounts `ui/`
    and `learn/` on top of it. `ui/` and `learn/` use the viewer only through `render/index.mjs`.
-3. **Build:** `npm run build` bundles `scripts/` into `dist/`, copies `public/` as is, and puts
-   `sw.mjs` and `manifest.webmanifest` at the root of `dist/`.
+3. **Build:** `npm run build` bundles `index.html`, `scripts/` and `styles/` into `dist/`, and copies
+   `sw.mjs`, `manifest.webmanifest`, `assets/` and `icons/` there unchanged, at the same paths.
 4. **Deploy:** on every merge into `main`, CI/CD runs the checks, builds, and publishes `dist/` to
    GitHub Pages.
 
 ### Where to put a new file
 
-| You are adding...                          | Put it in                    |
-| ------------------------------------------ | ---------------------------- |
-| 3D or rendering code                       | `scripts/render/`            |
-| A button, panel or window                  | `scripts/ui/`                |
-| Learn or quiz mode code                    | `scripts/learn/`             |
-| Offline or install behaviour               | `scripts/pwa/`               |
-| An image, model or data file the app loads | `public/` (under `assets/`)  |
-| A script that converts or checks data      | `data_pipeline/`             |
-| A test                                     | `tests/`, named `*.test.mjs` |
-| Documentation                              | `docs/`                      |
+| You are adding...                     | Put it in                                |
+| ------------------------------------- | ---------------------------------------- |
+| 3D or rendering code                  | `src/scripts/render/`                    |
+| A button, panel or window             | `src/scripts/ui/`                        |
+| Learn or quiz mode code               | `src/scripts/learn/`                     |
+| Styles                                | `src/styles/`                            |
+| A model or data file the app loads    | `src/assets/`                            |
+| A script that converts or checks data | `data_pipeline/`                         |
+| A test                                | `src/scripts/tests/`, named `*.test.mjs` |
+| Documentation                         | `docs/`                                  |
 
-Why `sw.mjs` and the manifest are in `scripts/pwa/` but served from the site root: a service worker
-only controls pages in its own folder and below, so it must sit next to `index.html`. A small plugin
-in `vite.config.mjs` publishes both files there, unchanged.
+Why `sw.mjs` sits next to `index.html`: a service worker only controls pages in its own folder and
+below. `index.html` keeps the manifest and icon links unchanged (`vite-ignore`), because the service
+worker precaches them by name.
 
 ## Getting started
 

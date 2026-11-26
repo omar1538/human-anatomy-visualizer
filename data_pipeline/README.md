@@ -45,13 +45,13 @@ data/raw/hra/           https://humanatlas.io/3d-reference-library
 .venv/Scripts/python data_pipeline/check_glb.py data/out/*.glb
 ```
 
-After copying a GLB to `public/assets/models/` or editing `public/assets/data/organs.json`:
+After copying a GLB to `src/assets/models/` or editing `src/assets/data/organs.json`:
 
 ```sh
 python data_pipeline/validate_content.py --strict   # organs.json + quiz.json
 ```
 
-Output goes to `data/out/` (ignored). Copy accepted GLBs to `public/assets/models/`
+Output goes to `data/out/` (ignored). Copy accepted GLBs to `src/assets/models/`
 and add their sources to `ATTRIBUTION.md` in the same PR.
 
 `check_glb.py` checks what the app relies on: well-formed GLB, normals present and

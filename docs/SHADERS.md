@@ -1,6 +1,6 @@
 # Shaders (Track A)
 
-The app has two custom GPU shaders, both in [`scripts/render/shaders.mjs`](../scripts/render/shaders.mjs):
+The app has two custom GPU shaders, both in [`src/scripts/render/shaders.mjs`](../scripts/render/shaders.mjs):
 
 | Shader          | What it does                                                  | Used by                             |
 | --------------- | ------------------------------------------------------------- | ----------------------------------- |
@@ -58,7 +58,7 @@ The middle of a structure is almost transparent (12 %) in its own colour; the ou
 lighter. The material is transparent, does not write depth (so structures behind stay visible), and
 is double-sided (the far side of each structure adds to the effect).
 
-**Around the shader** (`xray.mjs`, no GPU code, covered by `tests/shaders.test.mjs`): each mesh gets
+**Around the shader** (`xray.mjs`, no GPU code, covered by `src/scripts/tests/shaders.test.mjs`): each mesh gets
 its own x-ray material, made once and reused, so toggling never creates new materials. Switching off
 puts back the exact materials the meshes had. The AR copy is made with the normal materials, and
 slicing helpers keep their own material.

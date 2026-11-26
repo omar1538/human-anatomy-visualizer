@@ -2,7 +2,7 @@
 
 Everyone must use the same Node version and the same dependency versions.
 
-1. Install **Node 22** (`.nvmrc` says which; with nvm: `nvm use`). Node 20 or newer also works.
+1. Install **Node 22** (the version the CI uses; `package.json` "engines" accepts 20 or newer).
 2. Install dependencies from the lockfile: `npm ci` (not `npm install`, so versions never drift).
 3. Start the dev server: `npm run dev`, then open the printed address.
 4. Before opening a pull request: `npm run lint`, `npm run validate` and `npm run build` must pass
@@ -30,7 +30,7 @@ active renderer (always WebGPU), raw layer ids, and test controls. Users never s
 - **CI**, on every push and pull request to `main`: `npm ci`, `npm run lint`, `npm run validate`
   (data contract: every GLB node has its EN/FR record, licence and attribution; the GLB exists;
   `quiz.json` is consistent), a check that fails if any `.glb` file in Git is larger than 5 MB
-  (5 × 1024 × 1024 bytes), then `npm run build`. Node version from `.nvmrc`, Python 3.13.
+  (5 × 1024 × 1024 bytes), then `npm run build`. Node 22, Python 3.13.
 - **CD**, only after a push to `main` whose CI passed: publishes the `dist/` built by the CI job
   to GitHub Pages. A pull request is checked but never deployed.
 
@@ -55,7 +55,7 @@ Offline test: after the page has loaded once, stop `npm run preview` (Ctrl+C) an
 must still open with the real heart (five layers in the panel, not the placeholder body), and
 selecting a structure must still show its details in Learn mode.
 
-What the service worker caches (`scripts/pwa/sw.mjs`):
+What the service worker caches (`src/sw.mjs`):
 
 | Files                                                    | Strategy                          | Why                                                                                            |
 | -------------------------------------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------- |
@@ -66,5 +66,5 @@ What the service worker caches (`scripts/pwa/sw.mjs`):
 The shell, the default model and its content are cached at install, so the whole app works offline
 right after the first visit.
 
-After changing `scripts/pwa/sw.mjs`, bump `CACHE_VERSION` in it so old caches are deleted. If the browser
+After changing `src/sw.mjs`, bump `CACHE_VERSION` in it so old caches are deleted. If the browser
 keeps an old version, use _Unregister_ in DevTools > Application > Service workers, or _Clear site data_.

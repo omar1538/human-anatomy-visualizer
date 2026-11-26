@@ -1,6 +1,6 @@
 # Rendering API (Track A)
 
-Tracks B and C only use `scripts/render/index.mjs`. Internal files can change without notice.
+Tracks B and C only use `src/scripts/render/index.mjs`. Internal files can change without notice.
 
 ```js
 import { createViewer } from './render/index.mjs';
@@ -47,7 +47,7 @@ Cuts the model with a plane to show the inside, for example the chambers of the 
   ([`SHADERS.md`](SHADERS.md)). Four structures of `heart.glb` have holes (`right_atrium`,
   `papillary_muscles`, `aortic_valve`, `inferior_vena_cava`), so they show their inner walls instead.
 - Clicks go through the removed part: you can select a structure inside the cut.
-- The toolbar's **Slice** menu (`scripts/ui/toolbar.mjs`) uses these three methods.
+- The toolbar's **Slice** menu (`src/scripts/ui/toolbar.mjs`) uses these three methods.
 
 ## X-ray
 
@@ -183,7 +183,7 @@ The app follows `docs/DATA_CONTRACT.md`:
 - Every selectable structure is a node whose **name equals its id** in `organs.json`.
   Group nodes (`chambers`, `valves`, ...) are selectable too.
 - A mesh's layer is read from `userData.system`, else `meta[id].system`, else its parent group name.
-- `loadGLB(url, onProgress)` and `loadOrganIndex(url)` are in `scripts/render/loader.mjs`.
+- `loadGLB(url, onProgress)` and `loadOrganIndex(url)` are in `src/scripts/render/loader.mjs`.
   `loadOrganIndex` turns the `organs.json` array into an index by id. A missing or invalid file
   gives an empty index, so the viewer works before the metadata exists.
 - Fields such as `name` and `function` are `{ "en": "...", "fr": "..." }`. Learn mode shows the

@@ -77,3 +77,13 @@ test('slicing helpers added later are left alone', () => {
   layers.isolate(null);
   assert.equal(helper.visible, false);
 });
+
+test('reset turns every layer back on and clears the isolation', () => {
+  const { layers, get, shown } = setup();
+  layers.setSystemVisible('valves', false);
+  layers.isolate(get('lv'));
+  layers.reset();
+  assert.deepEqual(shown(), ['lv', 'rv', 'mitral']);
+  assert.equal(layers.isIsolating(), false);
+  assert.equal(layers.isSystemVisible('valves'), true);
+});

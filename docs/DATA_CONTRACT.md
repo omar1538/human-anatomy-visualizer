@@ -191,8 +191,47 @@ Choices are already in random order; the app may shuffle them again.
 matches `choices`, both languages, and (with `--strict`) at least 60 questions and at least one question
 about every structure.
 
+## Version 2.0 (draft): several organs
+
+> **Draft, not in force.** Proposed by Track B to add the lungs. The app keeps following v1.0 until
+> Tracks A and C approve this section in a PR; it then replaces the v1.0 rules it contradicts.
+
+### Files
+- **One GLB per organ**: `public/assets/models/<organ>.glb` (`heart.glb`, `lungs.glb`). Each file stays
+  under the CI's 5 MB limit and can be loaded on its own (lazy loading).
+- Light versions for phones, when they exist: `<organ>-light.glb`, same nodes and ids.
+
+### Frame (change from v1.0)
+- Units and axes unchanged: metres, **+Y up, +Z anterior, +X = the subject's left**.
+- **Origin: the centre of the BodyParts3D whole-body bounding box, the same for every organ**, so that
+  loading several GLBs puts each organ in its real place without any offset. (v1.0 put the origin at
+  the centre of the heart.) `heart.glb` is rebuilt with this origin; its geometry does not change.
+- To centre the view on one organ, the app frames that organ's bounding box (as `resetView()` does).
+
+### Node tree
+```
+<organ>                     (root, extras.kind = "organ")      heart, lungs
+└── <group>                 (extras.kind = "group")            chambers, valves, ...; lobes, airways, ...
+    └── <structure>         (mesh node, extras.kind = "structure")
+```
+- The root id is the organ id. Groups and structures as in v1.0.
+- **Ids are unique across all GLBs** (no two organs use the same id). Existing heart ids are unchanged.
+- Layers: the UI can show and hide a whole organ (its root) or one group.
+
+### `organs.json`
+- One file for all organs. **New field `organ`** on every record (`"heart"`, `"lungs"`), and one record
+  per organ root (its `system` is its own id, like a group).
+- `system` keeps its meaning: the group (layer) id.
+
+### `quiz.json`
+- Unchanged. `organId` can point to any organ, group or structure.
+
+### Checks
+- `validate_content.py` checks every GLB in `public/assets/models/` against `organs.json`.
+
 ## Versions
 
 | Version | Date       | Change                                                                                                                                                                                                   |
 | ------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1.0     | 2026-11-17 | Final. GLB frame, node tree, ids and materials (draft since Week 1) are confirmed by the code of Tracks A and C; `organs.json` (Week 3) and `quiz.json` with the `mcq` type and bilingual texts (Week 4) |
+| 2.0     | draft      | Several organs (lungs): one GLB per organ, common origin at the body centre, organ root nodes, `organ` field in `organs.json`. Not in force until approved by Tracks A and C |

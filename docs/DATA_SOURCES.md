@@ -140,9 +140,21 @@ Goal: add the lungs, to complete the pulmonary circulation that `heart.glb` cuts
 ### HRA lung (male)
 - File: `data/raw/hra/3d-vh-m-lung.glb` (10.9 MB, **not in Git**: above the CI's 5 MB limit; see `.gitignore`).
   URL: https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/latest/assets/3d-vh-m-lung.glb
-- Licence: **CC BY 4.0**, checked on its LOD record on 2026-11-26
-  (https://lod.humanatlas.io/ref-organ/lung-male/latest/). Its DOI, authors and version are on the same
-  record: copy them into `ATTRIBUTION.md` when `lungs.glb` is added to the app.
+- Record (LOD, read on 2026-11-26: https://lod.humanatlas.io/ref-organ/lung-male/latest/):
+  - **Licence: Creative Commons Attribution 4.0 International (CC BY 4.0).**
+  - Version **1.3**; publisher HuBMAP; funders: National Institutes of Health (awards OT2OD033756
+    and OT2OD026671).
+  - Made from the **Visible Human Male** data of the National Library of Medicine (Spitzer et al. 1996,
+    https://doi.org/10.1136/jamia.1996.96236280; Ackerman 1998, https://doi.org/10.1109/5.662875).
+  - "In version 1.3, the larynx, trachea, and main bronchi were removed; however, lung lobes and
+    intrapulmonary bronchi remain part of the lung model." This matches the file: no trachea.
+  - **Creators: Kristen Browne, Heidi Schlehlein.** Project lead: Katy Börner. Internal reviewer:
+    Gloria Pryhuber.
+  - **DOI: https://doi.org/10.48539/HBM532.KLZD.394** (data ID HBM532.KLZD.394), published 2024-06-15,
+    last processed 2026-06-08.
+  - Attribution line (same pattern as the heart): "3D Reference Organ for Lung, Male v1.3", Kristen
+    Browne and Heidi Schlehlein (2024), HuBMAP Human Reference Atlas, CC BY 4.0,
+    https://doi.org/10.48539/HBM532.KLZD.394
 - Visual check in Blender (2026-11-26): lobes, segments and bronchi load and look complete; no problem found.
 - Content (node names read from the file, 224,765 triangles):
   - **Lung tissue**: both lungs as lobes (left: upper, lower; right: upper, middle, lower), cut into
@@ -187,11 +199,46 @@ lung by 22 %. **Fit bronchi onto bronchi** (like for like), then apply the same 
 tissue. With that fit, 99 % of the BodyParts3D vessel points fall in the fitted lung's bounding box.
 7.5 mm is more than the heart's 3 mm: check in Blender that the vessels stay inside the lung surface.
 
-### Direction (to confirm with the fitted model)
-Lung tissue from **HRA**, fitted onto BodyParts3D through the bronchi; intrapulmonary vessels and the
-trachea from **BodyParts3D**; bronchi from one of the two. Still to do: visual check of the fitted lung
-with the BodyParts3D vessels, triangle budget under 5 MB (the HRA bronchi and cartilage are 205k
-triangles), and the contract v2 (one GLB per organ, common origin).
+### Check file (B5a, 2026-11-26)
+`data/out/lung-check.glb` (not in Git; rebuilt by a spike script) puts together, in the BodyParts3D
+body frame: the HRA lung tissue (one semi-transparent node per lobe) and bronchi, fitted bronchi onto
+bronchi; the BodyParts3D trachea, main bronchi and intrapulmonary arteries (blue) and veins (red); and
+the current `heart.glb` moved back from the heart frame to the body frame.
+
+Measured on that file (a vessel point is "inside" if it is behind the nearest lung surface):
+
+| BodyParts3D vessels | Inside the fitted HRA lung | Outside by > 5 mm | Outside by > 10 mm | Max |
+|---|---|---|---|---|
+| Intrapulmonary arteries | 66 % | 21 % | 13 % | 30 mm |
+| Intrapulmonary veins | 64 % | 16 % | 8 % | 30 mm |
+
+- Some vessel length outside the lung is normal: the vessels enter each lung at its hilum.
+- The rest comes from the two bodies: the HRA lung (Visible Human) and the BodyParts3D lung do not have
+  the same shape, and a rigid fit (rotation, scale, translation) cannot fix that.
+- **Data error in BodyParts3D:** two element files of the intrapulmonary right pulmonary artery,
+  `FJ2041` and `FJ2044` ("right anterior segmental artery", which belongs to the upper lobe), lie about
+  10 cm *below* the lung. Leave them out (the figures above already do).
+
+Options, to choose after looking at the check file in Blender:
+1. **HRA lung + BodyParts3D vessels**, as planned, if the vessels that stick out are acceptable (or
+   hidden by showing the lung tissue semi-transparent).
+2. **HRA lung only** (tissue and bronchi), without vessels inside the lungs: the heart's pulmonary
+   vessels then end at the lung roots, as today. Simplest and consistent.
+3. **BodyParts3D only**: vessels and bronchi of the same body, no lung tissue (only conduits).
+
+### Decision (2026-11-26): option 2, HRA lung only
+After checking `lung-check.glb` in Blender, the team member chose **option 2**:
+
+- `lungs.glb` takes **everything from the HRA male lung v1.3**: lung tissue (lobes) and intrapulmonary
+  bronchi. **No BodyParts3D vessels inside the lungs**: the heart's pulmonary arteries and veins keep
+  ending at the lung roots, as in `heart.glb` today.
+- The HRA lung is still **placed by fitting its bronchi onto the BodyParts3D bronchi** (7.5 mm mean
+  distance), so it sits around the heart in the common body frame of the contract v2. BodyParts3D is
+  only used as the placement reference, not as geometry.
+- No trachea (removed from HRA v1.3). It could be added later from BodyParts3D (`FMA7394`) if needed.
+- Still to do: list of structures (lobes rather than the 18 segments: simpler to learn and to document),
+  triangle budget under 5 MB (the HRA bronchi and their cartilage are 205k triangles), and the
+  approval of the contract v2 by Tracks A and C.
 
 ## Open points
 

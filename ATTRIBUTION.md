@@ -222,12 +222,14 @@ Travail fait **sans assistant IA** :
         > Ne fais pas de commit sans me demander.
     *   **Axe de vérification appliqué par l'étudiant :**
 
-*   **Composant ou Shader concerné :** ajout des poumons, étude préliminaire (section « Lungs: spike » de `docs/DATA_SOURCES.md`, instructions de téléchargement, `.gitignore`)
-    *   **Prompt ou usage principal :** « Fais l'étape B1 : trouve les ids FMA des poumons dans BodyParts3D. » Puis : « Un nouveau développeur doit savoir comment télécharger toutes les données qui ne sont pas sur Git : ajoute ce qui manque. » Claude a classé les fichiers BodyParts3D des poumons, lu le contenu du poumon HRA, fait un premier essai de recalage et rédigé la documentation.
+*   **Composant ou Shader concerné :** ajout des poumons, étude préliminaire (section « Lungs: spike » de `docs/DATA_SOURCES.md`, instructions de téléchargement, `.gitignore`, brouillon du contrat v2 dans `docs/DATA_CONTRACT.md`)
+    *   **Prompt ou usage principal :** « Fais l'étape B1 : trouve les ids FMA des poumons dans BodyParts3D. » Puis : « Un nouveau développeur doit savoir comment télécharger toutes les données qui ne sont pas sur Git : ajoute ce qui manque. » Puis : « Fais toutes les étapes qui te concernent, puis donne-moi les étapes que je dois faire. » Claude a classé les fichiers BodyParts3D des poumons, lu le contenu du poumon HRA, mesuré le recalage du poumon HRA sur BodyParts3D, généré un fichier de contrôle pour Blender, repéré deux fichiers BodyParts3D mal placés, rédigé la documentation et le brouillon du contrat de données v2.
     *   **Axe de vérification appliqué par l'étudiant :**
         - Téléchargement du poumon HRA par l'étudiant depuis le site officiel
         - Vérification de la licence (CC BY 4.0) sur la page officielle du poumon HRA
         - Contrôle visuel du poumon HRA dans Blender (lobes, segments, bronches)
+        - Contrôle dans Blender du fichier de contrôle (poumon recalé, vaisseaux, cœur), puis choix de l'option 2 (poumon HRA seul)
+        - Relevé sur la page officielle du poumon HRA des créateurs, du DOI et de la version
 
 ### Track A (Omar Bajar), assistant : Claude Opus 5.5 (Anthropic), via Claude Code dans VS Code
 

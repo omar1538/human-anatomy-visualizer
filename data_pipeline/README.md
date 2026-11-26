@@ -28,7 +28,8 @@ python -m venv .venv
 # .venv/bin/python -m pip install -r data_pipeline/requirements.txt    # macOS/Linux
 ```
 
-Raw data goes in `data/raw/` (ignored by Git, see `docs/DATA_SOURCES.md` for licences):
+Raw data goes in `data/raw/`. Only the two HRA hearts are in Git; download the rest with the commands
+and checksums in `docs/DATA_SOURCES.md` ("Downloading the raw data"), which also gives the licences:
 
 ```
 data/raw/bodyparts3d/   https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html
@@ -36,6 +37,7 @@ data/raw/bodyparts3d/   https://dbarchive.biosciencedbc.jp/en/bodyparts3d/downlo
     partof_BP3D_4.0_obj_99/          (unzipped partof_BP3D_4.0_obj_99.zip)
 data/raw/hra/           https://humanatlas.io/3d-reference-library
     3d-vh-m-heart.glb                https://cdn.humanatlas.io/digital-objects/ref-organ/heart-male/latest/assets/3d-vh-m-heart.glb
+    3d-vh-m-lung.glb  (not in Git)   https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/latest/assets/3d-vh-m-lung.glb
 ```
 
 ## Run

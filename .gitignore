@@ -6,6 +6,8 @@ data/raw/*
 !data/raw/.gitkeep
 # exception: HRA heart GLBs (small, CC BY 4.0)
 !data/raw/hra/
+# but not the HRA lungs (10.9 MB: above the CI's 5 MB limit for .glb files)
+data/raw/hra/*lung*
 *.blend1
 
 # Python pipeline

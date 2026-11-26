@@ -81,20 +81,37 @@ Built by `data_pipeline/config/heart.json` → `public/assets/models/heart.glb`.
 
 ## Downloading the raw data
 
-`data/raw/` is not in Git, except `data/raw/hra/` (5.6 MB, CC BY 4.0), which is committed.
-BodyParts3D (≈ 65 MB zipped) must be downloaded. Checksums below were taken on 2026-11-05;
-if one no longer matches, the source was updated: re-check the licence and the pipeline output.
+`data/raw/` is not in Git, except the two HRA hearts in `data/raw/hra/` (5.8 MB, CC BY 4.0), which are
+committed. **A new developer must download everything else**: BodyParts3D (≈ 65 MB zipped) and the HRA
+lung (10.9 MB, kept out of Git because the CI rejects `.glb` files above 5 MB). Checksums below were
+taken on 2026-11-05 (heart, BodyParts3D) and 2026-11-26 (lung); if one no longer matches, the source
+was updated: re-check the licence and the pipeline output.
 
 | Local path                                                                                      | URL                                                                                              | SHA-256                                                            |
 | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
 | `data/raw/hra/3d-vh-m-heart.glb` (committed)                                                    | https://cdn.humanatlas.io/digital-objects/ref-organ/heart-male/latest/assets/3d-vh-m-heart.glb   | `689df039c8bc264ea06a44cd926762976f0666c0ff2dc532d046409b185e6b0c` |
 | `data/raw/hra/3d-vh-f-heart.glb` (committed, not used by the pipeline)                          | https://cdn.humanatlas.io/digital-objects/ref-organ/heart-female/latest/assets/3d-vh-f-heart.glb | `98f66e46b149bfc3836592d9404c50290e21d302ec55c98813435e2d9847b1d9` |
+| `data/raw/hra/3d-vh-m-lung.glb` (**not committed**: download it)                                 | https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/latest/assets/3d-vh-m-lung.glb     | `bba95516fa993ac45c3b1c53f32b58d97232ffd78ae56397e5a2589c6ce4903d` |
 | `data/raw/bodyparts3d/partof_BP3D_4.0_obj_99.zip` (unzip in place, then the zip can be deleted) | https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_BP3D_4.0_obj_99.zip            | `9fbc713fffeee924a5a657d9813d84d7eb957bded63adb854931dd5e3eb61c97` |
 | `data/raw/bodyparts3d/partof_element_parts.txt`                                                 | https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_element_parts.txt              | `3f5f6df1028eb122b30de77c711597b6bb8e5541658e5985859fd228adbf88ea` |
 | `data/raw/bodyparts3d/partof_parts_list_e.txt`                                                  | https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_parts_list_e.txt               | `9224080557053e6f1322f1e13ab27f0ecde0db19bb3b505f0631afad230eeebd` |
 | `data/raw/bodyparts3d/partof_inclusion_relation_list.txt` (optional)                            | https://dbarchive.biosciencedbc.jp/data/bodyparts3d/LATEST/partof_inclusion_relation_list.txt    | `1b40738270931e3c1d955ce34e0fce0d8d10d8c5ad543463e40b4b4c0243007c` |
 
-From the repo root (Git Bash):
+From the repo root (Git Bash). HRA lung:
+
+```bash
+curl -fL -o data/raw/hra/3d-vh-m-lung.glb   https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/latest/assets/3d-vh-m-lung.glb
+sha256sum data/raw/hra/3d-vh-m-lung.glb   # compare with the table above
+```
+
+The same in PowerShell:
+
+```powershell
+Invoke-WebRequest -Uri "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/latest/assets/3d-vh-m-lung.glb" -OutFile "data/raw/hra/3d-vh-m-lung.glb"
+Get-FileHash -Algorithm SHA256 data/raw/hra/3d-vh-m-lung.glb   # compare with the table above
+```
+
+BodyParts3D (Git Bash):
 
 ```bash
 cd data/raw/bodyparts3d
@@ -115,6 +132,66 @@ find . -type f | LC_ALL=C sort | xargs sha256sum | sha256sum
 ```
 
 Not needed by the pipeline: Z-Anatomy (not used) and the BodyParts3D IS-A tree (`isa_*`).
+
+## Lungs: spike (in progress)
+
+Goal: add the lungs, to complete the pulmonary circulation that `heart.glb` cuts at the lung roots.
+
+### HRA lung (male)
+- File: `data/raw/hra/3d-vh-m-lung.glb` (10.9 MB, **not in Git**: above the CI's 5 MB limit; see `.gitignore`).
+  URL: https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/latest/assets/3d-vh-m-lung.glb
+- Licence: **CC BY 4.0**, checked on its LOD record on 2026-11-26
+  (https://lod.humanatlas.io/ref-organ/lung-male/latest/). Its DOI, authors and version are on the same
+  record: copy them into `ATTRIBUTION.md` when `lungs.glb` is added to the app.
+- Visual check in Blender (2026-11-26): lobes, segments and bronchi load and look complete; no problem found.
+- Content (node names read from the file, 224,765 triangles):
+  - **Lung tissue**: both lungs as lobes (left: upper, lower; right: upper, middle, lower), cut into
+    **18 bronchopulmonary segments**, plus the hilum of each lung and lobe. Light: about 20k triangles.
+  - **Bronchi**: lobar and segmental bronchi of both sides, and their cartilage (56k triangles for the
+    cartilage alone).
+  - **No blood vessels** and no trachea.
+
+### BodyParts3D: FMA ids
+**BodyParts3D has no lung tissue.** The 124 element files of the left lung (`FMA7310`) and the 156 of
+the right lung (`FMA7309`) are all bronchi, pulmonary arteries or pulmonary veins: a "lobe" or a
+"segment" is only the set of conduits that run through it. Same issue as the heart's missing
+ventricular walls.
+
+| Group | FMA ids | Element files |
+|---|---|---|
+| Trachea | `FMA7394` | 1 |
+| Main bronchi (right, left) | `FMA7395`, `FMA7396` | 1, 1 |
+| Bronchial tree (right, left) | `FMA26661`, `FMA26662` | 54, 40 |
+| Lobar parts of the bronchial tree, right (upper, middle, lower) | `FMA31744`, `FMA31741`, `FMA31747` | 21, 8, 24 |
+| Lobar parts of the bronchial tree, left (upper, lower) | `FMA31746`, `FMA31748` | 17, 22 |
+| Intrapulmonary pulmonary arteries (right, left) | `FMA67994`, `FMA67995` | 54, 37 |
+| Intrapulmonary pulmonary veins, right (superior, inferior) | `FMA68002`, `FMA68003` | 26, 23 |
+| Intrapulmonary pulmonary veins, left (superior, inferior) | `FMA68004`, `FMA68005` | 24, 12 |
+| Lungs (right, left): conduits only | `FMA7309`, `FMA7310` | 156, 124 |
+| Lobes, right (upper, middle, lower) / left (upper, lower): conduits only | `FMA7333`, `FMA7383`, `FMA7337` / `FMA7370`, `FMA7371` | |
+
+The intrapulmonary vessels are exactly the parts `heart.json` excludes (`exclude_fma`) from the
+pulmonary arteries and veins, so they would continue the heart's vessels in the same body.
+
+### Fit test (2026-11-26)
+The HRA lung comes from another body (Visible Human), so it must be fitted onto BodyParts3D, as the
+heart was. First test with `register()` from `mesh_ops.py`:
+
+| Fit | Scale | Rotation | Mean distance |
+|---|---|---|---|
+| HRA lung tissue onto BodyParts3D intrapulmonary vessels + airways | 0.78 | 3.7° | 10.4 mm |
+| **HRA bronchi onto BodyParts3D bronchi** | **0.975** | **5.2°** | **7.5 mm** |
+
+The first fit is wrong: it compares an outer surface with the conduits inside it, so ICP shrinks the
+lung by 22 %. **Fit bronchi onto bronchi** (like for like), then apply the same transform to the lung
+tissue. With that fit, 99 % of the BodyParts3D vessel points fall in the fitted lung's bounding box.
+7.5 mm is more than the heart's 3 mm: check in Blender that the vessels stay inside the lung surface.
+
+### Direction (to confirm with the fitted model)
+Lung tissue from **HRA**, fitted onto BodyParts3D through the bronchi; intrapulmonary vessels and the
+trachea from **BodyParts3D**; bronchi from one of the two. Still to do: visual check of the fitted lung
+with the BodyParts3D vessels, triangle budget under 5 MB (the HRA bronchi and cartilage are 205k
+triangles), and the contract v2 (one GLB per organ, common origin).
 
 ## Open points
 

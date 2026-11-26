@@ -222,6 +222,13 @@ Travail fait **sans assistant IA** :
         > Ne fais pas de commit sans me demander.
     *   **Axe de vérification appliqué par l'étudiant :**
 
+*   **Composant ou Shader concerné :** ajout des poumons, étude préliminaire (section « Lungs: spike » de `docs/DATA_SOURCES.md`, instructions de téléchargement, `.gitignore`)
+    *   **Prompt ou usage principal :** « Fais l'étape B1 : trouve les ids FMA des poumons dans BodyParts3D. » Puis : « Un nouveau développeur doit savoir comment télécharger toutes les données qui ne sont pas sur Git : ajoute ce qui manque. » Claude a classé les fichiers BodyParts3D des poumons, lu le contenu du poumon HRA, fait un premier essai de recalage et rédigé la documentation.
+    *   **Axe de vérification appliqué par l'étudiant :**
+        - Téléchargement du poumon HRA par l'étudiant depuis le site officiel
+        - Vérification de la licence (CC BY 4.0) sur la page officielle du poumon HRA
+        - Contrôle visuel du poumon HRA dans Blender (lobes, segments, bronches)
+
 ### Track A (Omar Bajar), assistant : Claude Opus 5.5 (Anthropic), via Claude Code dans VS Code
 
 Claude a servi d'assistant de code, de diagnostic et de rédaction. Les prompts ci-dessous sont des

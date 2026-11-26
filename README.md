@@ -135,7 +135,7 @@ human-anatomy-visualizer/
 │   └── README.md                How to run the pipeline
 │
 ├── data/
-│   └── raw/                     Raw datasets: hra/ is committed, the rest is downloaded and ignored
+│   └── raw/                     Raw datasets: the HRA hearts are committed, the rest is downloaded (docs/DATA_SOURCES.md)
 │
 ├── tests/                       Automated tests (Node's test runner): npm test
 │   ├── render.test.mjs          Selection, AR placement, organs.json loading
@@ -156,8 +156,9 @@ human-anatomy-visualizer/
 └── README.md
 ```
 
-Not in Git: `node_modules/` (npm packages), `dist/` (the built site), `data/raw/bodyparts3d/`
-(downloaded dataset) and `data/out/` (pipeline output).
+Not in Git: `node_modules/` (npm packages), `dist/` (the built site), `data/raw/bodyparts3d/` and
+`data/raw/hra/3d-vh-m-lung.glb` (downloaded datasets: commands and checksums in `docs/DATA_SOURCES.md`,
+"Downloading the raw data") and `data/out/` (pipeline output).
 
 ### How the parts fit together
 

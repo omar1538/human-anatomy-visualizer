@@ -38,6 +38,20 @@ One-time setup (repository admin): **Settings > Pages > Build and deployment > S
 The site URL appears in the run summary and under Settings > Pages. A run can also be started by
 hand from the Actions tab ("Run workflow").
 
+## Deploying on Vercel (optional, in addition to GitHub Pages)
+
+Vercel builds the site from GitHub by itself; the repository needs no Vercel file. Done once, by the
+repository owner, in a browser:
+
+1. Sign in at <https://vercel.com> with the GitHub account that owns the repository.
+2. **Add New… > Project**, choose `human-anatomy-visualizer`, then **Import**.
+3. Vercel detects **Vite**. Keep the defaults: build command `npm run build`, output directory
+   `dist`, root directory `./`. Click **Deploy**.
+
+After that, every push to `main` updates the production site (`https://<project>.vercel.app`), and
+every push to another branch or pull request gets its own preview link, shown in the pull request.
+The site is served over HTTPS, so the PWA and WebGPU work there as on GitHub Pages.
+
 ## Testing the PWA locally
 
 The service worker is only registered in production builds (never in `npm run dev`, where it would

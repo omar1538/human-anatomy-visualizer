@@ -1,7 +1,7 @@
 // Track C: main interface. Layers (show, hide, select a group), slicing, reset view, AR, language,
 // About. (Slicing controls added by Track A; they call viewer.setSlice / clearSlice.)
 // Replaces the temporary dev panel (still available with ?dev in the URL).
-import './ui.css';
+import '../../styles/ui.css';
 import {
   LANGUAGES,
   getLanguage,

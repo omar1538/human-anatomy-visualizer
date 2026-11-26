@@ -1,6 +1,6 @@
 // Track A: the view as plain data, for Track C's shareable lesson links. A teacher's link carries
 // this object (for example as JSON in the URL); opening the link puts the viewer back in the same
-// state. Plain functions, no GPU: covered by tests/viewstate.test.mjs.
+// state. Plain functions, no GPU: covered by src/scripts/tests/viewstate.test.mjs.
 
 export const VIEW_STATE_VERSION = 1;
 const AXES = new Set(['x', 'y', 'z']);

@@ -1,37 +1,41 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 
-// The PWA files live in scripts/pwa/ but must be served from the site root, unchanged:
-// - a service worker only controls pages in its own folder and below, so sw.mjs must sit next to
-//   index.html (GitHub Pages cannot send the Service-Worker-Allowed header that would allow more);
-// - Vite would otherwise hash the manifest into assets/, which breaks its relative icon paths and
-//   the service worker's precache list.
-const PWA_FILES = {
-  'sw.mjs': { src: 'scripts/pwa/sw.mjs', type: 'text/javascript' },
-  'manifest.webmanifest': {
-    src: 'scripts/pwa/manifest.webmanifest',
-    type: 'application/manifest+json',
-  },
-};
-const read = (src) => readFileSync(fileURLToPath(new URL(src, import.meta.url)));
+// The whole web app is in src/:
+//   index.html, sw.mjs, manifest.webmanifest   the page and the PWA files
+//   scripts/   the JavaScript modules (main.mjs, render/, ui/, learn/, pwa/, dev/, tests/)
+//   styles/    the CSS
+//   assets/    heart.glb and the content files (loaded at run time with fetch)
+//   icons/     the app icons
+// Vite bundles index.html, scripts/ and styles/ into dist/. The files below are copied to dist/
+// unchanged, at the same paths, because the app and the service worker ask for them by name:
+// - sw.mjs must sit next to index.html: a service worker only controls pages in its own folder
+//   and below (GitHub Pages cannot send the header that would allow more);
+// - the manifest and the icons keep their names so the manifest's icon paths and the service
+//   worker's precache list stay right;
+// - assets/ is fetched at run time (assets/models/heart.glb, assets/data/organs.json, ...).
+const SRC = new URL('./src/', import.meta.url);
+const COPIED_FILES = ['sw.mjs', 'manifest.webmanifest'];
+const COPIED_FOLDERS = ['assets', 'icons'];
 
-function pwaFiles() {
+/** Every file in `folder` and its subfolders, as paths relative to src/ ("icons/icon-192.png"). */
+function filesIn(folder) {
+  const srcPath = fileURLToPath(SRC);
+  return readdirSync(new URL(folder, SRC), { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => relative(srcPath, join(entry.parentPath, entry.name)).split(sep).join('/'));
+}
+
+function copyStaticFiles() {
   return {
-    name: 'pwa-files',
-    // npm run dev: serve them at the root.
-    configureServer(server) {
-      server.middlewares.use((req, res, next) => {
-        const file = PWA_FILES[(req.url ?? '').split('?')[0].replace(/^\//, '')];
-        if (!file) return next();
-        res.setHeader('Content-Type', file.type);
-        res.end(read(file.src));
-      });
-    },
-    // npm run build: write them at the root of dist/ with their own names.
+    name: 'copy-static-files',
+    // npm run build: write them into dist/ unchanged, at the same paths as in src/.
     generateBundle() {
-      for (const [fileName, { src }] of Object.entries(PWA_FILES)) {
-        this.emitFile({ type: 'asset', fileName, source: read(src) });
+      const files = [...COPIED_FILES, ...COPIED_FOLDERS.flatMap(filesIn)];
+      for (const fileName of files) {
+        this.emitFile({ type: 'asset', fileName, source: readFileSync(new URL(fileName, SRC)) });
       }
     },
   };
@@ -40,12 +44,11 @@ function pwaFiles() {
 // base './' lets the built site work from any path (GitHub Pages project URL).
 export default defineConfig({
   base: './',
-  // The web app's code lives in scripts/: index.html, the modules, and scripts/pwa/ (service worker
-  // and manifest, published at the site root by pwaFiles). Static files that are not code (icons,
-  // model and data) are in public/ at the repo root, copied as is. The build goes to dist/.
-  root: 'scripts',
-  publicDir: '../public',
-  plugins: [pwaFiles()],
+  root: 'src',
+  // No separate static folder: in npm run dev, Vite serves everything in src/ as it is, and
+  // copyStaticFiles() publishes what the build needs.
+  publicDir: false,
+  plugins: [copyStaticFiles()],
   build: {
     outDir: '../dist',
     emptyOutDir: true,

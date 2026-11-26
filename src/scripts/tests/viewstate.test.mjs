@@ -5,7 +5,7 @@ import {
   captureViewState,
   parseViewState,
   VIEW_STATE_VERSION,
-} from '../scripts/render/viewstate.mjs';
+} from '../render/viewstate.mjs';
 
 const v = (x, y, z) => ({ x, y, z });
 const parts = {

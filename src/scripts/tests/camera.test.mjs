@@ -2,7 +2,7 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three/webgpu';
-import { createFlight, easeInOutCubic, framingFor } from '../scripts/render/camera.mjs';
+import { createFlight, easeInOutCubic, framingFor } from '../render/camera.mjs';
 
 const near = (a, b, eps = 1e-6) => Math.abs(a - b) < eps;
 const box = (size, x = 0) => {

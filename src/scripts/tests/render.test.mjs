@@ -3,9 +3,9 @@
 import { test, describe, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three/webgpu';
-import { createPicker } from '../scripts/render/picking.mjs';
-import { buildPlacement, createAR, isARSupported } from '../scripts/render/xr.mjs';
-import { loadOrganIndex } from '../scripts/render/loader.mjs';
+import { createPicker } from '../render/picking.mjs';
+import { buildPlacement, createAR, isARSupported } from '../render/xr.mjs';
+import { loadOrganIndex } from '../render/loader.mjs';
 
 const highlighted = (mesh) => mesh.material.emissive.getHex() !== 0;
 const fakeDom = () => {

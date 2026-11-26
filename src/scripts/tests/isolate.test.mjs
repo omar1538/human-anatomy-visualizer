@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three/webgpu';
-import { createLayers } from '../scripts/render/layers.mjs';
+import { createLayers } from '../render/layers.mjs';
 
 function setup() {
   const mesh = (name) => {

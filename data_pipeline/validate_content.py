@@ -2,8 +2,8 @@
 
     python data_pipeline/validate_content.py
     python data_pipeline/validate_content.py --strict      # missing content is an error too
-    python data_pipeline/validate_content.py --glb public/assets/models/heart.glb \
-        --organs public/assets/data/organs.json
+    python data_pipeline/validate_content.py --glb src/assets/models/heart.glb \
+        --organs src/assets/data/organs.json
 
 Errors (exit code 1):
 - the GLB file is missing or is not a glTF 2.0 binary
@@ -276,9 +276,9 @@ def validate_quiz(path: Path, organ_ids: set[str], structures: set[str], strict:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--glb", type=Path, default=ROOT / "public/assets/models/heart.glb")
-    ap.add_argument("--organs", type=Path, default=ROOT / "public/assets/data/organs.json")
-    ap.add_argument("--quiz", type=Path, default=ROOT / "public/assets/data/quiz.json")
+    ap.add_argument("--glb", type=Path, default=ROOT / "src/assets/models/heart.glb")
+    ap.add_argument("--organs", type=Path, default=ROOT / "src/assets/data/organs.json")
+    ap.add_argument("--quiz", type=Path, default=ROOT / "src/assets/data/quiz.json")
     ap.add_argument("--no-quiz", action="store_true", help="do not check the quiz bank")
     ap.add_argument("--strict", action="store_true", help="missing content is an error")
     args = ap.parse_args()

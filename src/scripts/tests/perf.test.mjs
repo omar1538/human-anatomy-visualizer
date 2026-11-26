@@ -1,7 +1,7 @@
 // Track A: tests for the frame-rate statistics (scripts/render/perf.mjs).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { createFrameMeter, summarizeFrames } from '../scripts/render/perf.mjs';
+import { createFrameMeter, summarizeFrames } from '../render/perf.mjs';
 
 test('steady 20 ms frames are 50 FPS with no slow frame', () => {
   assert.deepEqual(summarizeFrames([0, 20, 40, 60, 80, 100]), {

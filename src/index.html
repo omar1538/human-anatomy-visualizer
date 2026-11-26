@@ -13,31 +13,13 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-title" content="Anatomy" />
-    <link rel="manifest" href="./manifest.webmanifest" />
-    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
-    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <!-- vite-ignore: published unchanged at these paths (see vite.config.mjs), not renamed by the build -->
+    <link rel="manifest" href="./manifest.webmanifest" vite-ignore />
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" vite-ignore />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" vite-ignore />
     <!-- Module scripts are deferred: main.mjs runs after the page is parsed, so #viewer exists. -->
-    <script type="module" src="./main.mjs"></script>
-    <style>
-      html,
-      body {
-        margin: 0;
-        height: 100%;
-        background: #0f1520;
-        color: #e8edf5;
-        font-family: system-ui, sans-serif;
-      }
-      #viewer {
-        position: fixed;
-        inset: 0;
-      }
-      #viewer canvas {
-        display: block;
-        width: 100%;
-        height: 100%;
-        touch-action: none;
-      }
-    </style>
+    <script type="module" src="./scripts/main.mjs"></script>
+    <link rel="stylesheet" href="./styles/base.css" />
   </head>
   <body>
     <div id="viewer"></div>

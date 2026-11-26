@@ -19,3 +19,4 @@ data/out/
 .nvmrc
 .prettierrc
 .prettierignore
+.editorconfig

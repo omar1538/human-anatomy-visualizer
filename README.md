@@ -139,8 +139,7 @@ human-anatomy-visualizer/
 ```
 
 Not in Git: `node_modules/` (npm packages), `dist/` (the built site), `data/raw/bodyparts3d/`
-(downloaded dataset), `data/out/` (pipeline output), and personal tool files (`.nvmrc`,
-`.prettierrc`, `.prettierignore`).
+(downloaded dataset) and `data/out/` (pipeline output).
 
 ### How the parts fit together
 

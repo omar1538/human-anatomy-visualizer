@@ -22,7 +22,7 @@ concurrency:
 jobs:
   ci:
     name: CI (install, lint, validate, GLB size, build)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # fixed LTS version, not "latest" (which changes on its own)
     steps:
       - uses: actions/checkout@v7
 
@@ -81,7 +81,7 @@ jobs:
     name: CD (deploy to GitHub Pages)
     needs: ci
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # fixed LTS version, not "latest" (which changes on its own)
     permissions:
       pages: write
       id-token: write

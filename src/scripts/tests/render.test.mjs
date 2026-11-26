@@ -3,9 +3,9 @@
 import { test, describe, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three/webgpu';
-import { createPicker } from '../scripts/render/picking.mjs';
-import { buildPlacement, createAR, isARSupported } from '../scripts/render/xr.mjs';
-import { loadOrganIndex } from '../scripts/render/loader.mjs';
+import { createPicker } from '../render/picking.mjs';
+import { buildPlacement, createAR, isARSupported } from '../render/xr.mjs';
+import { loadOrganIndex } from '../render/loader.mjs';
 
 const highlighted = (mesh) => mesh.material.emissive.getHex() !== 0;
 const fakeDom = () => {
@@ -273,6 +273,69 @@ describe('AR placement', () => {
       assert.deepEqual(placedNames(), []);
       assert.equal(scene.background, background);
       assert.equal(t.heart.visible, true);
+    } finally {
+      console.warn = warn;
+      if (navigatorBefore) Object.defineProperty(globalThis, 'navigator', navigatorBefore);
+      else delete globalThis.navigator;
+    }
+  });
+
+  test('AR works on the organ that is current when the session starts, not the first one', async () => {
+    class Session extends EventTarget {
+      async requestReferenceSpace() {
+        return {};
+      }
+      async requestHitTestSource() {
+        throw new Error('no hit test');
+      }
+      async end() {
+        this.dispatchEvent(new Event('end'));
+      }
+    }
+    let session;
+    const navigatorBefore = Object.getOwnPropertyDescriptor(globalThis, 'navigator');
+    Object.defineProperty(globalThis, 'navigator', {
+      value: { xr: { requestSession: async () => (session = new Session()) } },
+      configurable: true,
+      writable: true,
+    });
+    const warn = console.warn;
+    console.warn = () => {};
+    try {
+      const first = heartTree().heart;
+      const second = heartTree().heart;
+      second.name = 'second';
+      let current = first;
+      const scene = new THREE.Scene();
+      const xrCamera = new THREE.PerspectiveCamera();
+      const renderer = {
+        xr: {
+          setReferenceSpaceType() {},
+          async setSession() {},
+          getCamera: () => xrCamera,
+          getReferenceSpace: () => ({}),
+        },
+      };
+      const picker = createPicker({
+        camera: new THREE.PerspectiveCamera(),
+        domElement: fakeDom(),
+        root: scene,
+        onChange() {},
+      });
+      const ar = createAR({
+        renderer,
+        scene,
+        camera: new THREE.PerspectiveCamera(),
+        getModel: () => current,
+        picker,
+        onChange() {},
+      });
+      current = second; // the viewer switched organs before AR started
+      await ar.enter({});
+      assert.equal(second.visible, false, 'the current organ is hidden during the session');
+      assert.equal(first.visible, true, 'the previous organ is left alone');
+      await session.end();
+      assert.equal(second.visible, true, 'and shown again afterwards');
     } finally {
       console.warn = warn;
       if (navigatorBefore) Object.defineProperty(globalThis, 'navigator', navigatorBefore);

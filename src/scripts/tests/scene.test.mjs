@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three/webgpu';
-import { computeFraming, frameObject } from '../scripts/render/scene.mjs';
+import { computeFraming, frameObject } from '../render/scene.mjs';
 
 const PORTRAIT = 9 / 19.5; // a typical phone held upright
 const LANDSCAPE = 16 / 9;

@@ -1,4 +1,5 @@
 // Track A: public API of the rendering layer. Tracks B and C only use this file.
+import * as THREE from 'three/webgpu';
 import { createRenderer } from './renderer.mjs';
 import { createScene, computeFraming, frameObject } from './scene.mjs';
 import { createControls } from './controls.mjs';
@@ -20,11 +21,17 @@ const prefersReducedMotion = () =>
  * @param {HTMLElement} options.container element that will hold the canvas
  * @param {import('three').Object3D} options.model root of the loaded model (GLB scene or placeholder)
  * @param {Record<string, {system?: string}>} [options.meta] organ metadata by id (organs.json)
+ * @param {string | null} [options.modelId] id of the first organ (for getModelId)
  */
-export async function createViewer({ container, model, meta = {} }) {
+export async function createViewer({ container, model, meta = {}, modelId = null }) {
   const { renderer, backend, arSupported } = await createRenderer(container);
   const { scene, camera } = createScene(container.clientWidth / container.clientHeight);
-  scene.add(model);
+  // The stage always holds the current organ. Picking and the render loop work on the stage, so
+  // they survive an organ switch; layers, slicing and x-ray are rebuilt for each organ (attach).
+  const stage = new THREE.Group();
+  stage.name = 'stage';
+  scene.add(stage);
+  let currentId = modelId;
 
   // The default view depends on the screen shape, so it is recomputed when the screen changes.
   let home = frameObject(camera, model);
@@ -43,17 +50,33 @@ export async function createViewer({ container, model, meta = {} }) {
   let userMoved = false;
   controls.addEventListener('start', () => (userMoved = true));
 
-  const layers = createLayers(model, meta);
+  let layers, slicer, xray;
   let isolatedId = null; // id passed to isolate(), or null
-  const slicer = createSlicer({ scene, model });
-  const xray = createXRay({ model });
+  /** Builds the per-organ parts for `organ` and puts it on the stage. */
+  function attach(organ, organMeta) {
+    model = organ;
+    meta = organMeta;
+    stage.add(organ);
+    layers = createLayers(organ, organMeta);
+    slicer = createSlicer({ scene: stage, model: organ }); // moves the organ into its clipping group
+    xray = createXRay({ model: organ });
+  }
+  /** Removes the current organ and undoes everything attach() changed on it. */
+  function detach() {
+    xray.dispose(); // puts the normal materials back
+    slicer.dispose(); // removes the cut fills and the clipping group
+    layers.reset(); // a cached organ must come back with all its layers on
+    stage.remove(model);
+  }
+  attach(model, meta);
+  const modelListeners = new Set();
   const listeners = new Set();
   let needsRender = true;
 
   const picker = createPicker({
     camera,
     domElement: renderer.domElement,
-    root: model,
+    root: stage,
     // A click goes through the parts the slicing plane has removed.
     accept: (hit) => slicer.keeps(hit.point),
     onChange: (id, mesh) => {
@@ -67,7 +90,7 @@ export async function createViewer({ container, model, meta = {} }) {
     renderer,
     scene,
     camera,
-    model,
+    getModel: () => model,
     picker,
     // The copy placed in AR always uses the normal materials: no highlight, no x-ray.
     prepareCopy: (fn) => picker.withoutHighlight(() => xray.withoutXRay(fn)),
@@ -320,6 +343,46 @@ export async function createViewer({ container, model, meta = {} }) {
       controls.update();
       userMoved = false;
       needsRender = true;
+    },
+    /**
+     * Replaces the organ on screen, for example when the user picks another organ. Selection,
+     * isolation and the cut are cleared; x-ray mode stays as it is. The new organ is framed.
+     * The old one is not disposed, so it can be shown again later without loading it again.
+     * @param {import('three').Object3D} organ the new model (GLB scene)
+     * @param {Record<string, object>} [organMeta] its organs.json, indexed by id
+     * @param {{ id?: string | null }} [options] the organ's id, returned by getModelId()
+     * @returns {boolean} false during AR (the organ cannot change during a session)
+     */
+    setModel(organ, organMeta = {}, { id = null } = {}) {
+      if (!organ?.isObject3D) throw new TypeError('setModel needs a Three.js object');
+      if (ar.isActive()) return false;
+      if (organ === model) return true;
+      endFlight(false);
+      const keepXRay = xray.isEnabled();
+      picker.clear(); // unhighlights the old organ and tells onSelect listeners
+      isolatedId = null;
+      detach();
+      attach(organ, organMeta);
+      if (keepXRay) setXRay(true);
+      currentId = id;
+      home = frameObject(camera, model);
+      controls.target.copy(home.target);
+      applyZoomLimits();
+      controls.update();
+      userMoved = false;
+      needsRender = true;
+      modelListeners.forEach((cb) => cb(id));
+      return true;
+    },
+    /** @returns {string | null} the id given for the organ on screen */
+    getModelId: () => currentId,
+    /**
+     * Called with the new organ's id after setModel. The layers list changes with the organ, so a
+     * layers panel should rebuild itself here. Returns an unsubscribe function.
+     */
+    onModelChange(cb) {
+      modelListeners.add(cb);
+      return () => modelListeners.delete(cb);
     },
     /** Visible triangles and meshes (one draw call each), for performance budgets. */
     stats() {

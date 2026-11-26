@@ -11,5 +11,12 @@ data/raw/*
 # Python pipeline
 .venv/
 __pycache__/
-# pipeline build output (copy accepted GLBs to public/assets/models)
+# pipeline build output (copy accepted GLBs to src/assets/models)
 data/out/
+
+# Personal tool settings, not part of the project (Node version: package.json "engines";
+# Prettier settings: package.json "prettier"; ESLint: .github/eslint.config.mjs)
+.nvmrc
+.prettierrc
+.prettierignore
+.editorconfig

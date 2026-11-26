@@ -57,5 +57,11 @@ export function createLayers(root, meta = {}) {
     },
     /** Whether something is isolated. */
     isIsolating: () => isolated !== null,
+    /** Every layer on and no isolation: puts the meshes back as they were loaded. */
+    reset() {
+      hiddenSystems.clear();
+      isolated = null;
+      apply();
+    },
   };
 }

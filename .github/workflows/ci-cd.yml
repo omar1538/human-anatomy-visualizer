@@ -22,13 +22,13 @@ concurrency:
 jobs:
   ci:
     name: CI (install, lint, validate, GLB size, build)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # fixed LTS version, not "latest" (which changes on its own)
     steps:
       - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v7
         with:
-          node-version-file: .nvmrc
+          node-version: 22
           cache: npm
 
       # The data validator is a standard-library Python script (no pip install needed).
@@ -42,7 +42,7 @@ jobs:
       - name: Lint (ESLint)
         run: npm run lint
 
-      # Automated tests in tests/ (Node's built-in runner): selection, AR placement,
+      # Automated tests in src/scripts/tests/ (Node's built-in runner): selection, AR placement,
       # organs.json loading, slicing, and which heart.glb structures can show a filled cut.
       # The job name above is unchanged on purpose: the branch protection rule requires it.
       - name: Test (npm test)
@@ -81,7 +81,7 @@ jobs:
     name: CD (deploy to GitHub Pages)
     needs: ci
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # fixed LTS version, not "latest" (which changes on its own)
     permissions:
       pages: write
       id-token: write

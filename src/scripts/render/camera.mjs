@@ -1,5 +1,5 @@
 // Track A: camera moves. Where to put the camera to frame a structure, and a smooth flight there.
-// Plain maths on Three.js vectors, no GPU: covered by tests/camera.test.mjs.
+// Plain maths on Three.js vectors, no GPU: covered by src/scripts/tests/camera.test.mjs.
 import * as THREE from 'three/webgpu';
 
 const FRAME_MARGIN = 1.35; // 1 = the structure touches the edges of the view; more = some space around

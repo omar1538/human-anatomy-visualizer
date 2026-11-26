@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three/webgpu';
-import { createLayers } from '../scripts/render/layers.mjs';
+import { createLayers } from '../render/layers.mjs';
 
 function setup() {
   const mesh = (name) => {
@@ -76,4 +76,14 @@ test('slicing helpers added later are left alone', () => {
   layers.isolate(get('lv'));
   layers.isolate(null);
   assert.equal(helper.visible, false);
+});
+
+test('reset turns every layer back on and clears the isolation', () => {
+  const { layers, get, shown } = setup();
+  layers.setSystemVisible('valves', false);
+  layers.isolate(get('lv'));
+  layers.reset();
+  assert.deepEqual(shown(), ['lv', 'rv', 'mitral']);
+  assert.equal(layers.isIsolating(), false);
+  assert.equal(layers.isSystemVisible('valves'), true);
 });

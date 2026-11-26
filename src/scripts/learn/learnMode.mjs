@@ -1,6 +1,6 @@
 // Track C: Learn mode. Selecting a structure in 3D shows its organs.json record
 // (name, function, location, key facts) in English or French.
-import './learnMode.css';
+import '../../styles/learnMode.css';
 import { LANGUAGES, getLanguage, setLanguage, onLanguageChange, localized } from './language.mjs';
 
 const TEXT = {

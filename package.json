@@ -11,10 +11,10 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint scripts",
-    "test": "node --test \"tests/**/*.test.mjs\"",
+    "lint": "eslint --config .github/eslint.config.mjs src",
+    "test": "node --test \"src/scripts/tests/**/*.test.mjs\"",
     "validate": "python data_pipeline/validate_content.py --strict",
-    "format": "prettier --write ."
+    "format": "prettier --write src/index.html src/sw.mjs src/scripts src/styles docs .github \"*.md\""
   },
   "dependencies": {
     "three": "0.187.0"
@@ -25,5 +25,10 @@
     "globals": "17.14.0",
     "prettier": "3.9.10",
     "vite": "8.3.5"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": true,
+    "printWidth": 100
   }
 }

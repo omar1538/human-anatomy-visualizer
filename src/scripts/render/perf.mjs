@@ -1,5 +1,5 @@
 // Track A: frame-rate measurement for docs/TEST_PLAN.md. Plain functions, no GPU: covered by
-// tests/perf.test.mjs.
+// src/scripts/tests/perf.test.mjs.
 
 const SLOW_FRAME_MS = 50; // same limit as the test plan
 

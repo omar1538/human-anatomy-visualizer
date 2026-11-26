@@ -4,11 +4,11 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three/webgpu';
-import { createCutMaterial, createXRayMaterial } from '../scripts/render/shaders.mjs';
-import { createXRay } from '../scripts/render/xray.mjs';
-import { createPicker } from '../scripts/render/picking.mjs';
-import { createSlicer } from '../scripts/render/slicing.mjs';
-import { buildPlacement } from '../scripts/render/xr.mjs';
+import { createCutMaterial, createXRayMaterial } from '../render/shaders.mjs';
+import { createXRay } from '../render/xray.mjs';
+import { createPicker } from '../render/picking.mjs';
+import { createSlicer } from '../render/slicing.mjs';
+import { buildPlacement } from '../render/xr.mjs';
 
 const fakeDom = () => ({ addEventListener() {}, removeEventListener() {} });
 const HIGHLIGHT = new THREE.Color(0xffb703).getHex();

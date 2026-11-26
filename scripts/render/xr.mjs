@@ -88,7 +88,8 @@ function createReticle() {
  * @param {THREE.WebGPURenderer} options.renderer
  * @param {THREE.Scene} options.scene
  * @param {THREE.PerspectiveCamera} options.camera
- * @param {THREE.Object3D} options.model placed when no organ is selected
+ * @param {THREE.Object3D} [options.model] placed when no organ is selected
+ * @param {() => THREE.Object3D} [options.getModel] the current model, when the viewer can swap it
  * @param {ReturnType<typeof import('./picking.mjs').createPicker>} options.picker
  * @param {(active: boolean) => void} options.onChange called when a session starts or ends
  */
@@ -97,6 +98,7 @@ export function createAR({
   scene,
   camera,
   model,
+  getModel = () => model,
   picker,
   onChange,
   // Puts the model's normal look back while the copy is made (index.mjs adds x-ray to this).
@@ -125,7 +127,7 @@ export function createAR({
   /** Tap: puts the current selection (organ or group) in the room, or moves it if already there. */
   function place() {
     const selection = picker.selected();
-    const source = selection ?? model;
+    const source = selection ?? getModel();
     if (source !== placedSource) {
       removePlaced();
       // Copied without the highlight or x-ray, so it shows the structure's real colours.
@@ -158,7 +160,7 @@ export function createAR({
     reticle.visible = false;
 
     scene.background = saved.background;
-    model.visible = saved.modelVisible;
+    saved.model.visible = saved.modelVisible;
     camera.position.copy(saved.position);
     camera.quaternion.copy(saved.quaternion);
     camera.near = saved.near;
@@ -186,7 +188,8 @@ export function createAR({
       size = requestedSize;
       saved = {
         background: scene.background,
-        modelVisible: model.visible,
+        model: getModel(),
+        modelVisible: getModel().visible,
         position: camera.position.clone(),
         quaternion: camera.quaternion.clone(),
         near: camera.near,
@@ -194,7 +197,7 @@ export function createAR({
         fov: camera.fov,
       };
       scene.background = null; // transparent, so the phone's camera image shows through
-      model.visible = false;
+      saved.model.visible = false;
       scene.add(reticle);
       xrSession.addEventListener('select', place);
       xrSession.addEventListener('end', cleanup);

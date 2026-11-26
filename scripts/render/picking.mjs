@@ -10,11 +10,11 @@ function isEffectivelyVisible(obj) {
   return true;
 }
 
-/** Meshes under `object` (itself included) that can show the highlight. */
-function highlightableMeshes(object) {
+/** Meshes under `object` (itself included) that belong to the anatomy (not slicing helpers). */
+function anatomyMeshes(object) {
   const meshes = [];
   object.traverse((o) => {
-    if (o.isMesh && o.material?.emissive) meshes.push(o);
+    if (o.isMesh && !o.userData.sliceHelper) meshes.push(o);
   });
   return meshes;
 }
@@ -28,45 +28,55 @@ export function createPicker({ camera, domElement, root, onChange, accept = () =
   const raycaster = new THREE.Raycaster();
   const pointer = new THREE.Vector2();
   let selected = null; // a mesh or a group
-  let saved = new Map(); // mesh -> original emissive, for every highlighted mesh
+  let selectedMeshes = []; // the anatomy meshes of the selection
+  // material -> its emissive before the highlight. Kept per material, not per mesh, because x-ray
+  // mode can swap a selected mesh's material while it is highlighted (see xray.mjs).
+  let saved = new Map();
   let down = null;
   const ownMaterial = new WeakSet(); // meshes whose material was already cloned by the picker
 
+  function ensureOwnMaterial(mesh) {
+    // A material made for this mesh alone (x-ray) can be tinted as it is.
+    if (mesh.material.userData?.perMesh) return;
+    // Each mesh must own its material, otherwise highlighting one organ would tint others.
+    // Clone only the first time a mesh is selected: cloning on every selection would leave a
+    // new unused material behind each time (a slow GPU memory leak).
+    if (!ownMaterial.has(mesh)) {
+      mesh.material = mesh.material.clone();
+      ownMaterial.add(mesh);
+    }
+  }
+
   function unhighlight() {
-    saved.forEach(({ color, intensity }, mesh) => {
-      mesh.material.emissive.copy(color);
-      mesh.material.emissiveIntensity = intensity;
+    saved.forEach(({ color, intensity }, material) => {
+      material.emissive.copy(color);
+      material.emissiveIntensity = intensity;
     });
+    saved = new Map();
   }
 
   function highlight() {
-    saved.forEach((_, mesh) => {
-      mesh.material.emissive.copy(HIGHLIGHT);
-      mesh.material.emissiveIntensity = 0.6;
-    });
+    for (const mesh of selectedMeshes) {
+      if (!mesh.material?.emissive) continue; // a material without emissive cannot glow
+      ensureOwnMaterial(mesh);
+      const material = mesh.material;
+      if (!saved.has(material)) {
+        saved.set(material, {
+          color: material.emissive.clone(),
+          intensity: material.emissiveIntensity,
+        });
+      }
+      material.emissive.copy(HIGHLIGHT);
+      material.emissiveIntensity = 0.6;
+    }
   }
 
   function setSelected(object) {
     if (selected === object) return;
     unhighlight();
-    saved = new Map();
     selected = object;
-    if (object) {
-      for (const mesh of highlightableMeshes(object)) {
-        // Each mesh must own its material, otherwise highlighting one organ would tint others.
-        // Clone only the first time a mesh is selected: cloning on every selection would leave a
-        // new unused material behind each time (a slow GPU memory leak).
-        if (!ownMaterial.has(mesh)) {
-          mesh.material = mesh.material.clone();
-          ownMaterial.add(mesh);
-        }
-        saved.set(mesh, {
-          color: mesh.material.emissive.clone(),
-          intensity: mesh.material.emissiveIntensity,
-        });
-      }
-      highlight();
-    }
+    selectedMeshes = object ? anatomyMeshes(object) : [];
+    highlight();
     onChange(object ? object.name : null, object);
   }
 
@@ -108,7 +118,10 @@ export function createPicker({ camera, domElement, root, onChange, accept = () =
     clear: () => setSelected(null),
     /** @returns {THREE.Object3D | null} the selected mesh or group */
     selected: () => selected,
-    /** Runs `fn` with the highlight removed, for example to copy the selection for AR. */
+    /**
+     * Runs `fn` with the highlight removed, then highlights the selection again with whatever
+     * materials the meshes have by then (x-ray mode swaps them inside `fn`).
+     */
     withoutHighlight(fn) {
       unhighlight();
       try {

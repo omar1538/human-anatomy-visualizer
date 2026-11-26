@@ -92,7 +92,16 @@ function createReticle() {
  * @param {ReturnType<typeof import('./picking.mjs').createPicker>} options.picker
  * @param {(active: boolean) => void} options.onChange called when a session starts or ends
  */
-export function createAR({ renderer, scene, camera, model, picker, onChange }) {
+export function createAR({
+  renderer,
+  scene,
+  camera,
+  model,
+  picker,
+  onChange,
+  // Puts the model's normal look back while the copy is made (index.mjs adds x-ray to this).
+  prepareCopy = (fn) => picker.withoutHighlight(fn),
+}) {
   const reticle = createReticle();
   const target = new THREE.Vector3();
   const cameraPosition = new THREE.Vector3();
@@ -119,10 +128,8 @@ export function createAR({ renderer, scene, camera, model, picker, onChange }) {
     const source = selection ?? model;
     if (source !== placedSource) {
       removePlaced();
-      // Copied without the highlight, so it shows the structure's real colours.
-      placed = picker.withoutHighlight(() =>
-        buildPlacement(source, { size, showAll: Boolean(selection) }),
-      );
+      // Copied without the highlight or x-ray, so it shows the structure's real colours.
+      placed = prepareCopy(() => buildPlacement(source, { size, showAll: Boolean(selection) }));
       placedSource = source;
       scene.add(placed.object);
     }

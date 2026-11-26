@@ -34,7 +34,7 @@ Les champs marqués *[À compléter — Track X]* sont à remplir par le membre 
     *   **Licence :** même licence que ce dépôt
     *   **Modifications apportées par l'équipe :** aucune ; à remplacer par les icônes finales
 
-*   **Asset :** corps provisoire (`src/render/placeholder.js`)
+*   **Asset :** corps provisoire (`scripts/render/placeholder.mjs`)
     *   **Source originale :** formes géométriques générées par le code (sphères, cylindres de Three.js)
     *   **Auteur / Créateur :** équipe du projet
     *   **Licence :** même licence que ce dépôt
@@ -128,12 +128,12 @@ Versions figées dans `scripts/data-pipeline/requirements.txt`, installées par 
 
 ## 3. Extraits de code copiés ou adaptés (StackOverflow, Tutoriels, Dépôts tiers)
 
-*   **Track A, `src/render/xr.js` :** `createReticle`, `place`, `update`, et la demande de session `immersive-ar` dans `enter`
+*   **Track A, `scripts/render/xr.mjs` :** `createReticle`, `place`, `update`, et la demande de session `immersive-ar` dans `enter`
     *   **Source du code original :** exemple officiel Three.js « webxr_ar_hittest » (https://github.com/mrdoob/three.js/blob/r187/examples/webxr_ar_hittest.html, licence MIT) et spécification W3C WebXR Hit Test Module (https://www.w3.org/TR/webxr-hit-test-1/)
     *   **Auteur :** auteurs de Three.js ; W3C Immersive Web Working Group
     *   **Adaptation effectuée :** reprise du principe (source de hit test dans l'espace `viewer`, réticule placé à partir de la pose, placement au signal `select`). Réécrit pour le projet : copie de la sélection (organe ou groupe) sans modifier l'original, mise à l'échelle, orientation vers l'utilisateur, placement flottant sans surface détectée, restauration de la scène à la fin de la session
 
-*   **Track A, `src/render/renderer.js` :** contournement du framebuffer XR `null`
+*   **Track A, `scripts/render/renderer.mjs` :** contournement du framebuffer XR `null`
     *   **Source du code original :** aucune ; écrit après lecture du code source de Three.js r187 (`WebGLState.drawBuffers`, `WebGLBackend._setFramebuffer`)
     *   **Auteur :** équipe du projet (Track A)
     *   **Adaptation effectuée :** sans objet
@@ -229,19 +229,19 @@ reformulations structurées des demandes faites à l'assistant : chacun regroupe
 tâche et n'est pas recopié mot pour mot. L'étudiant a défini les tâches et les choix (AR plutôt que VR,
 découpage en commits), relu le résultat et validé chaque étape avant commit.
 
-*   **Composant ou Shader concerné :** socle du viewer 3D (`src/render/renderer.js`, `scene.js`, `controls.js`, `index.js`)
+*   **Composant ou Shader concerné :** socle du viewer 3D (`scripts/render/renderer.mjs`, `scene.mjs`, `controls.mjs`, `index.mjs`)
     *   **Prompt ou usage principal :**
         > Contexte : application d'anatomie dans le navigateur, Three.js r187 (versions figées), Vite.
         > Tâche : crée un viewer 3D avec `WebGPURenderer` et repli automatique sur WebGL 2, une caméra
         > cadrée sur le modèle, des contrôles orbite / zoom / déplacement à la souris et au doigt, et un
         > rendu à la demande pour économiser la batterie.
-        > Contraintes : les autres pistes n'utilisent que `src/render/index.js` ; documente cette API.
+        > Contraintes : les autres pistes n'utilisent que `scripts/render/index.mjs` ; documente cette API.
         > Livrable : code commenté, `docs/RENDERING_API.md`, lint et build sans erreur.
     *   **Axe de vérification appliqué par l'étudiant :**
         - `npm run lint` et `npm run build`
         - Essai dans Chrome : le panneau indique le moteur actif (`WebGPU` ou `WebGL 2`), le modèle est cadré et manipulable
 
-*   **Composant ou Shader concerné :** calques et sélection (`src/render/layers.js`, `picking.js`)
+*   **Composant ou Shader concerné :** calques et sélection (`scripts/render/layers.mjs`, `picking.mjs`)
     *   **Prompt ou usage principal :**
         > Tâche : regroupe les maillages par calque (afficher / masquer) et permets de sélectionner une
         > structure au clic, avec une surbrillance. Ensuite, applique `docs/DATA_CONTRACT.md` : un id de
@@ -252,7 +252,7 @@ découpage en commits), relu le résultat et validé chaque étape avant commit.
         - Sélection au clic et par id dans le navigateur avec le vrai `heart.glb`
         - Tests automatisés (`tests/render.test.mjs`) : sélection de groupe, restauration de la surbrillance, un seul clonage de matériau par maillage
 
-*   **Composant ou Shader concerné :** réalité augmentée WebXR (`src/render/xr.js`, contournement dans `renderer.js`)
+*   **Composant ou Shader concerné :** réalité augmentée WebXR (`scripts/render/xr.mjs`, contournement dans `renderer.mjs`)
     *   **Prompt ou usage principal :**
         > Contexte : le cœur du projet est l'expérience AR (WebXR Device API), cible Chrome sur Android.
         > Tâche : ajoute une session `immersive-ar` avec détection de surface (hit test) et un réticule ;
@@ -268,7 +268,7 @@ découpage en commits), relu le résultat et validé chaque étape avant commit.
         - Essais dans l'émulateur WebXR `iwer` avec le vrai `heart.glb` (organe, groupe, détection de surface), captures d'écran
         - Lecture du code source de Three.js r187 pour confirmer la cause du plantage de l'émulateur
 
-*   **Composant ou Shader concerné :** chargement selon le contrat de données (`src/render/loader.js`, `src/main.js`)
+*   **Composant ou Shader concerné :** chargement selon le contrat de données (`scripts/render/loader.mjs`, `scripts/main.mjs`)
     *   **Prompt ou usage principal :**
         > Tâche : charge par défaut `heart.glb` et `organs.json` comme décrit dans `docs/DATA_CONTRACT.md`,
         > indexe `organs.json` par id et expose `viewer.organ(id)` pour le mode Learn.
@@ -277,7 +277,7 @@ découpage en commits), relu le résultat et validé chaque étape avant commit.
         - Essai dans Chrome : 29 structures, 5 calques, fiches FR/EN affichées à la sélection
         - Tests automatisés : fichier manquant, invalide ou injoignable
 
-*   **Composant ou Shader concerné :** coupe de l'organe (`src/render/slicing.js`)
+*   **Composant ou Shader concerné :** coupe de l'organe (`scripts/render/slicing.mjs`)
     *   **Prompt ou usage principal :**
         > Tâche : ajoute un plan de coupe (avant-arrière, gauche-droite, haut-bas) avec une position
         > réglable, pour voir l'intérieur du cœur. La surface coupée doit paraître pleine, pas creuse.
@@ -296,8 +296,37 @@ découpage en commits), relu le résultat et validé chaque étape avant commit.
         - `npm test` : 25 tests réussis en local
         - Pull request #3 : étape « Test (npm test) » réussie dans le pipeline GitHub Actions avant la fusion
 
+*   **Composant ou Shader concerné :** shaders GPU personnalisés en TSL : mode rayons X (effet fresnel) et surface de coupe hachurée (`scripts/render/shaders.mjs`, `scripts/render/xray.mjs`, intégration dans `picking.mjs`, `slicing.mjs`, `xr.mjs`, `index.mjs`), `docs/SHADERS.md`
+    *   **Prompt ou usage principal :**
+        > Contexte : le rendu est en WebGPU seul (Three.js r187) et l'application n'a encore aucun shader personnalisé.
+        > Tâche : écris deux shaders en TSL (matériaux de nœuds) : un mode rayons X avec un effet fresnel (bords opaques et lumineux, centre transparent, teinte de chaque structure), exposé par `viewer.setXRay(enabled)` et `viewer.isXRay()` ; et un shader de surface de coupe hachurée qui remplace le remplissage uni de la coupe.
+        > Contraintes : ne pas deviner l'API TSL, la vérifier dans `three@0.187.0` installé ; la sélection, la surbrillance, les calques et la coupe doivent continuer à marcher en mode rayons X ; la copie placée en AR garde ses matériaux normaux ; aucune fuite de matériaux en basculant ; logique hors GPU dans des fonctions testées ; aucune nouvelle dépendance.
+        > Livrable : code commenté, tests, `docs/SHADERS.md`, `docs/RENDERING_API.md` à jour.
+    *   **Axe de vérification appliqué par l'étudiant :**
+        - Noms de l'API TSL vérifiés dans `three@0.187.0` installé (import de `three/tsl` et `three/webgpu`), et construction des deux graphes de nœuds dans Node sans erreur
+        - 18 nouveaux tests automatisés (`tests/shaders.test.mjs`) : bascule des matériaux et restauration exacte, réutilisation (aucun nouveau matériau en basculant 20 fois), libération, surbrillance en mode rayons X sans teinter un matériau partagé, copie AR avec les matériaux normaux, coupe combinée aux rayons X ; 48 tests au total réussis
+        - `npm run lint` et `npm run build` sans erreur
+        - Rendu non encore vérifié à l'écran : dans Chrome sans interface avec WebGPU logiciel, le processus GPU s'arrête avant d'afficher le cœur (même sans les nouveaux shaders). Vérification à faire dans Chrome sur un vrai GPU (mode normal, rayons X, coupe sur les trois axes, sélection et coupe en mode rayons X).
+
+*   **Composant ou Shader concerné :** déplacement de la caméra vers une structure et état de la vue pour les liens partageables (`scripts/render/camera.mjs`, `scripts/render/viewstate.mjs`, `viewer.flyTo`, `getViewState`, `setViewState` dans `index.mjs`)
+    *   **Prompt ou usage principal :**
+        > Tâche : ajoute `viewer.flyTo(id)`, qui déplace la caméra en douceur pour cadrer un organe ou un groupe en gardant l'angle de vue (pour la recherche de la Track C), et `getViewState()` / `setViewState()`, qui décrivent la vue en données simples (caméra, sélection, calques masqués, coupe, rayons X) pour les liens partageables.
+        > Contraintes : un lien peut contenir n'importe quoi, donc valider chaque champ ; un vol est interrompu si l'utilisateur prend la main ; respecter la préférence « réduire les animations » ; logique dans des fonctions testables, aucune nouvelle dépendance.
+    *   **Axe de vérification appliqué par l'étudiant :**
+        - 17 nouveaux tests automatisés (`tests/camera.test.mjs`, `tests/viewstate.test.mjs`) : cadrage, vol de bout en bout, aller-retour JSON, rejet des états invalides ; 65 tests au total réussis. Un test a révélé un `-0` dans les coordonnées arrondies, corrigé
+        - `npm run lint` et `npm run build` sans erreur
+        - Pas encore vérifié à l'écran dans un navigateur (même limite que pour les shaders : vérification à faire dans Chrome sur un vrai GPU)
+
+*   **Composant ou Shader concerné :** mode isolement et mesure de la fréquence d'images (`scripts/render/layers.mjs`, `perf.mjs`, `viewstate.mjs`, `viewer.isolate`, `getIsolated`, `measureFps` dans `index.mjs`)
+    *   **Prompt ou usage principal :**
+        > Tâche : ajoute un mode qui n'affiche qu'un organe ou un groupe, inclus dans l'état de la vue des liens partageables, et une mesure des images par seconde pour `docs/TEST_PLAN.md`.
+        > Contraintes : basculer un calque ne doit pas annuler l'isolement ; reprendre le rendu à la demande après la mesure ; aucune nouvelle dépendance.
+    *   **Vérifications exécutées par l'assistant :**
+        - 11 nouveaux tests automatisés (`tests/isolate.test.mjs`, `perf.test.mjs`, `viewstate.test.mjs`) ; 82 tests au total réussis ; `npm run lint` et `npm run build` sans erreur
+        - Pas encore vérifié à l'écran sur un vrai GPU, ni mesuré sur un appareil réel
+
 *   **Vérifications d'ensemble :**
-    - Relecture personnelle des fichiers de la Track A (`src/render/`, `src/dev/devPanel.js`) avant chaque commit : rôle de chaque fichier, fonctionnement du rendu, de la sélection, de la session AR et de la coupe, en vue de la présentation au superviseur (règle 8 de `CONTRIBUTING.md`)
+    - Relecture personnelle des fichiers de la Track A (`scripts/render/`, `scripts/dev/devPanel.mjs`) avant chaque commit : rôle de chaque fichier, fonctionnement du rendu, de la sélection, de la session AR et de la coupe, en vue de la présentation au superviseur (règle 8 de `CONTRIBUTING.md`)
     - Test de l'AR sur un vrai téléphone Android : pas encore réalisé, faute d'appareil compatible ARCore disponible dans l'équipe ; remplacé pour l'instant par les tests automatisés et l'émulateur WebXR. Prévu dès qu'un téléphone compatible est disponible.
 
 ### Track C (Mohamed Amine Msaddak)

@@ -29,6 +29,101 @@ const viewer = await createViewer({ container, model, meta });
 | `viewer.stats()`                           | `{ triangles, drawCalls }` of what is visible                                                                      |
 | `viewer.dispose()`                         | Release GPU resources                                                                                              |
 
+## Slicing
+
+Cuts the model with a plane to show the inside, for example the chambers of the heart.
+
+| Member                                      | Description                                           |
+| ------------------------------------------- | ----------------------------------------------------- |
+| `viewer.setSlice({ axis, position, flip })` | Cut the model. Calling it again moves the cut         |
+| `viewer.clearSlice()`                       | Remove the cut                                        |
+| `viewer.getSlice()`                         | The current cut `{ axis, position, flip }`, or `null` |
+
+- `axis`: `'z'` front-back (default), `'x'` left-right, `'y'` top-bottom.
+- `position`: from `0` to `1` across the model along that axis (default `0.5`, the middle).
+- By default the part towards +axis is removed (for `'z'`, the front half). `flip: true` removes the
+  other part instead.
+- The cut surface of each closed structure is drawn with the hatched cut-surface shader
+  ([`SHADERS.md`](SHADERS.md)). Four structures of `heart.glb` have holes (`right_atrium`,
+  `papillary_muscles`, `aortic_valve`, `inferior_vena_cava`), so they show their inner walls instead.
+- Clicks go through the removed part: you can select a structure inside the cut.
+- The toolbar's **Slice** menu (`scripts/ui/toolbar.mjs`) uses these three methods.
+
+## X-ray
+
+Makes every structure see-through with a bright outline, to show how the structures sit inside
+each other. The shader is explained in [`SHADERS.md`](SHADERS.md).
+
+| Member                    | Description                 |
+| ------------------------- | --------------------------- |
+| `viewer.setXRay(enabled)` | Switch x-ray mode on or off |
+| `viewer.isXRay()`         | Whether x-ray mode is on    |
+
+- Selection, the selection highlight, layer toggles and slicing keep working in x-ray mode.
+- Organs placed in AR always use their normal materials, even if x-ray mode is on.
+- There is no button yet: Track C adds it to the toolbar. Until then, with `?dev`, type
+  `viewer.setXRay(true)` in the browser console.
+
+## Isolate
+
+| Member                 | Description                                                                                    |
+| ---------------------- | ---------------------------------------------------------------------------------------------- |
+| `viewer.isolate(id)`   | Show only one organ or group; `null` shows everything again. Returns `false` for an unknown id |
+| `viewer.getIsolated()` | The isolated id, or `null`                                                                     |
+
+- A structure is shown when its layer is on **and** it is part of the isolated structure, so toggling
+  a layer never undoes the isolation. `isSystemVisible` reports the layer switch only.
+- There is no button yet: Track C adds it to the toolbar.
+
+## Frame rate
+
+`await viewer.measureFps({ seconds: 10 })` draws every frame for that time and returns
+`{ fps, avgFrameMs, worstFrameMs, frames, slowFrames }` (`slowFrames`: over 50 ms, the limit in
+[`TEST_PLAN.md`](TEST_PLAN.md)). Rotate the model meanwhile and keep the tab visible. With `?dev` or
+not, it can be called from the browser console.
+
+## Fly-to (for search)
+
+| Member                           | Description                                                              |
+| -------------------------------- | ------------------------------------------------------------------------ |
+| `viewer.flyTo(id, { duration })` | Move the camera smoothly to frame an organ or a group. Returns a promise |
+
+- Keeps the current viewing angle and frames only the visible part of the structure.
+- `duration` in milliseconds (default `700`; `0` jumps). Users who ask their system for reduced
+  motion always get a jump.
+- The promise gives `true` once the camera arrives, and `false` for an unknown id, a structure with
+  nothing visible, during AR, or when the flight is interrupted (the user grabs the view, another
+  `flyTo`, `resetView` or `setViewState`).
+- It does not select. For search, call both: `viewer.select(id); viewer.flyTo(id);`
+
+## View state (for shareable links)
+
+| Member                       | Description                                                          |
+| ---------------------------- | -------------------------------------------------------------------- |
+| `viewer.getViewState()`      | The current view as a small plain object                             |
+| `viewer.setViewState(state)` | Restore a view: the object, or its JSON text. Returns `true`/`false` |
+
+The object looks like this (version 1):
+
+```json
+{
+  "v": 1,
+  "camera": { "position": [0.012, 0.03, 0.31], "target": [0.0, 0.01, 0.0] },
+  "selection": "left_ventricle",
+  "hidden": ["cardiac_veins"],
+  "slice": { "axis": "z", "position": 0.5, "flip": false },
+  "xray": false,
+  "isolated": null
+}
+```
+
+- Coordinates are rounded to 0.1 mm, so the JSON stays short enough for a link (Track C chooses
+  the URL format, for example `?view=` + `encodeURIComponent(JSON.stringify(state))`).
+- `setViewState` checks everything, because a link can contain anything: invalid parts are
+  ignored, and missing parts leave that part of the view as it is. `selection: null` clears the
+  selection, `slice: null` removes the cut, `isolated: null` shows everything again. A state from a future version (`v` other than 1) is
+  refused (`false`).
+
 ## Augmented reality (WebXR)
 
 AR is the core of the product. Select an organ on the phone, enter AR, then tap to place it in the room.
@@ -96,4 +191,6 @@ The app follows `docs/DATA_CONTRACT.md`:
 
 ## Coming in later weeks
 
-Fly-to for search with `viewer.flyTo(id)` (week 3, requested by Track C), AR gestures to move, rotate and scale (week 4), choosing an organ inside AR (week 4), lazy loading per system (week 4), `viewer.getViewState()` and `setViewState()` for shareable links (week 4, needed by Track C in week 5), labels in AR and slicing plane (week 5), isolate and x-ray (week 6). These method names are proposals until they ship.
+AR gestures to move, rotate and scale, and choosing an organ inside AR (waiting for the decision on
+AR with WebGPU), labels in AR (week 5). These method names are proposals until
+they ship. (Lazy loading per system does not apply while the app has a single model, `heart.glb`.)
